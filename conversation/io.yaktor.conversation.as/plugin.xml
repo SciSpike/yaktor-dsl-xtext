@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated conversation -->
+      <package
+            uri="http://www.eclipse.org/Xtext/io.yaktor.conversation"
+            class="io.yaktor.conversation.ConversationPackage"
+            genModel="model/conversation.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated conversation -->
+      <package
+            uri="http://www.eclipse.org/Xtext/io.yaktor.types"
+            class="io.yaktor.types.TypesPackage"
+            genModel="model/conversation.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated conversation -->
+      <package
+            uri="http://www.eclipse.org/Xtext/io.yaktor.access"
+            class="io.yaktor.access.AccessPackage"
+            genModel="model/conversation.genmodel"/>
+   </extension>
+</plugin>

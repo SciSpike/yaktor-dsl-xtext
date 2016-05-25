@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="domain" nsURI="http://www.eclipse.org/Xtext/io.yaktor.domain"
+    nsPrefix="domain">
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//NamedType" containment="true" eOpposite="#//NamedType/model"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genOptions" eType="#//GenOptions"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domainModelImports" upperBound="-1"
+        eType="#//DomainModelImport" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedType" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//DomainModel"
+        eOpposite="#//DomainModel/types"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//TableType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleField" abstract="true" eSuperTypes="#//ConstraintTypeField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="indexed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="obscured" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DateField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="before" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="after" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="past" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="future" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntegerField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//AssociationEnd"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" lowerBound="1" eType="#//AssociationEnd"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isUnidirectional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationEnd" eSuperTypes="#//ConstraintTypeField #//ComplexTypeField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isComposition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" lowerBound="1"
+        eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Cardinality">
+    <eLiterals name="Required" literal="!"/>
+    <eLiterals name="Optional" value="1" literal="?"/>
+    <eLiterals name="OneOrMore" value="2" literal="+"/>
+    <eLiterals name="Many" value="3" literal="*"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isType" lowerBound="1"
+        eType="#//EnumType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultValue" eType="#//EnumValue"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isJpaEnumType" eType="#//JpaEnumType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumType" eSuperTypes="#//NamedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+        eType="#//EnumValue" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumericField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumValue">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenOptions" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RooGenOptions" eSuperTypes="#//GenOptions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+        eType="#//ProjectOptions" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="persistence" eType="#//PersistenceOptions"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectOptions">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootPackage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="domainSubpackage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jsonSupport" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controllerSubpackage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PersistenceOptions">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbType" lowerBound="1"
+        eType="#//DbType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbProvider" eType="#//DbProvider"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="userName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dbName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DbType">
+    <eLiterals name="Oracle" literal="ORACLE"/>
+    <eLiterals name="MySql" value="1" literal="MYSQL"/>
+    <eLiterals name="DatabaseDotCom" value="2" literal="DATABASE_DOT_COM"/>
+    <eLiterals name="Db2400" value="3" literal="DB2_400"/>
+    <eLiterals name="Db2ExpressC" value="4" literal="DB2_EXPRESS_C"/>
+    <eLiterals name="DerbyClient" value="5" literal="DERBY_CLIENT"/>
+    <eLiterals name="DerbyEmbedded" value="6" literal="DERBY_EMBEDDED"/>
+    <eLiterals name="Firebird" value="7" literal="FIREBIRD"/>
+    <eLiterals name="GoogleAppEngine" value="8" literal="GOOGLE_APP_ENGINE"/>
+    <eLiterals name="H2InMemory" value="9" literal="H2_IN_MEMORY"/>
+    <eLiterals name="HypersonicInMemory" value="10" literal="HYPERSONIC_IN_MEMORY"/>
+    <eLiterals name="HypersonicPersistent" value="11" literal="HYPERSONIC_PERSISTENT"/>
+    <eLiterals name="MsSql" value="12" literal="MSSQL"/>
+    <eLiterals name="Postgres" value="13" literal="POSTGRES"/>
+    <eLiterals name="Sybase" value="14" literal="SYBASE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="DbProvider">
+    <eLiterals name="Hibernate" literal="HIBERNATE"/>
+    <eLiterals name="DataNucleus" value="1" literal="DATANUCLEUS"/>
+    <eLiterals name="EclipseLink" value="2" literal="ECLIPSELINK"/>
+    <eLiterals name="OpenJPA" value="3" literal="OPENJPA"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" eSuperTypes="#//TableType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeField" eSuperTypes="#//Field #//ComplexTypeField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="isType" lowerBound="1"
+        eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnyField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Field">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="#//Cardinality"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PriceField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AmountField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CountField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityReferenceField" eSuperTypes="#//SimpleField #//ComplexTypeField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" lowerBound="1"
+        eType="#//Entity"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeoLocationField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TableType" eSuperTypes="#//NamedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//Field" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//TableType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAbstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="uniqueConstraints" upperBound="-1"
+        eType="#//UniqueConstraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metaData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indexConstraints" upperBound="-1"
+        eType="#//IndexConstraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="keys" upperBound="-1" eType="#//Field"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JpaGenOptions" eSuperTypes="#//GenOptions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+        eType="#//ProjectOptions" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="persistence" eType="#//PersistenceOptions"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generationInclusion" eType="#//GenerationInclusion"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useAspects" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metaData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tableOptions" upperBound="-1"
+        eType="#//JpaTableOptions" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InclusionType">
+    <eLiterals name="None" literal="NONE"/>
+    <eLiterals name="Overwrite" value="1" literal="OVERWRITE"/>
+    <eLiterals name="Protected" value="2" literal="PROTECTED"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenerationInclusion">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="types" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controller" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resources" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="properties" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="views" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="webxml" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pom" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styles" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classes" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="layouts" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="webmvc" eType="#//InclusionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tags" eType="#//InclusionType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JpaEnumType">
+    <eLiterals name="None" literal="NONE"/>
+    <eLiterals name="Ordinal" value="1" literal="ORDINAL"/>
+    <eLiterals name="String" value="2" literal="STRING"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationRef" eSuperTypes="#//NamedType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//Association"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UniqueConstraint" eSuperTypes="#//Constraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="1"
+        upperBound="-1" eType="#//ConstraintTypeField"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndexConstraint" eSuperTypes="#//Constraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstraintTypeField" eSuperTypes="#//Field"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NodeGenOption" abstract="true" eSuperTypes="#//GenOptions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MongoNodeGenOptions" eSuperTypes="#//NodeGenOption">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="useLogger" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="testPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="generateTest" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tableOptions" upperBound="-1"
+        eType="#//MongoNodeTableOptions" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexTypeField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DomainModelImport" eSuperTypes="#//Import">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//DomainModel"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MongoNodeTableOptions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TableType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ttl" eType="ecore:EClass mongoNodeOptions.ecore#//Ttl"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleTableRoot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JpaTableOptions">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//TableType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleTableRoot" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IdField" eSuperTypes="#//SimpleField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ShortIdField" eSuperTypes="#//SimpleField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+  </eClassifiers>
+</ecore:EPackage>

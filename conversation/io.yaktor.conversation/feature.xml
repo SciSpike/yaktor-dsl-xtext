@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="io.yaktor.conversation"
+      label="Conversation"
+      version="2.5.0.qualifier"
+      provider-name="SciSpike">
+
+   <description url="http://www.scispike.com">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright>
+      This feature is the sole property of SciSpike LLC. Any use of this feature requires the explicit permission of SciSpike LLC.
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="io.yaktor.conversation.as"
+         download-size="0"
+         install-size="0"
+         version="2.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="io.yaktor.conversation.cs"
+         download-size="0"
+         install-size="0"
+         version="2.5.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="io.yaktor.conversation.cs.ui"
+         download-size="0"
+         install-size="0"
+         version="2.5.0.qualifier"
+         unpack="false"/>
+
+</feature>

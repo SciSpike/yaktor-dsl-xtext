@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/io.yaktor.conversation.as/src" modelPluginID="io.yaktor.conversation.as"
+    modelName="Conversation" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    usedGenPackages="platform:/resource/io.yaktor.domain.as/src/model/domain.genmodel#//domain"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>conversation.ecore</foreignModel>
+  <genPackages prefix="Conversation" basePackage="io.yaktor" disposableProviderFactory="true"
+      ecorePackage="conversation.ecore#/">
+    <genClasses ecoreClass="conversation.ecore#//Conversation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//Conversation/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/instigator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/agents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/definedTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/restServices"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/services"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/importedType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Conversation/importedAgent"/>
+    </genClasses>
+    <genClasses ecoreClass="conversation.ecore#//Agent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//Agent/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Agent/definedTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Agent/stateMachine"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//Agent/events"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference conversation.ecore#//Agent/parent"/>
+    </genClasses>
+    <genClasses ecoreClass="conversation.ecore#//StateMachine">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//StateMachine/initialState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//StateMachine/states"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference conversation.ecore#//StateMachine/parent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="conversation.ecore#//Event">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//Event/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Event/refType"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference conversation.ecore#//Event/parent"/>
+    </genClasses>
+    <genClasses ecoreClass="conversation.ecore#//State">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//State/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference conversation.ecore#//State/transitions"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference conversation.ecore#//State/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//State/requiresExecution"/>
+    </genClasses>
+    <genClasses ecoreClass="conversation.ecore#//Transition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Transition/toState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//Transition/mapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//Transition/requiresExecution"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Transition/exCausedBy"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Transition/causedBy"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Transition/exTriggers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//Transition/triggers"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="conversation.ecore#//SubscribableByOthers"/>
+    <genClasses image="false" ecoreClass="conversation.ecore#//PublishableByOthers"/>
+    <genClasses image="false" ecoreClass="conversation.ecore#//SubscribableByMe"/>
+    <genClasses image="false" ecoreClass="conversation.ecore#//PublishableByMe"/>
+    <genClasses image="false" ecoreClass="conversation.ecore#//PublicEvent"/>
+    <genClasses ecoreClass="conversation.ecore#//PubliclyPublishable"/>
+    <genClasses ecoreClass="conversation.ecore#//PubliclySubscribable"/>
+    <genClasses ecoreClass="conversation.ecore#//PrivatePubSub"/>
+    <genClasses ecoreClass="conversation.ecore#//PublicPubSub"/>
+    <genClasses ecoreClass="conversation.ecore#//ServiceMethod">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute conversation.ecore#//ServiceMethod/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//ServiceMethod/inputParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference conversation.ecore#//ServiceMethod/outputParams"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Types" basePackage="io.yaktor" disposableProviderFactory="true"
+      ecorePackage="types.ecore#/">
+    <genClasses ecoreClass="types.ecore#//ProjectionField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//ProjectionField/alias"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//ProjectionField/oldField"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference types.ecore#//ProjectionField/newField"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//MappedField">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference types.ecore#//MappedField/projection"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//NewField"/>
+    <genClasses ecoreClass="types.ecore#//Projection">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference types.ecore#//Projection/fields"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//Projection/entity"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference types.ecore#//Projection/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Projection/alias"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Projection/name"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Access" basePackage="io.yaktor" disposableProviderFactory="true"
+      ecorePackage="access.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="access.ecore#//RestDocumentType">
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestDocumentType/xhtml"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestDocumentType/json"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestDocumentType/xml"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestDocumentType/yaml"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="access.ecore#//RestAccess">
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestAccess/Get"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestAccess/Put"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestAccess/Delete"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestAccess/Find"/>
+      <genEnumLiterals ecoreEnumLiteral="access.ecore#//RestAccess/Post"/>
+    </genEnums>
+    <genClasses ecoreClass="access.ecore#//Service">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute access.ecore#//Service/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference access.ecore#//Service/methods"/>
+    </genClasses>
+    <genClasses ecoreClass="access.ecore#//ServiceMethod">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute access.ecore#//ServiceMethod/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference access.ecore#//ServiceMethod/inputParams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference access.ecore#//ServiceMethod/outputParams"/>
+    </genClasses>
+    <genClasses ecoreClass="access.ecore#//RestService">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference access.ecore#//RestService/refType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute access.ecore#//RestService/url"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute access.ecore#//RestService/supportedDocumentTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute access.ecore#//RestService/methods"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

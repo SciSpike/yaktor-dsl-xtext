@@ -1,0 +1,32 @@
+{
+  "name": "yaktor-dsl-xtext-test-project",
+  "version": "0.1.0-pre.0",
+  "dependencies": {
+    "async": "0.2.9",
+    "backo": "1.0.1",
+    "body-parser": "1.4.3",
+    "yaktor": "@yaktor.version@",
+    "emitter-component": "1.1.1",
+    "express":"4.9.5",
+    "mongoose": "4.4.14",
+    "mongoose-pagination": "1.0.0",
+    "mongoose-shortid": "0.5.0",
+    "nice-xml": "0.1.1-rc2",
+    "node-cassandra-cql": "0.2.10",
+    "sockjs": "0.3.8",
+    "supertest-session": "0.0.5",
+    "tv4":"1.1.9",
+    "winston": "0.7.1"
+  },
+  "devDependencies": {
+    "express-session":"1.8.2",
+    "mocha":"1.20.1",
+    "mockgoose": "4.0.1",
+    "proxyquire":"1.0.1",
+    "standard": "7.0.1",
+    "standard-format": "2.1.1"
+  },
+  "scripts":{
+    "test":"mocha -R spec test/*.test.js"
+  }
+}

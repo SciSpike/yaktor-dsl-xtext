@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/io.yaktor.domain.as/src" modelPluginID="io.yaktor.domain.as"
+    modelName="Domain" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>domain.ecore</foreignModel>
+  <genPackages prefix="Domain" basePackage="io.yaktor" disposableProviderFactory="true"
+      ecorePackage="domain.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="domain.ecore#//Cardinality">
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//Cardinality/Required"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//Cardinality/Optional"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//Cardinality/OneOrMore"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//Cardinality/Many"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="domain.ecore#//DbType">
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Oracle"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/MySql"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/DatabaseDotCom"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Db2400"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Db2ExpressC"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/DerbyClient"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/DerbyEmbedded"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Firebird"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/GoogleAppEngine"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/H2InMemory"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/HypersonicInMemory"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/HypersonicPersistent"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/MsSql"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Postgres"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbType/Sybase"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="domain.ecore#//DbProvider">
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbProvider/Hibernate"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbProvider/DataNucleus"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbProvider/EclipseLink"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//DbProvider/OpenJPA"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="domain.ecore#//InclusionType">
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//InclusionType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//InclusionType/Overwrite"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//InclusionType/Protected"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="domain.ecore#//JpaEnumType">
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//JpaEnumType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//JpaEnumType/Ordinal"/>
+      <genEnumLiterals ecoreEnumLiteral="domain.ecore#//JpaEnumType/String"/>
+    </genEnums>
+    <genClasses ecoreClass="domain.ecore#//DomainModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//DomainModel/types"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DomainModel/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//DomainModel/genOptions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//DomainModel/domainModelImports"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="domain.ecore#//NamedType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//NamedType/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference domain.ecore#//NamedType/model"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//Entity"/>
+    <genClasses image="false" ecoreClass="domain.ecore#//SimpleField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//SimpleField/unique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//SimpleField/indexed"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//StringField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//StringField/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//StringField/pattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//StringField/minLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//StringField/maxLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//StringField/obscured"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//DateField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DateField/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DateField/before"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DateField/after"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DateField/past"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//DateField/future"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//IntegerField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//IntegerField/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//IntegerField/minValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//IntegerField/maxValue"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//Association">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//Association/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//Association/end"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//Association/isUnidirectional"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//AssociationEnd">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//AssociationEnd/isComposition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//AssociationEnd/references"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//AssociationEnd/unique"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//EnumField">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//EnumField/isType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//EnumField/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//EnumField/isJpaEnumType"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//EnumType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//EnumType/values"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//NumericField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//NumericField/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//NumericField/minValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//NumericField/maxValue"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//EnumValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//EnumValue/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//EnumValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//BooleanField">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//BooleanField/defaultValue"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="domain.ecore#//GenOptions">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenOptions/name"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//ProjectOptions">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//ProjectOptions/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//ProjectOptions/rootPackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//ProjectOptions/domainSubpackage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//ProjectOptions/jsonSupport"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//ProjectOptions/controllerSubpackage"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//PersistenceOptions">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/dbType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/dbProvider"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/userName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/password"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/dbName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//PersistenceOptions/url"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//Type"/>
+    <genClasses ecoreClass="domain.ecore#//TypeField">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//TypeField/isType"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//AnyField"/>
+    <genClasses ecoreClass="domain.ecore#//Field">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//Field/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//Field/cardinality"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//PriceField"/>
+    <genClasses ecoreClass="domain.ecore#//AmountField"/>
+    <genClasses ecoreClass="domain.ecore#//CountField"/>
+    <genClasses ecoreClass="domain.ecore#//EntityReferenceField">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//EntityReferenceField/refType"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//GeoLocationField"/>
+    <genClasses ecoreClass="domain.ecore#//TableType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//TableType/fields"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//TableType/supertype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//TableType/isAbstract"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//TableType/uniqueConstraints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//TableType/metaData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//TableType/indexConstraints"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//TableType/keys"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//JpaGenOptions">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//JpaGenOptions/project"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//JpaGenOptions/persistence"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//JpaGenOptions/generationInclusion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//JpaGenOptions/useAspects"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//JpaGenOptions/metaData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//JpaGenOptions/tableOptions"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//GenerationInclusion">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/types"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/controller"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/resources"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/properties"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/views"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/webxml"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/pom"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/styles"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/classes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/layouts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/webmvc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//GenerationInclusion/tags"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//AssociationRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//AssociationRef/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//UniqueConstraint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//UniqueConstraint/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//ConstraintTypeField"/>
+    <genClasses image="false" ecoreClass="domain.ecore#//NodeGenOption"/>
+    <genClasses ecoreClass="domain.ecore#//MongoNodeGenOptions">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//MongoNodeGenOptions/useLogger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//MongoNodeGenOptions/modelPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//MongoNodeGenOptions/testPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//MongoNodeGenOptions/generateTest"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference domain.ecore#//MongoNodeGenOptions/tableOptions"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//IndexConstraint">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//IndexConstraint/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//ComplexTypeField"/>
+    <genClasses ecoreClass="domain.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//Import/alias"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//DomainModelImport">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//DomainModelImport/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//MongoNodeTableOptions">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//MongoNodeTableOptions/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//MongoNodeTableOptions/ttl"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//MongoNodeTableOptions/singleTableRoot"/>
+    </genClasses>
+    <genClasses ecoreClass="domain.ecore#//JpaTableOptions">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference domain.ecore#//JpaTableOptions/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute domain.ecore#//JpaTableOptions/singleTableRoot"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="MongoNode" basePackage="io.yaktor" ecorePackage="mongoNodeOptions.ecore#/">
+    <genClasses ecoreClass="mongoNodeOptions.ecore#//Ttl">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mongoNodeOptions.ecore#//Ttl/field"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mongoNodeOptions.ecore#//Ttl/expireAfterSeconds"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

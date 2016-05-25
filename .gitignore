@@ -1,0 +1,17 @@
+.antlr-generator-3.2.0*.jar
+*~
+*.class
+*.zip
+bin/
+.project
+.settings
+.classpath
+.gradle/
+target/
+.DS_Store
+node_modules
+site/
+.idea/
+*.iml
+npm-debug.log
+*.xml_gen

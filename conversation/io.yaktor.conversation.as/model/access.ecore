@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="access" nsURI="http://www.eclipse.org/Xtext/io.yaktor.access"
+    nsPrefix="access">
+  <eClassifiers xsi:type="ecore:EClass" name="Service">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="methods" upperBound="-1"
+        eType="#//ServiceMethod" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceMethod">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputParams" upperBound="-1"
+        eType="ecore:EClass types.ecore#//Projection"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputParams" upperBound="-1"
+        eType="ecore:EClass types.ecore#//Projection"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RestDocumentType">
+    <eLiterals name="xhtml" literal="text/html,application/xhtml+xml"/>
+    <eLiterals name="json" value="1" literal="application/json"/>
+    <eLiterals name="xml" value="2" literal="application/xml"/>
+    <eLiterals name="yaml" value="3" literal="application/x-yaml,text/yaml"/>
+    <eLiterals name="form" value="4" literal="application/x-www-form-urlencoded"/>
+    <eLiterals name="upload" value="5" literal="multipart/form-data"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RestAccess">
+    <eLiterals name="Get"/>
+    <eLiterals name="Put" value="1"/>
+    <eLiterals name="Delete" value="2"/>
+    <eLiterals name="Find" value="3"/>
+    <eLiterals name="Post" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RestService">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refType" lowerBound="1"
+        eType="ecore:EClass types.ecore#//Projection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supportedDocumentTypes"
+        upperBound="-1" eType="#//RestDocumentType" defaultValueLiteral="application/json"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="frontedBy" upperBound="-1"
+        eType="#//View" eOpposite="#//View/backedBy"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accessGroups" upperBound="-1"
+        eType="#//AccessGroup" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="server" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="View">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="backedBy" eType="#//RestService"
+        eOpposite="#//RestService/frontedBy"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AccessRequirement">
+    <eLiterals name="ANONYMOUS" literal="ANONYMOUS"/>
+    <eLiterals name="AUTHENTICATED" value="1" literal="AUTHENTICATED"/>
+    <eLiterals name="AUTHORIZED" value="2" literal="AUTHORIZED"/>
+    <eLiterals name="DEFAULT" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AccessGroup">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessRequirement" eType="#//AccessRequirement"
+        defaultValueLiteral="DEFAULT"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessMethods" lowerBound="1"
+        upperBound="-1" eType="#//RestAccess"/>
+  </eClassifiers>
+</ecore:EPackage>

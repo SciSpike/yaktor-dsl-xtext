@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="types" nsURI="http://www.eclipse.org/Xtext/io.yaktor.types"
+    nsPrefix="types">
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectionField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldField" eType="ecore:EClass ../../io.yaktor.domain.as/src/model/domain.ecore#//Field"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newField" eType="ecore:EClass ../../io.yaktor.domain.as/src/model/domain.ecore#//Field"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Projection"
+        eOpposite="#//Projection/fields"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappedField" eSuperTypes="#//ProjectionField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projection" eType="#//Projection"
+        containment="true" eOpposite="#//Projection/parent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NewField" eSuperTypes="#//ProjectionField"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Projection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fields" upperBound="-1"
+        eType="#//ProjectionField" containment="true" eOpposite="#//ProjectionField/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="ecore:EClass ../../io.yaktor.domain.as/src/model/domain.ecore#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//MappedField"
+        eOpposite="#//MappedField/projection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="alias" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProjectionContainmentField" eSuperTypes="#//ProjectionField">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projection" eType="#//Projection"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="ecore:EEnum ../../io.yaktor.domain.as/src/model/domain.ecore#//Cardinality"
+        defaultValueLiteral="!"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeContainmentField" eSuperTypes="#//NewField #//MappedField"/>
+</ecore:EPackage>

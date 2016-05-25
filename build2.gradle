@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        maven {
+            name 'Bintray Asciidoctor repo'
+            url  'http://dl.bintray.com/content/aalmiray/asciidoctor'
+        }
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:0.7.0'
+    }
+}
+
+apply plugin: 'asciidoctor'
+
+import org.asciidoctor.gradle.AsciidoctorTask
+
+// common settings  
+tasks.withType(AsciidoctorTask) { docTask ->  
+    options = [  
+        logDocuments: true,  
+        eruby: 'erubis',
+        attributes: [  
+            imagesdir: './images',  
+            icons: 'font',  
+            experimental: true,
+//            stylesheet: 'src/stylesheets/golo.css',
+            'source-highlighter': 'highlight',
+//            toc: '',
+            toc2: '',
+            idprefix: '',
+            idseparator: '-'
+        ]  
+    ]  
+}
+
+task generateHTML (type: AsciidoctorTask, description: 'Generates single and multiple HTML documentation.', group: 'Documentation') {  
+    backend = 'html5'  
+    outputDir = new File("$buildDir/html")  
+    options.attributes.copycss = true  
+}
+
+task generateDocbook (type: AsciidoctorTask, description: 'Generates DOCBOOK documentation.', group: 'Documentation') {  
+    backend = 'docbook'  
+    outputDir = new File("$buildDir/docbook")  
+}
