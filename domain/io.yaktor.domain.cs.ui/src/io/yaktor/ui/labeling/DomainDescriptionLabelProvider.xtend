@@ -15,7 +15,7 @@ class DomainDescriptionLabelProvider extends org.eclipse.xtext.ui.label.DefaultD
 	// Labels and icons can be computed like this:
 	
 //	override text(IEObjectDescription ele) {
-//		ele.name
+//		ele.name.toString
 //	}
 //	 
 //	override image(IEObjectDescription ele) {
