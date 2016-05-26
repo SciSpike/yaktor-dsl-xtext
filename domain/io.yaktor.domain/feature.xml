@@ -3,7 +3,7 @@
       id="io.yaktor.domain"
       label="io.yaktor.domain"
       version="1.0.0.qualifier"
-      provider-name="SciSpike">
+      provider-name="Yaktor">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

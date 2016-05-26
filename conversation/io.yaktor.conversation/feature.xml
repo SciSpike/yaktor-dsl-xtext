@@ -3,7 +3,7 @@
       id="io.yaktor.conversation"
       label="Conversation"
       version="1.0.0.qualifier"
-      provider-name="SciSpike">
+      provider-name="Yaktor">
 
    <description url="http://www.scispike.com">
       [Enter Feature Description here.]
