@@ -5,7 +5,7 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var projectName = "io.yaktor.conversation.cs"
-var grammarURI = "platform:/resource/${projectName}/src/com/scispike/Conversation.xtext"
+var grammarURI = "platform:/resource/${projectName}/src/io/yaktor/Conversation.xtext"
 var fileExtensions = "cl"
 var runtimeProject = "../${projectName}"
 var generateXtendStub = true

@@ -5,7 +5,7 @@ import org.eclipse.xtext.generator.*
 import org.eclipse.xtext.ui.generator.*
 
 var projectName = "io.yaktor.domain.cs"
-var grammarURI = "platform:/resource/${projectName}/src/com/scispike/Domain.xtext"
+var grammarURI = "platform:/resource/${projectName}/src/io/yaktor/Domain.xtext"
 var fileExtensions = "dm"
 var runtimeProject = "../${projectName}"
 var generateXtendStub = true
