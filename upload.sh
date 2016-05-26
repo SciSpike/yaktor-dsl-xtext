@@ -39,4 +39,4 @@ then
   exit 1
 fi
 
-rsync -av --rsh="ssh -i ${KEY} -p 18765" Conversation/update.all/* scispike@184.154.224.18:"public_html/conversation/update.all/${SUB_SITE}"
+rsync -av --rsh="ssh -i ${KEY} -p 18765" conversation/update.all/* scispike@184.154.224.18:"public_html/conversation/update.all/${SUB_SITE}"

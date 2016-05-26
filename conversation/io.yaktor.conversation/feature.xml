@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="io.yaktor.conversation"
-      label="Conversation"
+      label="conversation"
       version="1.0.0.qualifier"
       provider-name="Yaktor">
 
-   <description url="http://www.scispike.com">
+   <description url="http://yaktor.io">
       [Enter Feature Description here.]
    </description>
 

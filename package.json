@@ -18,11 +18,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SciSpike/yaktor-dsl-xtext.git"
+    "url": "git+https://github.com/yaktor/yaktor-dsl-xtext.git"
   },
   "author": "yaktor-dev@scispike.com",
   "bugs": {
-    "url": "https://github.com/SciSpike/yaktor-dsl-xtext/issues"
+    "url": "https://github.com/yaktor/yaktor-dsl-xtext/issues"
   },
-  "homepage": "https://github.com/SciSpike/yaktor-dsl-xtext#readme"
+  "homepage": "https://github.com/yaktor/yaktor-dsl-xtext#readme"
 }

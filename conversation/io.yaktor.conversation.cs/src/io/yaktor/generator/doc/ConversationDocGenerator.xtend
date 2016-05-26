@@ -30,56 +30,56 @@ class ConversationDocGenerator {
 
   def genConversationDoc(Conversation c) {'''
 	= Conversation «c.name»
-	
-	:author: SciSpike
+
+	:author: Yaktor
 	:doctype: book
 	:toc:
 	:icons:
 	:data-uri:
 	:lang: en
 	:encoding: UTF-8
-	
+
 	== Introduction
-	
+
 	This file describes the conversation named «c.name».
 	We will describe the conversation primarily by discussing the various agents and their state models.
 
 	«c.bareComments.join('\n')»
-	
+
 	.Overview diagram for «c.name»
-	
+
 	«dotHeader("conversation_" + c.name)»
 	«dotGen.genConversationDiagram(c)»
 	«dotFooter»
-	
+
 	«c.genConversationObject»
-	
+
 	«c.genEventTypesUsed»
-	
+
 	«var agents = c.agents.sortBy[a|a.name]»
   	«FOR a : agents»
 
 		== Agent: «a.name»
-		
+
 		=== Introduction
-		
+
 		«a.bareComments.join('\n')»
-		
+
 		=== Relevant events for «a.name»
 		«a.genEventTable»
-		
+
 		=== Behavior for «a.name»
 
 		«IF !a.stateMachine.bareComments.empty»
 			«a.stateMachine.bareComments.join('\n')»
 
 		«ENDIF»
-		
+
 		=== States for «a.name»
 		«umlGen.genUmlStateDiagram(a)»
 
 		«a.genStateEventTable»
-		
+
 		«var states = a.stateMachine.states.sortBy[s|s.name]»
 		«FOR s : states»
 		==== State: «a.name»::«s.name»
@@ -94,12 +94,12 @@ class ConversationDocGenerator {
 			The following diagram shows the possible transitions that «a.name» may take out of the state «s.name».
 
 			«umlGen.generateFocusedStateGraph(s)»
-			
+
 			The above diagram simple states that the «a.name», when in the state +«s.name»+, will react to the following events:
-			
+
 			«var transitions = s.transitions.sortBy[t|t.transitionLabel]»
 			«FOR t : transitions»
-				+«t.transitionLabel»+:: 
+				+«t.transitionLabel»+::
 				  «IF s == t.toState»Does not change the the state.«ELSE»Changes the state to +«t.toState.name»+.«ENDIF»
 				  «IF t.triggers != null» When making this transition, the «a.name» will produce the event +«t.triggers.name»+ that may be subscribed to by other agents.«ENDIF»
 				  «t.bareComments.join('\n')»
@@ -110,20 +110,20 @@ class ConversationDocGenerator {
   	«ENDFOR»
   '''
   }
-  
+
   def genConversationObject(Conversation c) {'''
 	== Conversation Types
 
-	All conversations are held together by a conversation object. 
+	All conversations are held together by a conversation object.
 	The conversation object is defined to be of a specified type.
-	
+
 	«var cts = c.allConversationTypes.sortBy[e|e.name]»
 	«IF cts.empty»
 	*No conversation types have been sepcified for the conversation +«c.name»+.
 	«ELSEIF cts.size == 1»
 	«var theCT= cts.iterator.next»
 	All agents specified for the conversation converses over the same type +«theCT.name»+.
-	
+
 	«theCT.name»::
 		«IF theCT.bareComments.empty»No documenation provided.«ELSE»«theCT.bareComments.join('\n')»«ENDIF»
 	«ELSE»
@@ -136,31 +136,31 @@ class ConversationDocGenerator {
 		«IF theCT.bareComments.empty»No documenation provided.«ELSE»«theCT.bareComments.join('\n')»«ENDIF»
 	«ENDFOR»
 	«ENDIF»
-	
+
   	'''
   }
   def genEventTypesUsed(Conversation c) {'''
   	«var ets = c.allEventTypes.sortBy[e|e.name]»
   	== Event Types
-  	
+
   	«IF ets.empty»
   	None of the agents fire events containing information.
   	«ELSE»
   	The following data type«IF ets.size>1»s are«ELSE» is«ENDIF» used to carry information along with the events.
   	In this section we'll simply list them with the documentation provided in the +cl+ files.
-  	For further details (that is, for full schema and documenation of the individual fields), see the implementation documentation. 
-  	
+  	For further details (that is, for full schema and documenation of the individual fields), see the implementation documentation.
+
   	«FOR et : ets»
   		«et.name»::
   			«IF et.bareComments.empty»No documenation provided.«ELSE»«et.bareComments.join('\n')»«ENDIF»
   	«ENDFOR»
   	«ENDIF»
-  	
-  '''	
+
+  '''
   }
   def genStateDiagram(Agent a) {'''
 	.State Model for agent «a.name»
-		
+
 	'''
   }
 
@@ -171,10 +171,10 @@ class ConversationDocGenerator {
 	«dotFooter»
 	'''
   }
-  
+
   def genEventTable(Agent a) {'''
 	.Events defined by «a.name»
-	
+
 	[cols="1,1,1,3", options="header"]
 	|===================================================
 	|Kind|Name|Datatype|Description
@@ -199,7 +199,7 @@ class ConversationDocGenerator {
 		|===================================================
 	«ENDIF»
   '''}
-  
+
   def genStateEventTable(Agent a) {'''
   	«var states = a.stateMachine.states.sortBy[s|s.name]»
 	«var m = a.collectTransitionMatrix»
@@ -213,10 +213,10 @@ class ConversationDocGenerator {
 		|«e.name»«FOR s :states»|«IF m.get(e).containsKey(s)»«m.get(e).get(s).toState.name»«ENDIF»«ENDFOR»
 	«ENDFOR»
 	|===================================================
-	
+
   '''
   }
-  
+
   def collectTransitionMatrix(Agent a) {
   	var transitions = new HashMap<Event, Map<State,Transition>>()
   	for (s : a.stateMachine.states) {
@@ -226,10 +226,10 @@ class ConversationDocGenerator {
 			}
 			transitions.get(t.rootEvent).put(s, t);
  	 	}
-  	} 
+  	}
   	return transitions
   }
-  
+
   /**
    * The asciidoc requires a particular header to render a graphviz
    * picture. What it does is to generate a png file. You can
@@ -244,7 +244,7 @@ class ConversationDocGenerator {
   static def dotFooter() {'''
 	---------------------------------------------------------------------
   '''}
-  
+
   def getKind(Event e) {
   	var retVal = ""
   	if (e instanceof SubscribableByMe) {
@@ -258,7 +258,7 @@ class ConversationDocGenerator {
   	}
   	return retVal
   }
-  
+
   def getExternallyUsedEvents(Agent a) {
   	var externalEvents = new HashSet<SubscribableByOthers>()
   	for (s : a.stateMachine.states) {
@@ -267,7 +267,7 @@ class ConversationDocGenerator {
   				externalEvents.add(t.exCausedBy)
   			}
   		}
-  	} 
+  	}
   	return externalEvents;
   }
   def getTransitionLabel(Transition t) {
@@ -313,7 +313,7 @@ class ConversationDocGenerator {
   	}
   	return retVal
   }
-  
+
   def getAllEventTypes(Conversation c) {
   	var retVal = new HashSet<Projection>()
   	for (a : c.agents) {

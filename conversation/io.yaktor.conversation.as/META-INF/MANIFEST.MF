@@ -4,7 +4,7 @@ Bundle-Name: io.yaktor.conversation.as
 Bundle-SymbolicName: io.yaktor.conversation.as;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: SciSpike
+Bundle-Vendor: SciSpike LLC
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: io.yaktor.access,

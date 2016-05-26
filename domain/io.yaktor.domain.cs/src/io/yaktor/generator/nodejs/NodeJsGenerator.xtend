@@ -44,7 +44,7 @@ class NodeJsGenerator {
 
   /**
 	 * Generates all the artifacts for the mongoose mapping
-	 * of the SciSpike domain model
+	 * of the Yaktor domain model
 	 */
   def generate(IFileSystemAccess fsa, DomainModel model) {
     var path = model.path ?: ""
