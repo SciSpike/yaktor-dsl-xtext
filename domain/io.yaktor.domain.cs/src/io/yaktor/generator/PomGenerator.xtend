@@ -15,7 +15,7 @@ class PomGenerator {
   @Inject extension FileUtil fileUtil
   @Inject extension DslDomainUtil dslDomainUtil
 
-  
+
   def genPom(IFileSystemAccess fsa, DomainModel spec) {
     var inc = spec.getInclusionType(InclusionCat::POM)
     if (inc != InclusionType::NONE) {
@@ -35,7 +35,7 @@ class PomGenerator {
 	    <name>«(spec.genOptions as JpaGenOptions).project.name»</name>
 	    <properties>
 			<aspectj.version>1.6.12</aspectj.version>
-	        <java.version>1.6</java.version>
+	        <java.version>1.7</java.version>
 	        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	        <roo.version>1.2.2.RELEASE</roo.version>
 	        <slf4j.version>1.6.4</slf4j.version>
