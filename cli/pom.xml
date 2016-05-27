@@ -24,7 +24,7 @@
   <properties>
     <cli.basename>yaktor-xtext-dsl-cli</cli.basename>
     <eclipse.libdir>${basedir}/.eclipse_lib</eclipse.libdir>
-    <download.url>https://raw.githubusercontent.com/SciSpike/build-support/master/xtext</download.url>
+    <eclipse.download.url>https://raw.githubusercontent.com/SciSpike/build-support/master/xtext</eclipse.download.url>
     <jardir>${project.build.directory}</jardir>
   </properties>
   <build>
@@ -73,9 +73,9 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>${project.build.directory}/yaktor-xtext-dsl-cli-with-deps.jar</file>
+              <file>${project.build.directory}/${cli.basename}-with-deps.jar</file>
               <groupId>${project.groupId}</groupId>
-              <artifactId>yaktor-xtext-dsl-cli</artifactId>
+              <artifactId>${cli.basename}</artifactId>
               <classifier>with-deps</classifier>
               <packaging>jar</packaging>
               <version>${project.version}</version>
