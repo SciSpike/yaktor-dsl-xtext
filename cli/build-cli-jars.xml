@@ -21,7 +21,8 @@
       <fileset dir="${basedir}/../domain/io.yaktor.domain.cs/target/classes"/>
       <fileset dir="${basedir}/../conversation/io.yaktor.conversation.as/target/classes"/>
       <fileset dir="${basedir}/../conversation/io.yaktor.conversation.cs/target/classes"/>
-      <fileset dir="${libdir}" includes="**/*.jar,**/*.zip"/>
+      <zipfileset src="${libdir}/jar-in-jar-loader.zip" />
+      <fileset dir="${libdir}" includes="*.jar"/>
     </jar>
   </target>
   <target name="fetch_eclipse_jars">
