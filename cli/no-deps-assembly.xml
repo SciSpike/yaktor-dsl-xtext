@@ -6,8 +6,8 @@
   </formats>
   <fileSets>
     <fileSet>
-      <outputDirectory>yaktor-xtext-dsl-cli_lib</outputDirectory>
-      <directory>target/yaktor-xtext-dsl-cli_lib</directory>
+      <outputDirectory>${cli.basename}_lib</outputDirectory>
+      <directory>${eclipse.libdir}</directory>
       <includes>
         <include>*.jar</include>
       </includes>
@@ -16,8 +16,8 @@
   <files>
     <file>
       <outputDirectory>/</outputDirectory>
-      <source>target/yaktor-xtext-dsl-cli-no-deps.jar</source>
-      <destName>yaktor-xtext-dsl-cli.jar</destName>
+      <source>${project.build.directory}/${cli.basename}-no-deps.jar</source>
+      <destName>${cli.basename}.jar</destName>
     </file>
   </files>
 </assembly>

@@ -21,6 +21,12 @@
       <type>pom</type>
     </dependency>
   </dependencies>
+  <properties>
+    <cli.basename>yaktor-xtext-dsl-cli</cli.basename>
+    <eclipse.libdir>${basedir}/.eclipse_lib</eclipse.libdir>
+    <download.url>https://raw.githubusercontent.com/SciSpike/build-support/master/xtext</download.url>
+    <jardir>${project.build.directory}</jardir>
+  </properties>
   <build>
     <plugins>
       <plugin>
