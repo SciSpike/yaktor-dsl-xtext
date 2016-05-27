@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="create_run_jar_with_deps" name="create dsl cli jars">
+<project default="create_run_jar" name="create dsl cli jars">
   <property name="libbasename" value="${cli.basename}_lib" />
   <property name="libdir" value="${eclipse.libdir}" />
-  <target name="create_run_jar_no_deps" depends="fetch_eclipse_jars">
-    <jar destfile="${jardir}/${cli.basename}-no-deps.jar">
-      <manifest>
-        <attribute name="Main-Class" value="io.yaktor.generator.Main" />
-        <attribute name="Class-Path" value=". ${libbasename}/org.eclipse.xtext_2.7.3.v201411190455.jar ${libbasename}/org.eclipse.emf.ecore.xmi_2.10.2.v20150123-0348.jar ${libbasename}/org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar ${libbasename}/org.eclipse.emf.common_2.10.1.v20150123-0348.jar ${libbasename}/org.antlr.runtime_3.2.0.v201101311130.jar ${libbasename}/com.google.inject_3.0.0.v201312141243.jar ${libbasename}/org.eclipse.emf.mwe.core_1.3.4.v201409021027.jar ${libbasename}/org.apache.commons.cli_1.2.0.v201404270220.jar ${libbasename}/org.eclipse.emf.mwe2.runtime_2.7.0.v201409021027.jar ${libbasename}/org.eclipse.emf.mwe.utils_1.3.4.v201409021027.jar ${libbasename}/org.eclipse.xtext.util_2.7.3.v201411190455.jar ${libbasename}/com.google.guava_15.0.0.v201403281430.jar ${libbasename}/javax.inject_1.0.0.v20091030.jar ${libbasename}/org.eclipse.xtext.generator_2.7.3.v201411190455.jar ${libbasename}/org.eclipse.xtend_2.0.0.v201406030414.jar ${libbasename}/com.ibm.icu_52.1.1.v201501240615.jar ${libbasename}/org.eclipse.xpand_2.0.0.v201406030414.jar ${libbasename}/org.eclipse.xtend.typesystem.emf_2.0.0.v201406030414.jar ${libbasename}/org.eclipse.emf.codegen.ecore_2.10.2.v20150123-0452.jar ${libbasename}/org.eclipse.emf.codegen_2.10.0.v20150123-0452.jar ${libbasename}/org.eclipse.emf.mwe2.lib_2.7.0.v201409021027.jar ${libbasename}/org.eclipse.xtext.xbase.lib_2.7.3.v201411190455.jar ${libbasename}/org.eclipse.emf.mwe2.launch_2.7.0.v201409021051.jar ${libbasename}/org.eclipse.emf.mwe2.language_2.7.0.v201409021051.jar ${libbasename}/org.eclipse.xtext.common.types_2.7.3.v201411190455.jar ${libbasename}/org.apache.commons.logging_1.1.1.v201101211721.jar ${libbasename}/org.objectweb.asm_5.0.1.v201404251740.jar ${libbasename}/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar ${libbasename}/javax.annotation_1.2.0.v201401042248.jar ${libbasename}/org.eclipse.osgi_3.10.2.v20150203-1939.jar ${libbasename}/org.eclipse.osgi.compatibility.state_1.0.1.v20140709-1414.jar ${libbasename}/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar ${libbasename}/org.eclipse.core.jobs_3.6.1.v20141014-1248.jar ${libbasename}/runtime_registry_compatibility.jar ${libbasename}/org.eclipse.equinox.registry_3.5.400.v20140428-1507.jar ${libbasename}/org.eclipse.equinox.preferences_3.5.200.v20140224-1527.jar ${libbasename}/org.eclipse.core.contenttype_3.4.200.v20140207-1251.jar ${libbasename}/org.eclipse.equinox.app_1.3.200.v20130910-1609.jar ${libbasename}/org.apache.log4j_1.2.15.v201012070815.jar" />
-      </manifest>
-      <fileset dir="${basedir}/../domain/io.yaktor.domain.as/target/classes" />
-      <fileset dir="${basedir}/../domain/io.yaktor.domain.cs/target/classes" />
-      <fileset dir="${basedir}/../conversation/io.yaktor.conversation.as/target/classes" />
-      <fileset dir="${basedir}/../conversation/io.yaktor.conversation.cs/target/classes" />
-    </jar>
+  <target name="create_run_jar" depends="create_run_jar_heavy">
+    <property file="${basedir}/light-excludes.properties"/>
+    <zip destfile="${jardir}/${cli.basename}-light.jar">
+      <zipfileset src="${jardir}/${cli.basename}-heavy.jar" excludes="${lightexcludes}"/>
+    </zip>
   </target>
-  <target name="create_run_jar_with_deps" depends="create_run_jar_no_deps">
-    <jar destfile="${jardir}/${cli.basename}-with-deps.jar">
+  <target name="create_run_jar_heavy" depends="fetch_eclipse_jars">
+    <jar destfile="${jardir}/${cli.basename}-heavy.jar">
       <manifest>
         <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
         <attribute name="Rsrc-Main-Class" value="io.yaktor.generator.Main"/>

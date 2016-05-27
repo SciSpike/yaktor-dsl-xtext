@@ -47,25 +47,22 @@
         </executions>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>no-deps-assembly.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-install-plugin</artifactId>
         <executions>
+          <execution>
+            <id>install-xtext-dsl-cli-jar-light</id>
+            <phase>install</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/${cli.basename}-light.jar</file>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>${cli.basename}</artifactId>
+              <packaging>jar</packaging>
+              <version>${project.version}</version>
+            </configuration>
+          </execution>
           <execution>
             <id>install-xtext-dsl-cli-jar-with-deps</id>
             <phase>install</phase>
@@ -73,10 +70,10 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>${project.build.directory}/${cli.basename}-with-deps.jar</file>
+              <file>${project.build.directory}/${cli.basename}-heavy.jar</file>
               <groupId>${project.groupId}</groupId>
               <artifactId>${cli.basename}</artifactId>
-              <classifier>with-deps</classifier>
+              <classifier>heavy</classifier>
               <packaging>jar</packaging>
               <version>${project.version}</version>
             </configuration>
