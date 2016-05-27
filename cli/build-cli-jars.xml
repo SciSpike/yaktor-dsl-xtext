@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Adapted from ant file created by eclipse, right-click project, Export.../Runnable JAR file/Save as ANT script/Finish -->
 <project default="create_run_jar" name="create dsl cli jars">
   <property name="libbasename" value="${cli.basename}_lib" />
   <property name="libdir" value="${eclipse.libdir}" />
@@ -20,47 +21,7 @@
       <fileset dir="${basedir}/../domain/io.yaktor.domain.cs/target/classes"/>
       <fileset dir="${basedir}/../conversation/io.yaktor.conversation.as/target/classes"/>
       <fileset dir="${basedir}/../conversation/io.yaktor.conversation.cs/target/classes"/>
-      <!-- TODO: use *.zip and *.jar -->
-      <zipfileset dir="${libdir}" includes="jar-in-jar-loader.zip"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtext_2.7.3.v201411190455.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.ecore.xmi_2.10.2.v20150123-0348.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.common_2.10.1.v20150123-0348.jar"/>
-      <zipfileset dir="${libdir}" includes="org.antlr.runtime_3.2.0.v201101311130.jar"/>
-      <zipfileset dir="${libdir}" includes="com.google.inject_3.0.0.v201312141243.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe.core_1.3.4.v201409021027.jar"/>
-      <zipfileset dir="${libdir}" includes="org.apache.commons.cli_1.2.0.v201404270220.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe2.runtime_2.7.0.v201409021027.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe.utils_1.3.4.v201409021027.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtext.util_2.7.3.v201411190455.jar"/>
-      <zipfileset dir="${libdir}" includes="com.google.guava_15.0.0.v201403281430.jar"/>
-      <zipfileset dir="${libdir}" includes="javax.inject_1.0.0.v20091030.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtext.generator_2.7.3.v201411190455.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtend_2.0.0.v201406030414.jar"/>
-      <zipfileset dir="${libdir}" includes="com.ibm.icu_52.1.1.v201501240615.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xpand_2.0.0.v201406030414.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtend.typesystem.emf_2.0.0.v201406030414.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.codegen.ecore_2.10.2.v20150123-0452.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.codegen_2.10.0.v20150123-0452.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe2.lib_2.7.0.v201409021027.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtext.xbase.lib_2.7.3.v201411190455.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe2.launch_2.7.0.v201409021051.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.emf.mwe2.language_2.7.0.v201409021051.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.xtext.common.types_2.7.3.v201411190455.jar"/>
-      <zipfileset dir="${libdir}" includes="org.apache.commons.logging_1.1.1.v201101211721.jar"/>
-      <zipfileset dir="${libdir}" includes="org.objectweb.asm_5.0.1.v201404251740.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.core.runtime_3.10.0.v20140318-2214.jar"/>
-      <zipfileset dir="${libdir}" includes="javax.annotation_1.2.0.v201401042248.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.osgi_3.10.2.v20150203-1939.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.osgi.compatibility.state_1.0.1.v20140709-1414.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.equinox.common_3.6.200.v20130402-1505.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.core.jobs_3.6.1.v20141014-1248.jar"/>
-      <zipfileset dir="${libdir}" includes="runtime_registry_compatibility.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.equinox.registry_3.5.400.v20140428-1507.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.equinox.preferences_3.5.200.v20140224-1527.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.core.contenttype_3.4.200.v20140207-1251.jar"/>
-      <zipfileset dir="${libdir}" includes="org.eclipse.equinox.app_1.3.200.v20130910-1609.jar"/>
-      <zipfileset dir="${libdir}" includes="org.apache.log4j_1.2.15.v201012070815.jar"/>
+      <fileset dir="${libdir}" includes="**/*.jar,**/*.zip"/>
     </jar>
   </target>
   <target name="fetch_eclipse_jars">
