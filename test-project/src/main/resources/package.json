@@ -1,6 +1,7 @@
 {
-  "name": "yaktor-dsl-xtext-test-project",
+  "name": "yaktor-xtext-dsl-test-project",
   "version": "0.1.0-pre.0",
+  "private": true,
   "dependencies": {
     "async": "0.2.9",
     "backo": "1.0.1",

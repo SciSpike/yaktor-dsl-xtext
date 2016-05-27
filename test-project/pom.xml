@@ -43,6 +43,11 @@
 	<artifactId>dsl-xtext-test-project</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>io.yaktor</groupId>
+			<artifactId>xtext-dsl-cli</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
