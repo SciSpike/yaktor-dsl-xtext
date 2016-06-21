@@ -2,7 +2,7 @@
 var path = require('path')
 var assert = require('assert')
 var mongoose = require('mongoose')
-require('mongoose-shortid')
+var ShortId = require('mongoose-shortid-nodeps') 
 var mockgoose = require('mockgoose')
 mockgoose(mongoose)
 require(path.resolve('src-gen', 'modelAll'))

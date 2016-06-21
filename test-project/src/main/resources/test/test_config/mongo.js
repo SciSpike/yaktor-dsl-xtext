@@ -3,6 +3,7 @@ var mockgoose = require('mockgoose')
 mockgoose(mongoose)
 var path = require('path')
 console.log(__filename)
+var mongoHost = process.env.MONGO_HOST || "localhost:27017"
 /* jshint eqnull:true */
 module.exports = function (cb) {
   console.log(this)
@@ -22,6 +23,6 @@ module.exports = function (cb) {
       f1nU.apply(this, arguments)
     }
   }
-  mongoose.connect('mongodb://localhost:27017/TestingDB')
+  mongoose.connect('mongodb://'+mongoHost+'/TestingDB')
   cb()
 }
