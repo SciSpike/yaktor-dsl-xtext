@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.yaktor</groupId>
 		<artifactId>dsl-xtext-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
 	</parent>
 	<profiles>
 		<profile>
@@ -206,22 +206,22 @@
 				<dependencies>
           <dependency>
             <groupId>io.yaktor.dsl</groupId>
-            <version>${dsl.version}</version>
+            <version>${project.version}</version>
             <artifactId>io.yaktor.domain.as</artifactId>
           </dependency>
           <dependency>
             <groupId>io.yaktor.dsl</groupId>
-            <version>${dsl.version}</version>
+            <version>${project.version}</version>
             <artifactId>io.yaktor.conversation.as</artifactId>
           </dependency>
           <dependency>
             <groupId>io.yaktor.dsl</groupId>
-            <version>${dsl.version}</version>
+            <version>${project.version}</version>
             <artifactId>io.yaktor.domain.cs</artifactId>
           </dependency>
           <dependency>
             <groupId>io.yaktor.dsl</groupId>
-            <version>${dsl.version}</version>
+            <version>${project.version}</version>
             <artifactId>io.yaktor.conversation.cs</artifactId>
           </dependency>
 				</dependencies>
