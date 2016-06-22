@@ -115,6 +115,9 @@ class JsGenerator {
         var tokenFunction = function(cb){
           cb(null,token);
         };
+        var client;
+        var EventEmitter = require('emitter-component');
+        var emitter = new EventEmitter();
       </script>
       <table>
         <tr>
@@ -134,53 +137,47 @@ class JsGenerator {
         (function(){
           var agentApi = require('«agent.parent.name»/«agent.name»');
           var socketApi = require('socketApi');
-          var inited={};
+          var inited=false;
           var doRender = function(state) {
             $('#«agent.parent.name»_«agent.name»_diag_target').html(Viz($('#«agent.parent.name»_«agent.name»_diag').html().replace('XXX'+state+'XXX=""',"style=filled, fontcolor=white"), 'svg'))
           }
           var eventMatrix= agentApi.stateMatrix;
-          DoConnect = typeof DoConnect !== "undefined"?DoConnect: function(){
-            socketApi.connect(sessionId,tokenFunction,true,function(){
-              if(inited[sessionId]){
-                console.log("Re-initing: %s",'«agent.name»');
-                var json = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
-                agentApi.socket.emit.init(sessionId,json);
-              }
-            });
+          DoConnect = function(){
+            client= socketApi.connect(sessionId,tokenFunction,true,function(){});
+            client.on('message', function (topic, payload) {
+              var body = JSON.parse(payload.toString());
+              emitter.emit(topic, body);
+             });
           };
-          DoDisconnect = typeof DoDisconnect !== "undefined"?DoDisconnect: function() {
+          DoDisconnect =function() {
             socketApi.disconnect(sessionId);
           };
-          DoInitAll = typeof DoInitAll !== "undefined"?DoInitAll: function() {
+          DoInitAll = function() {
             $("[name=\"init\"]").click();
           }
           «agent.name»DoInit = function() {
             var json = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
-            if(!inited[sessionId]){
-              inited[sessionId]=true;
-              for(var onV in agentApi.socket.on){
+            if(!inited){
+              inited=true;
+              for(var onV in eventMatrix){
                 (function(on){
-                  if(/state:.*/.test(on)){
-                    agentApi.socket.on[on](
-                      sessionId,json,function(){
-                        var stateName =on.replace("state:","");
-                        doRender(stateName);
-                        $(".eventButton.«agent.parent.name»_«agent.name»").attr("disabled", "disabled");
-                        for(var e in eventMatrix['«agent.parent.name».«agent.name»:'+on]){
-                          $(".eventButton.«agent.parent.name»_«agent.name»." +e).removeAttr("disabled");
-                        }
-                      }
-                    )
-                  }
+                  emitter.on(on.replace(/:/g,"/")+"/"+json._id,function(body){
+                    var stateName =on.replace(/.*:state:/,"");
+                    doRender(stateName);
+                    $(".eventButton.«agent.parent.name»_«agent.name»").attr("disabled", "disabled");
+                    for(var e in eventMatrix['«agent.parent.name».«agent.name»:'+on]){
+                      $(".eventButton.«agent.parent.name»_«agent.name»." +e).removeAttr("disabled");
+                    }
+                  });
                 })(onV);
               }
             }
-            agentApi.socket.emit.init(sessionId,json);
+            client.subscribe('«agent.parent.name».«agent.name»/state/+/'+json._id,{qos:2});
           }
           «agent.name»DoEvent = function(eventName){
             var initJson = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
             var json = JSON.parse($('#«agent.parent.name»_«agent.name»_'+eventName+'_input').val());
-            agentApi.socket.emit[eventName](sessionId,initJson,json);
+            client.publish('«agent.parent.name».«agent.name»/'+eventName,{agentData:initJson,data:json});
           }
         })();
         </script>
@@ -280,84 +277,6 @@ class JsGenerator {
     «ENDFOR»
     '''
   }
-  def genJsEvents(Agent agent){
-    '''
-    (function(){
-      var socketApi = require.resolve?require('../../socketApi'):require('socketApi');
-      var thisSocket = {
-        emitType:{
-          «FOR event : agent.events.filter(SubscribableByMe) SEPARATOR ','»
-            «event.name»:
-              «IF event.refType != null»
-                '«event.refType.alias»'
-              «ELSE»
-                null
-              «ENDIF»
-          «ENDFOR»
-        },
-        emit:{
-          // Emit this event once your client is ready.
-          // If you are the instigator or you include a conversationId you will get a playback of the current (if any) "state:" event.
-          // You may emit this event multiple times if desired.
-          init:function(sessionId,data){
-            socketApi.send(sessionId,JSON.stringify({event:"«agent.parent.name».«agent.name»::init",data:data}));
-          },
-          deinit:function(sessionId,data){
-            socketApi.send(sessionId,JSON.stringify({event:"«agent.parent.name».«agent.name»::deinit",data:data}));
-          },
-          «FOR event : agent.events.filter(SubscribableByMe)  SEPARATOR ','»
-            «event.name»:function(sessionId,agentData,data,cb){
-«««              «IF event.refType != null»
-«««                var valid = tv4.validate(data,'«event.refType.alias»')
-«««              «ELSE»
-«««                var valid = true;
-«««              «ENDIF»
-«««              if(!valid){
-«««                console.log(tv4.error);
-«««              }
-              socketApi.send(sessionId,JSON.stringify({event:"«event.eventLabel»",data:{agentData:agentData,data:data}}),cb);
-            }
-          «ENDFOR»
-        },
-        on:{
-          //This will be emitted once the conversation is ready for use, even if no state event is emitted.
-          "agent:init":function(sessionId,agentData,cb){
-            var ld = ["«agent.parent.name».«agent.name»::agent-init:"+agentData._id,function(data){
-              cb(data,sessionId);
-            }];
-            socketApi.emitter.on(ld[0],ld[1]);
-            return function(){
-              socketApi.emitter.removeListener(ld[0],ld[1]);
-            };
-          },
-          «FOR event : agent.events.filter(PublishableByMe)  SEPARATOR ',' AFTER ','»
-            «event.name»:function(sessionId,agentData,cb){
-              var ld = ["«event.eventLabel»:"+agentData._id,function(data){
-                cb(data,sessionId);
-              }];
-              socketApi.emitter.on(ld[0],ld[1]);
-              return function(){
-                socketApi.emitter.removeListener(ld[0],ld[1]);
-              };
-            }
-          «ENDFOR»
-          «FOR state : agent.stateMachine.allStates SEPARATOR ','»
-            "state:«state.name»":function(sessionId,agentData,cb){
-              var ld=["«state.eventName»:"+agentData._id,function(data){
-                cb(data,sessionId);
-              }];
-              socketApi.emitter.on(ld[0],ld[1]);
-              return function(){
-                socketApi.emitter.removeListener(ld[0],ld[1]);
-              };
-            }
-          «ENDFOR»
-        }
-      };
-      return thisSocket;
-    })()
-    '''
-  }
   def genValidators(Agent agent){
 //    '''
 //    «FOR event : agent.events.filter[event|
@@ -383,8 +302,7 @@ class JsGenerator {
       stateMatrix:{
         «agent.genStateMatrix»
       },
-      terminalStates:«agent.genTerminalStatesHash»,
-      socket:«agent.genJsEvents»
+      terminalStates:«agent.genTerminalStatesHash»
     };
     '''
   }
