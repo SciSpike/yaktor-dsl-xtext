@@ -165,7 +165,7 @@ class JsGenerator {
                     var stateName =on.replace(/.*:state:/,"");
                     doRender(stateName);
                     $(".eventButton.«agent.parent.name»_«agent.name»").attr("disabled", "disabled");
-                    for(var e in eventMatrix['«agent.parent.name».«agent.name»:'+on]){
+                    for(var e in eventMatrix[on]){
                       $(".eventButton.«agent.parent.name»_«agent.name»." +e).removeAttr("disabled");
                     }
                   });
@@ -177,7 +177,7 @@ class JsGenerator {
           «agent.name»DoEvent = function(eventName){
             var initJson = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
             var json = JSON.parse($('#«agent.parent.name»_«agent.name»_'+eventName+'_input').val());
-            client.publish('«agent.parent.name».«agent.name»/'+eventName,{agentData:initJson,data:json});
+            client.publish('«agent.parent.name».«agent.name»/'+eventName,JSON.stringify({agentData:initJson,data:json}));
           }
         })();
         </script>
