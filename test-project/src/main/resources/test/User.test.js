@@ -2,7 +2,7 @@
 var path = require('path')
 var assert = require('assert')
 var yaktor = require('yaktor')
-var converter = require('yaktor/app/services/conversionService')
+var converter = require('yaktor/services/conversionService')
 var async = require('async')
 
 var User = null

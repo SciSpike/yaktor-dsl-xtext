@@ -24,7 +24,7 @@ class JsDto {
   def genType(Projection p){
     '''
       var path = require('path');
-      var converter = require(path.resolve("node_modules",'yaktor',"app","services","conversionService"));
+      var converter = require('yaktor/services/conversionService');
       «IF p.type != null»
         var model = require("mongoose").model("«p.type.name»");
       «ENDIF»

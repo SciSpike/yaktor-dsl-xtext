@@ -119,8 +119,8 @@ class ConversationGenerator implements IGenerator {
     fsa.generateFile('''ejs/«c.name»/test.ejs''', ConversationOutputConfigurationProvider.GEN, jsGen.genHtmlTest(c));
     
     fsa.generateFile('''../routes/___«c.name»_test.js''', ConversationOutputConfigurationProvider.GEN, '''
-    module.exports = function(app) {
-       app.get('/«c.name»/test.html',  function(req,res,next){res.render('«c.name»/test.ejs', { sId: req.sessionID });});
+    module.exports = function(ctx) {
+       ctx.app.get('/«c.name»/test.html',  function(req,res,next){res.render('«c.name»/test.ejs', { sId: req.sessionID });});
     }
     ''');
   }
