@@ -35,8 +35,8 @@ class JsGgpGenerator {
       var async = require('async');
       var yaktor = require("yaktor");
       var AgentConversation = require('mongoose').model("AgentConversation");
-      var logger = yaktor.logger;
       var path = require('path');
+      var logger = require('yaktor/logger')
       var my = module.exports= {
         init: function(meta,callback){
           var iAc = null;

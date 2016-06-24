@@ -2,14 +2,32 @@
 var path = require('path')
 var assert = require('assert')
 var mongoose = require('mongoose')
-var ShortId = require('mongoose-shortid-nodeps') 
+var ShortId = require('mongoose-shortid-nodeps')
 var mockgoose = require('mockgoose')
 mockgoose(mongoose)
+var proxyquire = require('proxyquire')
+function Global (m) {
+  m[ '@noCallThru' ] = true
+  m[ '@global' ] = true
+  return m
+}
+var yaktor = {
+  log: {
+    stdout: true,
+    level: 'info',
+    filename: ''
+  }
+}
+var logger = proxyquire('yaktor/lib/logger', { '../index' : yaktor })
+var proxy = {
+  yaktor: yaktor,
+  'yaktor/logger': logger
+}
 require(path.resolve('src-gen', 'modelAll'))
 describe('Agent', function () {
   describe('Test.Test', function () {
     it('should be loaded', function () {
-      var test = require(path.resolve('conversations', 'js', 'Test'))
+      var test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
       assert.ok(test.agents['Test.Test'])
       assert.ok(test.agents['Test.Test'].states)
       assert.ok(test.agents['Test.Test'].states.working)
@@ -22,8 +40,8 @@ describe('Agent', function () {
   })
   describe('UserUnitTest.Test.Test', function () {
     it('should be loaded', function () {
-      var Test = require(path.resolve('conversations', 'js', 'Test'))
-      var UserUnitTest = require(path.resolve('conversations', 'js', 'UserUnitTest'))
+      var Test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
+      var UserUnitTest = proxyquire(path.resolve('conversations', 'js', 'UserUnitTest'), proxy)
       assert.ok(Test.agents['Test.Test'])
       assert.ok(UserUnitTest.agents['Test.Test'])
       assert.equal(UserUnitTest.agents['Test.Test'], Test.agents['Test.Test'])
