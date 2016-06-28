@@ -16,6 +16,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import io.yaktor.generator.doc.ConversationDocGenerator
 import io.yaktor.generator.doc.ResourcesDocGenerator
+import java.util.HashSet
 
 /**
  * Generates code from your model files on save.
@@ -83,7 +84,7 @@ class ConversationGenerator implements IGenerator {
       fsa.generateFile('''security/«c.name».«a.name».js''', ConversationOutputConfigurationProvider.GEN, jsGen.genSecurity(a))
       
       
-      fsa.generateFile('''../simulator/«c.name»/«a.name».js''',jsSim.genSimulator(a))
+      fsa.generateFile('''simulator/«c.name»/«a.name».js''',ConversationOutputConfigurationProvider.GEN_ROOT,jsSim.genSimulator(a))
       
       
       for(type:a.definedTypes){
@@ -112,13 +113,16 @@ class ConversationGenerator implements IGenerator {
     }
     fsa.generateFile('''«c.name »/views.js''', ConversationOutputConfigurationProvider.PUBLIC,
       jsGen.genViewJs(c))
-      
-    fsa.generateFile('''swagger_api/«c.name »/api.json''', ConversationOutputConfigurationProvider.PUBLIC,
-      jsGen.genSwagger(c))
+    val servers = new HashSet<String>
+    c.restServices.forEach[r| servers.add(r.server)]
+    for(server:servers){
+      fsa.generateFile('''swagger_api/«server?:"DEFAULT"»/«c.name ».json''', ConversationOutputConfigurationProvider.PUBLIC,
+        jsGen.genSwagger(c,server))
+    }
       
     fsa.generateFile('''ejs/«c.name»/test.ejs''', ConversationOutputConfigurationProvider.GEN, jsGen.genHtmlTest(c));
     
-    fsa.generateFile('''../routes/___«c.name»_test.js''', ConversationOutputConfigurationProvider.GEN, '''
+    fsa.generateFile('''routes/DEFAULT/___«c.name»_test.js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
     module.exports = function(ctx) {
        ctx.app.get('/«c.name»/test.html',  function(req,res,next){res.render('«c.name»/test.ejs', { sId: req.sessionID });});
     }

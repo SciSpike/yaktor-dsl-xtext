@@ -6,7 +6,6 @@ import io.yaktor.conversation.Conversation
 import io.yaktor.conversation.PrivatePubSub
 import io.yaktor.conversation.PublishableByMe
 import io.yaktor.conversation.State
-import io.yaktor.conversation.SubscribableByMe
 import io.yaktor.domain.DomainFactory
 import io.yaktor.domain.Entity
 import java.util.HashMap
@@ -314,7 +313,7 @@ class JsGenerator {
     '''
   }
   
-  def genSwagger(Conversation c) {
+  def genSwagger(Conversation c,String server) {
     var s = new HashMap
     '''
     {
@@ -333,7 +332,8 @@ class JsGenerator {
         "application/json"
       ],
       "paths":{
-        «FOR r:c.restServices SEPARATOR','»
+        «FOR r:c.restServices.filter[r | r.server == server] SEPARATOR','»
+          «IF r.server == server»
           «
           {
             s.putAll(new JsSchema2(r.refType).docs)
@@ -353,6 +353,7 @@ class JsGenerator {
           "«e.key»":{
             «FOR m : e.value SEPARATOR ','»
               "«m.swaggerMethod»":{
+               "tags": ["«c.name»"],
                 «var description = r.bareComments»
                 «IF description!=null && description.length>0»
                   "description":"«description.join('\u2424').replace('"','\\"')»",
@@ -457,12 +458,13 @@ class JsGenerator {
             «ENDFOR»
           }
           «ENDFOR»
+          «ENDIF»
         «ENDFOR»
       },
       "securityDefinitions": {
         "implicit": {
           "type": "oauth2",
-          "clientId":"1",
+          "x-clientId":"1",
           "authorizationUrl": "<%=proto %>://<%=host %>/auth/authorize",
           "flow": "implicit",
           "scopes":{"*":"All rights"}

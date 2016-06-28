@@ -13,6 +13,7 @@ import static extension io.yaktor.generator.util.CommentExtractorExtensions.*
 import static extension io.yaktor.generator.js.JsTypesExtensions.*
 import java.util.HashMap
 import java.util.TreeSet
+import org.eclipse.xtext.generator.AbstractFileSystemAccess2
 
 class RestRoutingGenerator {
   def static endpointsPath(Conversation c, RestService rs) {
@@ -20,10 +21,16 @@ class RestRoutingGenerator {
   }
 
   def static endpointsPath(Conversation c, String server) {
-    '''js/«c.name»/rest/endpoints«IF server != null»_«server»«ENDIF»'''
+    '''rest/«server?:"DEFAULT"»'''
   }
   def static routePath(Conversation c, String server) {
-    '''../routes«server?:""»/rest-«c.name».js'''
+    '''routes/«server?:"DEFAULT"»'''
+  }
+  def static actionsPath(Conversation c, String server) {
+    '''actions/«server?:"DEFAULT"»'''
+  }
+  def static configPath(Conversation c, String server) {
+    '''config/servers/«server?:"DEFAULT"»'''
   }
   def generate(IFileSystemAccess fsa, Conversation c) {
     var routeMap = new HashMap<String,StringBuilder>
@@ -36,23 +43,23 @@ class RestRoutingGenerator {
         /**
          * Methods for «rs.url»
          */
-        var rs_«rs.refType.name»_«counter» = require(require('path').resolve("«ConversationOutputConfigurationProvider.GEN_ONCE_CONFIG.outputDirectory»/«thisEndpointsPath»«rs.url»/«rs.refType.name».js"));
+        var rs_«rs.refType.name»_«counter» = require(require('path').resolve('«ConversationOutputConfigurationProvider.GEN_ONCE_ROOT_CONFIG.outputDirectory»/«thisEndpointsPath»«rs.url»/«rs.refType.name».js'))
         «c.genMethodRoutes(rs, counter)»
       '''
-      routeMap.put(rs.server?:"",(routeMap.get(rs.server?:"")?:new StringBuilder).append(route));
+      routeMap.put(rs.server?:"DEFAULT",(routeMap.get(rs.server?:"DEFAULT")?:new StringBuilder).append(route));
       counter = counter + 1;
       fsa.generateFile(thisEndpointsPath + "/" + rs.url + "/" + rs.refType.name + ".def.js",
-        ConversationOutputConfigurationProvider.GEN, c.genRestServices(rs))
+        ConversationOutputConfigurationProvider.GEN_ROOT, c.genRestServices(rs))
       fsa.generateFile(thisEndpointsPath + "/" + rs.url + "/" + rs.refType.name + ".js",
-        ConversationOutputConfigurationProvider.GEN_ONCE, '''
+        ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, '''
           (function(){
-            "use strict";
-            var util = require('util');
-            var my = module.exports = require("./«rs.refType.name».def.js");
+            "use strict"
+            var util = require('util')
+            var my = module.exports = require('./«rs.refType.name».def.js')
           })();
         ''')
 
-      fsa.generateFile('''actions«IF rs.server != null»_«rs.server»«ENDIF»/«rs.url.replaceAll("/","#")».js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
+      fsa.generateFile('''«c.actionsPath(rs.server)»/«rs.url.replaceAll("/","%")».js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
           «FOR ag : rs.accessGroups»
             «FOR m : ag.accessMethods»
               «var regex = rs.actionPath(m)»
@@ -63,48 +70,78 @@ class RestRoutingGenerator {
       ''');
     }
     var serverCounter = 0;
-    servers.add("")
+    var defaultServerName = "DEFAULT";
+    servers.add(defaultServerName)
     for(server:servers.sort){
-      var initializersPath = '''config/initializers«IF server.length>0»_«server»«ENDIF»'''
-      var path = '''routes«IF server.length>0»_«server»«ENDIF»''';
-      fsa.generateFile('''servers/«IF server.length>0»«server»«ELSE»DEFAULT«ENDIF».js''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, '''
-          var path = require('path');
-          module.exports={
-            name:"«IF server.length>0»«server»«ELSE»DEFAULT«ENDIF»",
-            port:process.env.«IF server.length>0»«server.toUpperCase»_«ENDIF»PORT||((process.env.PORT||3000)«IF serverCounter > 0» +«serverCounter»«ENDIF»),
-            routesPath:path.resolve("«path»"),
-            initializersPath:path.resolve("«initializersPath»"),
-            actionsPath:path.resolve("actions«IF server.length>0»_«server»«ENDIF»")
+	    fsa.generateFile('''«c.configPath(server)»/index.js''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, '''
+        var path = require('path')
+        var fs = require('fs')
+        var async = require('async')
+        var regex = /\.js$/
+        module.exports={
+          settings:{
+            serverName:"«server»",
+            host:{
+              port: «IF server  == defaultServerName»80«ELSE»«3000+serverCounter»«ENDIF»,
+              protocol: 'http',
+              prefix: '',
+              hostname: null
+            },
+            path: {
+              routesPath: path.resolve('«c.routePath(server)»'),
+              actionsPath: path.resolve('«c.actionsPath(server)»')
+            }
+          },
+          init: function (ctx, done) {
+            // NOTE: Sorting is required, due to the fact that no order is guaranteed
+            //       by the system for a directory listing.  Sorting allows initializers
+            //       to be prefixed with a number, and loaded in a pre-determined order.
+            var files = fs.readdirSync(__dirname).sort()
+            async.forEachSeries(files, function (file, next) {
+              var pathname = path.join(__dirname, file)
+              if (fs.lstatSync(pathname).isDirectory() || file === 'index.js' || !regex.test(file)) return next()
+        
+              try {
+                var initializer = require(pathname)
+                if (typeof initializer === 'function') initializer(ctx, next)
+                else next()
+              } catch (e) {
+                next(e)
+              }
+            }, done)
           }
+        }
       ''');
       serverCounter = serverCounter + 100;
-      fsa.generateFile('''«path»/rest-«c.name».js''', ConversationOutputConfigurationProvider.GEN_ROOT,'''
-          /*
-           * This file was generated by the Yaktor code generators
-           */
-          module.exports = function(ctx) {
-            «routeMap.get(server)?.toString»
-          };
+      fsa.generateFile('''«c.routePath(server)»/«c.name».js''', ConversationOutputConfigurationProvider.GEN_ROOT,'''
+        /*
+         * This file was generated by the Yaktor code generators
+         */
+        module.exports = function(ctx) {
+          «routeMap.get(server)?.toString»
+        };
       ''');
-      fsa.generateFile('''«initializersPath»/10_routes.js''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT,'''
-          /*
-           * This file was generated by the Yaktor code generators
-           *
-           */
-          var fs = require('fs');
-          var path = require('path');
-          var logger = require(path.resolve("yaktor/logger"));
-          logger.silly(__filename);
-          module.exports = function() {
-            var app = this;
-            var routes = app.get("routesPath");
-            fs.existsSync(routes) && fs.readdirSync(routes).forEach(function(file) {
-              var item = path.join(routes, file);
-              require(item)(app);
-            });
-          };
+      fsa.generateFile('''«c.configPath(server)»/00_app.js''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT,'''
+        /*
+         * This file was generated by the Yaktor code generators
+         *
+         */
+        var express = require('express')
+        module.exports = function(ctx,done) {
+          var protocol = ctx.host.protocol
+          var serverFactory = require(protocol)
+          var app = ctx.app = express()
+          ctx.server = (protocol === 'http')
+            ? serverFactory.createServer(app)
+            : serverFactory.createServer(ctx.host.options, app)
+          done()
+        };
       ''');
-      fsa.generateFile('''actions«IF server.length>0»_«server»«ENDIF»/index.js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
+      for(fileName : #['10_routes.js','01_hostname.js','20_listen.js','05_middleware.js']){
+      	
+        fsa.generateFile('''«c.configPath(server)»/«fileName»''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, (fsa as AbstractFileSystemAccess2).readTextFile('''«c.configPath(defaultServerName)»/«fileName»''',ConversationOutputConfigurationProvider.GEN_ONCE_ROOT))
+      }
+      fsa.generateFile('''«c.actionsPath(server)»/index.js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
         var fs = require('fs');
         var path = require('path');
         var fileReg = /(.*)\..+/;
@@ -161,11 +198,12 @@ class RestRoutingGenerator {
               async.apply(converter.from,'«rs.refType.fullName»', body),
               async.apply(«rs.refType.repositoryServiceName».create.bind(«rs.refType.repositoryServiceName»)),
               async.apply(converter.to,'«rs.refType.fullName»') //
-            ],Response.create(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"));
+            ],Response.create(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"))
           «ELSE»
-            res.end();
+            // No Domain
+            Response.create(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null,body)
           «ENDIF»
-        };
+        }
       '''
       case method == RestAccess.GET: '''
         module.exports.«method.crud» = function(id, req, res) {
@@ -173,11 +211,12 @@ class RestRoutingGenerator {
             async.waterfall([
               async.apply(«rs.refType.repositoryServiceName».findOne.bind(«rs.refType.repositoryServiceName»),{_id:id}),
               async.apply(converter.to,'«rs.refType.fullName»') //
-            ],Response.read(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"));
+            ],Response.read(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"))
           «ELSE»
-            res.end();
+            // No Domain
+            Response.read(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null,req.query)
           «ENDIF»
-        };
+        }
       '''
       case method == RestAccess.PUT: '''
         module.exports.«method.crud» = function(id, body,req, res) {
@@ -188,20 +227,22 @@ class RestRoutingGenerator {
                 «rs.refType.repositoryServiceName».findOneAndUpdate({_id:id}, domain,{new:true},cb);
               },
               async.apply(converter.to,'«rs.refType.fullName»') //
-            ],Response.update(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"));
+            ],Response.update(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"))
           «ELSE»
-            res.end();
+            // No Domain
+            Response.update(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null,body)
           «ENDIF»
-        };
+        }
       '''
       case method == RestAccess.DELETE: '''
         module.exports.«method.crud» = function(id, req, res) {
           «IF rs.refType.entity != null»
-            «rs.refType.repositoryServiceName».findOneAndRemove({_id:id},Response.delete(req, res,"«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"));
+            «rs.refType.repositoryServiceName».findOneAndRemove({_id:id},Response.delete(req, res,"«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"))
           «ELSE»
-            res.end();
+            // No Domain
+            Response.delete(req, res,"«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null)
           «ENDIF»
-        };
+        }
       '''
       case method == RestAccess.FIND: '''
         module.exports.«method.crud» = function(query, req, res) {
@@ -214,13 +255,14 @@ class RestRoutingGenerator {
                 «rs.refType.repositoryServiceName».find(pQ).paginate(page, pageSize, cb);
               },
               function(domains, total,cb){
-                converter.to('«rs.refType.fullName»', domains, function(err, dtos) {
+                converter.to('«rs.refType.fullName»', domains, function(err, dtos,0) {
                   cb(err,dtos,total);
                 });
               } //
             ],Response.find(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"));
           «ELSE»
-            res.end();
+            // No Domain
+            Response.find(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null,[])
           «ENDIF»
         };
       '''
