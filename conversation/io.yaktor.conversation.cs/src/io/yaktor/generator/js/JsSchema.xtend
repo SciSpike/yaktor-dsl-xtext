@@ -32,34 +32,34 @@ class JsSchema {
   static def CharSequence typafy (Doc d) {
     '''
       «IF d.typeRef!=null»
-        "$typeRef":"«d.typeRef»",
+        "x-typeRef": "«d.typeRef»",
       «ENDIF»
       «IF d.format!=null»
-        "format":"«d.format»",
+        "format": "«d.format»",
       «ENDIF»
       «IF d.dfault!=null»
-        "default":"«d.dfault»",
+        "default": «IF d.type ==  Type.string»"«ENDIF»«d.dfault»«IF d.type ==  Type.string»"«ENDIF»,
       «ENDIF»
       «IF d.enm!=null»
-        "enum":["«d.enm.join('","')»"],
+        "enum": ["«d.enm.join('","')»"],
       «ENDIF»
       «IF d.maximum!=null»
-        "maximum":"«d.maximum»",
+        "maximum": «d.maximum»,
       «ENDIF»
       «IF d.minimum!=null»
-        "minimum":"«d.minimum»",
+        "minimum": «d.minimum»,
       «ENDIF»
       «IF d.maxLength!=null»
-        "maxLength":"«d.maxLength»",
+        "maxLength": «d.maxLength»,
       «ENDIF»
       «IF d.minLength!=null»
-        "minLength":"«d.minLength»",
+        "minLength": «d.minLength»,
       «ENDIF»
       «IF d.pattern!=null»
-        "pattern":"«d.pattern»",
+        "pattern": "«d.pattern»",
       «ENDIF»
       «IF d.example!=null && d.example.toString.length>0»
-        "example":«d.example»,
+        "example": «d.example»,
       «ENDIF»
       «IF d.description!=null»
         "description":"«d.description»",
@@ -73,7 +73,7 @@ class JsSchema {
       "required":["«d.requiredFields.join('","')»"],
     «ENDIF»
     «IF d.typeRef!=null»
-      "$typeRef":"«d.typeRef»",
+      "x-typeRef":"«d.typeRef»",
     «ENDIF»
     "properties":{
       «FOR pentry: d.properties.entrySet SEPARATOR ','»

@@ -374,10 +374,10 @@ class JsGenerator {
                 "parameters": [
                   «IF m != RestAccess.FIND && m!=RestAccess.POST »
                     {
-                      "name":"id",
-                      "in":"path",
-                      "required":"true",
-                      "type":"string"
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "type": "string"
                     }«IF m == RestAccess.PUT»,«ENDIF»
                   «ENDIF»
                   «IF m == RestAccess.PUT || m == RestAccess.POST»
@@ -399,11 +399,11 @@ class JsGenerator {
                       "description":"Numeric offset by pageSize of result."
                     },
                     {
-                      "name":"pageSize",
-                      "in":"query",
-                      "type":"integer",
-                      "default":10,
-                      "description":"Maximum quantity of results to include per page."
+                      "name": "pageSize",
+                      "in": "query",
+                      "type": "integer",
+                      "default": 10,
+                      "description": "Maximum quantity of results to include per page."
                     }
                     «FOR p : s.get(r.refType.fullName).properties.entrySet BEFORE ',' SEPARATOR ','»
                       «val ref = s.get(p.value.ref)»
@@ -411,34 +411,34 @@ class JsGenerator {
                         «FOR ip :  ref.properties.entrySet.filter[ip|ip.value.type!=null]SEPARATOR ','»
                           {
                             «IF ip.value.format!=null»"format":"«ip.value.format»",«ENDIF»
-                            "name":"«p.key»[«ip.key»]",
-                            "in":"query",
+                            "name": "«p.key»[«ip.key»]",
+                            "in": "query",
                             «IF ip.value.description != null»
-                              "description":"«ip.value.description»",
+                              "description": "«ip.value.description»",
                             «ENDIF»
-                            "type":"«ip.value.type.name»"
+                            "type": "«ip.value.type.name»"
                           }
                         «ENDFOR»
                       «ELSEIF p.value.type != null»
                         {
                           «IF p.value.format!=null»"format":"«p.value.format»",«ENDIF»
-                          "name":"«p.key»",
+                          "name": "«p.key»",
                           «IF p.value.description != null»
-                            "description":"«p.value.description»",
+                            "description": "«p.value.description»",
                           «ENDIF»
-                          "in":"query",
-                          "type":"«p.value.type.name»"
+                          "in": "query",
+                          "type": "«p.value.type.name»"
                         }
                       «ELSE»
                         {
-                          "name":"«p.key»",
-                          "in":"query",
+                          "name": "«p.key»",
+                          "in": "query",
                           «IF p.value.description != null»
-                            "description":"«p.value.description»",
+                            "description": "«p.value.description»",
                           «ELSEIF p.value.ref!=null»
-                            "description":"an id ref",
+                            "description": "an id ref",
                           «ENDIF»
-                          "type":"string"
+                          "type": "string"
                         }
                       «ENDIF»
                     «ENDFOR»
@@ -472,9 +472,23 @@ class JsGenerator {
           "authorizationUrl": "<%=proto %>://<%=host %>/auth/authorize",
           "flow": "implicit",
           "scopes":{"*":"All rights"}
+        },
+        "password": {
+          "type": "oauth2",
+          "x-clientId":"1",
+          "tokenUrl": "<%=proto %>://<%=host %>/auth/token",
+          "flow": "password",
+          "scopes":{"*":"All rights"}
         }
       },
-      "definitions":{
+      "definitions": {
+        "Errors": {
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        } «IF !s.empty»,«ENDIF»
         «FOR entry : s.entrySet SEPARATOR ','»
           "«entry.key»": {
             «entry.value.schemafy(false)»

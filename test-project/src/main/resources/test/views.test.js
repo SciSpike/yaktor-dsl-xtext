@@ -1,7 +1,7 @@
 /* global describe, it */
 var path = require('path')
 var assert = require('assert')
-describe('views.js', function () {
+describe(path.basename(__filename), function () {
   it('it should properly encode the shortId regext', function () {
     var views = require(path.resolve('public', 'Test', 'views'))
     views.Test.crud.forEach(function (c) {
