@@ -13,5 +13,5 @@ conversation UserUnitTest {
       }
     }
   }
-  resource /users for UserUnitTest.User offers authenticated ( create read update find delete ) interchanges ( json )
+  resource /users for UserUnitTest.User offers authenticated ( create read update find delete ) interchanges ( json ) at API
 }

@@ -138,8 +138,9 @@ class RestRoutingGenerator {
         };
       ''');
       for(fileName : #['10_routes.js','01_hostname.js','20_listen.js','05_middleware.js']){
-      	
-        fsa.generateFile('''«c.configPath(server)»/«fileName»''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, (fsa as AbstractFileSystemAccess2).readTextFile('''«c.configPath(defaultServerName)»/«fileName»''',ConversationOutputConfigurationProvider.GEN_ONCE_ROOT))
+      	try{
+          fsa.generateFile('''«c.configPath(server)»/«fileName»''', ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, (fsa as AbstractFileSystemAccess2).readTextFile('''«c.configPath(defaultServerName)»/«fileName»''',ConversationOutputConfigurationProvider.GEN_ONCE_ROOT))
+       	} catch(Exception e){}
       }
       fsa.generateFile('''«c.actionsPath(server)»/index.js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
         var fs = require('fs');

@@ -319,8 +319,8 @@ class JsGenerator {
     {
       "swagger": "2.0",
       "info": {
-        "title": "«c.name» API",
-        "description": "«c.name» API",
+        "title": "«server?:'Default'»",
+        "description": "Services served by the «server?:'DEFAULT'» server.",
         "version": "1.0.0"
       },
       "host": "<%=host %>",
@@ -331,6 +331,10 @@ class JsGenerator {
       "produces": [
         "application/json"
       ],
+      "tags": [{
+        "name": "«c.name»",
+        "description": "«c.name» API"
+      }],
       "paths":{
         «FOR r:c.restServices.filter[r | r.server == server] SEPARATOR','»
           «IF r.server == server»
