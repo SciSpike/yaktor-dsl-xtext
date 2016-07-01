@@ -51,7 +51,7 @@ class ResourcesDocGenerator {
 				[source, js]
 				--------------------------------
 				{
-				  «rs.refType.schemafy»
+				  «rs.refType.schematize»
 				}
 				--------------------------------
 

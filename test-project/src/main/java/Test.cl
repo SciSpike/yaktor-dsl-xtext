@@ -48,7 +48,7 @@ conversation Test {
   }
 
   view /test.vw over /test
-  resource /test for Test.Test offers ( create read update delete ) interchanges ( json form )
+  resource /test for Test.Test offers ( create read update delete find) interchanges ( json form )
   
   
   view /c over /c

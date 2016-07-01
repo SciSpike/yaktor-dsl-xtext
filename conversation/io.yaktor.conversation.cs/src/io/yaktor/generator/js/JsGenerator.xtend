@@ -241,7 +241,7 @@ class JsGenerator {
             "«t.causedBy.name»":{
               «IF t.causedBy.refType != null»
                 "type":{
-                  «t.causedBy.refType.schemafy»
+                  «t.causedBy.refType.schematize»
                 },
               «ENDIF»
               "subPath":"/«t.causedBy.name»"
@@ -264,7 +264,7 @@ class JsGenerator {
               "«t.causedBy.name»":{
                 «IF t.causedBy.refType != null»
                   "type":{
-                    «t.causedBy.refType.schemafy»
+                    «t.causedBy.refType.schematize»
                   },
                 «ENDIF»
                 "subPath":"/«t.causedBy.name»"
@@ -392,11 +392,11 @@ class JsGenerator {
                   «ENDIF»
                   «IF m == RestAccess.FIND»
                     {
-                      "name":"page",
-                      "in":"query",
-                      "type":"integer",
-                      "default":1,
-                      "description":"Numeric offset by pageSize of result."
+                      "name": "page",
+                      "in": "query",
+                      "type": "integer",
+                      "default": 1,
+                      "description": "Numeric offset by pageSize of result."
                     },
                     {
                       "name": "pageSize",
@@ -410,7 +410,7 @@ class JsGenerator {
                       «IF ref != null && ref.typeRef == null && ref.properties.entrySet.filter[ip|ip.value.type!=null].size >0 »
                         «FOR ip :  ref.properties.entrySet.filter[ip|ip.value.type!=null]SEPARATOR ','»
                           {
-                            «IF ip.value.format!=null»"format":"«ip.value.format»",«ENDIF»
+                            «IF ip.value.format!=null»"format": "«ip.value.format»",«ENDIF»
                             "name": "«p.key»[«ip.key»]",
                             "in": "query",
                             «IF ip.value.description != null»
@@ -421,10 +421,15 @@ class JsGenerator {
                         «ENDFOR»
                       «ELSEIF p.value.type != null»
                         {
-                          «IF p.value.format!=null»"format":"«p.value.format»",«ENDIF»
+                          «IF p.value.format!=null»"format": "«p.value.format»",«ENDIF»
                           "name": "«p.key»",
                           «IF p.value.description != null»
                             "description": "«p.value.description»",
+                          «ENDIF»
+                          «IF p.value.items != null»
+                            "items": {
+                              «p.value.items.itemize» 
+                            },
                           «ENDIF»
                           "in": "query",
                           "type": "«p.value.type.name»"
@@ -468,17 +473,12 @@ class JsGenerator {
       "securityDefinitions": {
         "implicit": {
           "type": "oauth2",
-          "x-clientId":"1",
+          "x-clientId": "1",
           "authorizationUrl": "<%=proto %>://<%=host %>/auth/authorize",
           "flow": "implicit",
-          "scopes":{"*":"All rights"}
-        },
-        "password": {
-          "type": "oauth2",
-          "x-clientId":"1",
-          "tokenUrl": "<%=proto %>://<%=host %>/auth/token",
-          "flow": "password",
-          "scopes":{"*":"All rights"}
+          "scopes": {
+            "*": "All rights"
+          }
         }
       },
       "definitions": {
@@ -491,7 +491,7 @@ class JsGenerator {
         } «IF !s.empty»,«ENDIF»
         «FOR entry : s.entrySet SEPARATOR ','»
           "«entry.key»": {
-            «entry.value.schemafy(false)»
+            «entry.value.schematize»
           }
         «ENDFOR»
       }
@@ -516,7 +516,7 @@ class JsGenerator {
                 «FOR m : v.backedBy.methods.sort SEPARATOR ','»
                   "«m.name()»":{
                     "type":{
-                      «v.backedBy.refType.schemafy»
+                      «v.backedBy.refType.schematize»
                     },
                     "subPath":"«m.pathFragment»"
                   }
@@ -534,7 +534,7 @@ class JsGenerator {
               "actions":{
                 "init":{
                   type:{
-                    «agent.projection.schemafy(true)»
+                    «agent.projection.schematize(true)»
                   },
                   subPath:"/init"
                 }

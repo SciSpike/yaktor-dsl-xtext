@@ -21,15 +21,30 @@ class JsSchema {
     return fmt.format(date);
   }
 
-  static def schemafy(Projection t) {
-    t.schemafy(false)
+  static def schematize(Projection t) {
+    t.schematize(false)
   }
-  static def schemafy(Projection t, boolean includeId) {
+  static def schematize(Projection t, boolean includeId) {
     var schem = new JsSchema2(t)
-    schem.docs.get(t.fullName).schemafy(true)
+    schem.docs.get(t.fullName).schematize(true)
   }
-  
-  static def CharSequence typafy (Doc d) {
+  static def CharSequence itemize (Doc items) {
+    items.itemize(false)
+  }
+  static def CharSequence itemize (Doc items, boolean nest) {
+    '''
+      «IF items.type!=null»
+        «items.typify»
+      «ELSEIF items.ref!=null»
+        «IF nest»
+          «items.refDoc.schematize(nest)»
+        «ELSE»
+          "$ref":"#/definitions/«items.ref»"
+        «ENDIF»
+      «ENDIF»
+    '''
+  }
+  static def CharSequence typify (Doc d) {
     '''
       «IF d.typeRef!=null»
         "x-typeRef": "«d.typeRef»",
@@ -67,7 +82,10 @@ class JsSchema {
       "type":"«d.type.name»"
     '''
   }
-  static def  CharSequence schemafy(Doc d, boolean nest){
+  static def  CharSequence schematize(Doc d){
+    d.schematize(false)
+  }
+  static def  CharSequence schematize(Doc d, boolean nest){
     '''
     «IF d.requiredFields.length>0»
       "required":["«d.requiredFields.join('","')»"],
@@ -79,10 +97,10 @@ class JsSchema {
       «FOR pentry: d.properties.entrySet SEPARATOR ','»
         "«pentry.key»":{
           «IF pentry.value.type!= null»
-            «pentry.value.typafy»
+            «pentry.value.typify»
           «ELSEIF pentry.value.ref!= null»
             «IF nest»
-              «pentry.value.refDoc.schemafy(nest)»
+              «pentry.value.refDoc.schematize(nest)»
             «ELSE»
               "$ref":"#/definitions/«pentry.value.ref»"
             «ENDIF»
@@ -91,16 +109,8 @@ class JsSchema {
               "format":"«d.format»",
             «ENDIF»
             "type":"array",
-            "items":{
-              «IF pentry.value.items.type!=null»
-                «pentry.value.items.typafy»
-              «ELSEIF pentry.value.items.ref!=null»
-                «IF nest»
-                  «pentry.value.items.refDoc.schemafy(nest)»
-                «ELSE»
-                  "$ref":"#/definitions/«pentry.value.items.ref»"
-                «ENDIF»
-              «ENDIF»
+            "items": {
+              «pentry.value.items.itemize(nest)»
             }
           «ENDIF»
         }

@@ -256,7 +256,7 @@ class RestRoutingGenerator {
                 «rs.refType.repositoryServiceName».find(pQ).paginate(page, pageSize, cb);
               },
               function(domains, total,cb){
-                converter.to('«rs.refType.fullName»', domains, function(err, dtos,0) {
+                converter.to('«rs.refType.fullName»', domains, function(err, dtos) {
                   cb(err,dtos,total);
                 });
               } //
