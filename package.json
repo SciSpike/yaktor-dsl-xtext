@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/yaktor/yaktor-dsl-xtext.git"
   },
-  "author": "yaktor-dev@scispike.com",
+  "author": "yaktor@scispike.com",
   "bugs": {
     "url": "https://github.com/yaktor/yaktor-dsl-xtext/issues"
   },

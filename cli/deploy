@@ -1,0 +1,45 @@
+#!/usr/bin/env bash -e
+
+echo -n "Determining deployment coordinates; please be patient..."
+
+TARGET=$(mvn help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
+VERSION=$(mvn help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs)
+ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
+GROUP_ID=$(mvn help:evaluate -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
+REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
+POM=${POM:-pom.xml}
+if [ -n $(echo $VERSION | egrep '\-SNAPSHOT$') ]; then
+  REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
+else
+  REPOSITORY_URL='https://oss.sonatype.org/service/local/staging/deploy/maven2'
+fi
+if [ -z "$ARTIFACT" ]; then
+  ARTIFACT="$TARGET/yaktor-xtext-dsl-cli-light.jar"
+fi
+if [ -z "$JAVADOC_ARTIFACT" ]; then
+  JAVADOC_ARTIFACT="$TARGET/$ARTIFACT_ID-$VERSION-javadoc.jar"
+fi
+if [ -z "$SOURCES_ARTIFACT" ]; then
+  SOURCES_ARTIFACT="$TARGET/$ARTIFACT_ID-$VERSION-sources.jar"
+fi
+if [ -z "$PASS" ]; then
+  PASS="$(mvn help:evaluate -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
+fi
+echo "done"
+
+if [ ! -f "$ARTIFACT" ]; then
+  echo "Building due to missing $ARTIFACT"
+  mvn clean install
+fi
+
+set -x
+mvn gpg:sign-and-deploy-file \
+  "-Durl=$REPOSITORY_URL" \
+  "-DrepositoryId=$REPOSITORY_ID" \
+  "-Dfile=$ARTIFACT" \
+  "-DpomFile=$POM" \
+  "-DgeneratePom=false" \
+  "-Djavadoc=$JAVADOC_ARTIFACT" \
+  "-Dsources=$SOURCES_ARTIFACT" \
+  "-Dgpg.passphrase=$PASS"
+set +x
