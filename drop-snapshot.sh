@@ -7,7 +7,7 @@ if [[ ! $CURRENT =~ \-SNAPSHOT$ ]]; then
 fi
 
 NEXT=$(echo $CURRENT | sed -E 's/\-SNAPSHOT//g')
-CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g'")
+CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g')
 set -x
 find . -name site.xml | xargs -n 1 sed -i.drop -E "s/${CURRENT_SED}(\.qualifier)?/$NEXT/g"
 find . -name MANIFEST.MF | xargs -n 1 sed -i.drop -E "s/Bundle-Version: ${CURRENT_SED}(\.qualifier)?/Bundle-Version: ${NEXT}/g"
