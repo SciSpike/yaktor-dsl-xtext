@@ -14,6 +14,7 @@ fi
 NEXT=${VERSION-$(echo $CURRENT | xargs $(npm bin)/semver -i $INCREMENT)}
 echo "$CURRENT -> $NEXT-SNAPSHOT (maven) or $NEXT.qualifier (eclipse/osgi)"
 CURRENT_SED=$(echo -n $CURRENT | sed -E 's/\./\\./g')
+set -x
 for f in ./conversation/update.all/site.xml ; do
   for cmd in \
     "s/_$CURRENT_SED(\\.qualifier){0,1}\\.jar/_$NEXT.qualifier.jar/g" \
