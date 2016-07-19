@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.yaktor</groupId>
 	<artifactId>dsl-xtext-parent</artifactId>
-	<version>0.3.0</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>An Xtext-based eclipse &amp; command-line code generator that reads Yaktor's DSLs and produces Node.js Yaktor applications.</description>
 	<url>http://yaktor.io</url>

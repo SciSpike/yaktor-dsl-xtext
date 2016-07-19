@@ -141,7 +141,7 @@ module.exports = function (grunt) {
         command: './drop-snapshot.sh'
       },
       mvn: {
-        command: "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install '-Dyaktor.version=" + yaktorHome + "''"
+        command: "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -Dyaktor.version='" + yaktorHome + "'"
       },
       bumpMinor: {
         command: './bump.sh minor'
