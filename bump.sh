@@ -14,7 +14,9 @@ fi
 NEXT=${VERSION-$(echo $CURRENT | xargs $(npm bin)/semver -i $INCREMENT)}
 CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g')
 set -x
-find . -name site.xml | xargs -n 1 sed -E -i.bump "s/(_){0,1}$CURRENT_SED(\.qualifier){0,1}(\.jar){0,1}/\\1$NEXT\\2\\3/g"
+find . -name site.xml | xargs -n 1 sed -E -i.bump "s/_$CURRENT_SED(\.qualifier){0,1}\.jar/_$NEXT.qualifier.jar/g"
+find . -name site.xml | xargs -n 1 sed -E -i.bump "s/version=\"$CURRENT_SED(\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g"
+find . -name site.xml | xargs -n 1 sed -E -i.bump "s/_$CURRENT_SED\"/_$NEXT\"/g"
 find . -name MANIFEST.MF | xargs -n 1 sed -E -i.bump "s/Bundle-Version: ${CURRENT_SED}(.qualifier){0,1}/Bundle-Version: ${NEXT}.qualifier/g"
 find . -name feature.xml | xargs -n 1 sed -E -i.bump "s/version=\"${CURRENT_SED}(\.qualifier){0,1}/version=\"${NEXT}.qualifier/g"
 find . -name '*.bump' | xargs rm
