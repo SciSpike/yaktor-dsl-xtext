@@ -2,27 +2,27 @@
 <feature
       id="io.yaktor.conversation.cs.sdk"
       label="Conversation SDK Feature "
-      version="0.5.0">
+      version="0.6.0.qualifier">
 
    <plugin
          id="io.yaktor.conversation.cs"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.conversation.as"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.conversation.cs.ui"
          download-size="0"
          install-size="0"
-         version="0.5.0"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
 </feature>
