@@ -18,17 +18,17 @@ for f in $(find . -name site.xml); do
   cp -f "$f" "$f.bump"
   CONTENT=$(cat "$f")
   echo "$CONTENT"
-  CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED(\.qualifier){0,1}\.jar/_$NEXT.qualifier.jar/g")
+  CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED(\\.qualifier){0,1}\.jar/_$NEXT.qualifier.jar/g")
   echo "$CONTENT"
-  CONTENT=$(echo -n "$CONTENT" | sed -E "s/version=\"$CURRENT_SED(\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g")
+  CONTENT=$(echo -n "$CONTENT" | sed -E "s/version=\"$CURRENT_SED(\\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g")
   echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED\"/_$NEXT\"/g")
   echo "$CONTENT"
   echo "$CONTENT" > "$f"
   rm -f "$f.bump"
 done
-find . -name MANIFEST.MF | xargs -n 1 sed -E -i.bump "s/Bundle-Version: ${CURRENT_SED}(\.qualifier){0,1}/Bundle-Version: ${NEXT}.qualifier/g"
-find . -name feature.xml | xargs -n 1 sed -E -i.bump "s/version=\"${CURRENT_SED}(\.qualifier){0,1}/version=\"${NEXT}.qualifier/g"
+find . -name MANIFEST.MF | xargs -n 1 sed -E -i.bump "s/Bundle\\-Version: ${CURRENT_SED}(\\.qualifier){0,1}/Bundle-Version: ${NEXT}.qualifier/g"
+find . -name feature.xml | xargs -n 1 sed -E -i.bump "s/version=\"${CURRENT_SED}(\\.qualifier){0,1}/version=\"${NEXT}.qualifier/g"
 find . -name '*.bump' | xargs rm
 mvn org.codehaus.mojo:versions-maven-plugin:2.1:set \
   -N \
