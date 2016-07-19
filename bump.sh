@@ -12,14 +12,15 @@ if [[ $CURRENT =~ \-SNAPSHOT$ ]]; then
   CURRENT=$(echo $CURRENT | sed -E 's/\-SNAPSHOT$//')
 fi
 NEXT=${VERSION-$(echo $CURRENT | xargs $(npm bin)/semver -i $INCREMENT)}
-CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g')
+echo "$CURRENT -> $NEXT-SNAPSHOT (maven) or $NEXT.qualifier (eclipse/osgi)"
+CURRENT_SED=$(echo -n $CURRENT | sed -E 's/\./\\./g')
 for f in ./conversation/update.all/site.xml ; do
-  cp -f "$f" "$f.bump"
-  CONTENT=$(cat "$f")
-  CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED(\\.qualifier){0,1}\\.jar/_$NEXT.qualifier.jar/g")
-  CONTENT=$(echo -n "$CONTENT" | sed -E "s/version=\"$CURRENT_SED(\\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g")
-  CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED\"/_$NEXT\"/g")
-  echo "$CONTENT" > "$f"
+  for cmd in \
+    "s/_$CURRENT_SED(\\.qualifier){0,1}\\.jar/_$NEXT.qualifier.jar/g" \
+    "s/version=\"$CURRENT_SED(\\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g" \
+    "s/_$CURRENT_SED\"/_$NEXT\"/g" ; do
+      sed -i.bump -E "$cmd" "$f"
+  done
 done
 find conversation/io.yaktor.conversation.update -name site.xml | xargs -n 1 sed -E -i.bump "s/$CURRENT_SED/$NEXT/g"
 find . -name MANIFEST.MF | xargs -n 1 sed -E -i.bump "s/Bundle\\-Version: $CURRENT_SED(\\.qualifier){0,1}/Bundle-Version: $NEXT.qualifier/g"
