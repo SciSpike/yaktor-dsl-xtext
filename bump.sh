@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -xe
+#!/usr/bin/env bash -e
 INCREMENT=${1:-${INCREMENT:-patch}}
 if [[ $INCREMENT =~ ^pre ]]; then
   echo "You can't use pre* with this script; we're speaking Maven here!" >&2
