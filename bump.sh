@@ -16,13 +16,9 @@ CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g')
 for f in ./conversation/update.all/site.xml ; do
   cp -f "$f" "$f.bump"
   CONTENT=$(cat "$f")
-  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED(\\.qualifier){0,1}\\.jar/_$NEXT.qualifier.jar/g")
-  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/version=\"$CURRENT_SED(\\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g")
-  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED\"/_$NEXT\"/g")
-  echo "$CONTENT"
   echo "$CONTENT" > "$f"
 done
 find conversation/io.yaktor.conversation.update -name site.xml | xargs -n 1 sed -E -i.bump "s/$CURRENT_SED/$NEXT/g"
