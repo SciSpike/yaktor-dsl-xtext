@@ -49,6 +49,8 @@ module.exports = function (grunt) {
     'shell:dropSnapshot',
     'bump:minor',
     'shell:mvn',
+    'gitadd:all',
+    'gitcommit:releaseMinor',
     'gittag:patch',
     'gittag:minor',
     'gittag:latest',
@@ -57,6 +59,8 @@ module.exports = function (grunt) {
     'gitcheckout:master',
     'bump:preminor',
     'shell:bumpMinor',
+    'gitadd:all',
+    'gitcommit:vnext',
     'gitpush:master',
     'gitpush:patchTag',
     'gitpush:minorTag',
@@ -72,10 +76,14 @@ module.exports = function (grunt) {
     'bump:patch',
     'shell:dropSnapshot',
     'shell:mvn',
+    'gitadd:all',
+    'gitcommit:releastPatch',
     'gittag:patch',
     'gittag:minor',
     'bump:prepatch',
     'shell:bumpPatch',
+    'gitadd:all',
+    'gitcommit:vnext',
     'gitpush:maintenance',
     'gitpush:patchTag',
     'gitpush:minorTag',
@@ -123,6 +131,14 @@ module.exports = function (grunt) {
     gitcheckout: {
       master: { options: { branch: master } },
       maintenance: { options: { branch: maintenanceBranch, create: true } }
+    },
+    gitadd: {
+      all: { options: { all: true } }
+    },
+    gitcommit: {
+      releaseMinor: { options: { message: 'Release ' + minorTag } },
+      releasePatch: { options: { message: 'Release ' + patchTag } },
+      vnext: { options: { message: 'v.next' } }
     },
     shell: {
       confirmOnMasterBranch: {
