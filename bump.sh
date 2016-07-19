@@ -13,12 +13,14 @@ if [[ $CURRENT =~ \-SNAPSHOT$ ]]; then
 fi
 NEXT=${VERSION-$(echo $CURRENT | xargs $(npm bin)/semver -i $INCREMENT)}
 CURRENT_SED=$(echo -n $NEXT | sed -E 's/\./\\./g')
-set -x
 for f in ./conversation/update.all/site.xml ; do
   cp -f "$f" "$f.bump"
   CONTENT=$(cat "$f")
+  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED(\\.qualifier){0,1}\\.jar/_$NEXT.qualifier.jar/g")
+  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/version=\"$CURRENT_SED(\\.qualifier){0,1}\"/version=\"$NEXT.qualifier\"/g")
+  echo "$CONTENT"
   CONTENT=$(echo -n "$CONTENT" | sed -E "s/_$CURRENT_SED\"/_$NEXT\"/g")
   echo "$CONTENT"
   echo "$CONTENT" > "$f"
