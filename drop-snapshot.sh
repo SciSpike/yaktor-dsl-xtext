@@ -15,4 +15,5 @@ find . -name feature.xml | xargs -n 1 sed -i.drop -E "s/version=\"${CURRENT}\.qu
 find . -name *.drop | xargs rm
 mvn org.codehaus.mojo:versions-maven-plugin:2.1:set \
   -N \
-  -DgenerateBackupPoms=false -DnewVersion=${NEXT}
+  -DgenerateBackupPoms=false \
+  -DnewVersion=${NEXT}
