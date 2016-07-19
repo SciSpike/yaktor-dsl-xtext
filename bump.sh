@@ -1,11 +1,26 @@
 #!/usr/bin/env bash -xe
-npm install
-cur_version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version -N | egrep -v "(^\[INFO\]|^\[DEBUG\])" | xargs $(npm bin)/semver -i patch)
-next_version=${VERSION-$(echo $cur_version | xargs $(npm bin)/semver -i $1)}
-echo "$cur_version -> $next_version"
+INCREMENT=${1:-${INCREMENT:-patch}}
+if [[ $INCREMENT =~ ^pre ]]; then
+  echo "You can't use pre* with this script; we're speaking Maven here!" >&2
+  exit 1
+fi
 
-find . -name site.xml | xargs -n 1 sed -i.bak "s/$cur_version/$next_version/g" 
-find . -name MANIFEST.MF | xargs -n 1 sed -i.bak "s/Bundle-Version: ${cur_version}.qualifier/Bundle-Version: ${next_version}.qualifier/g"
-find . -name feature.xml | xargs -n 1 sed -i.bak "s/version=\"${cur_version}.qualifier/version=\"${next_version}.qualifier/g"
-find . -name *.bak | xargs rm
-mvn org.codehaus.mojo:versions-maven-plugin:2.1:set -DgenerateBackupPoms=false -DnewVersion=${next_version}-SNAPSHOT -DoldVersion=${cur_version}-SNAPSHOT -N
+npm install
+CURRENT=$(mvn help:evaluate -Dexpression=project.version -N | egrep -v '^\[.*' | xargs)
+if [[ $CURRENT =~ \-SNAPSHOT$ ]]; then
+  SNAPSHOT="-SNAPSHOT"
+  CURRENT=$(echo $CURRENT | sed -E 's/\-SNAPSHOT$//')
+fi
+NEXT=${VERSION-$(echo $CURRENT | xargs $(npm bin)/semver -i $INCREMENT)}
+echo "$CURRENT -> $NEXT"
+
+set -x
+find . -name site.xml | xargs -n 1 sed -i.bump "s/$CURRENT/$NEXT/g"
+find . -name MANIFEST.MF | xargs -n 1 sed -i.bump "s/Bundle-Version: ${CURRENT}.qualifier/Bundle-Version: ${NEXT}.qualifier/g"
+find . -name feature.xml | xargs -n 1 sed -i.bump "s/version=\"${CURRENT}.qualifier/version=\"${NEXT}.qualifier/g"
+find . -name *.bump | xargs rm
+mvn org.codehaus.mojo:versions-maven-plugin:2.1:set \
+  -N \
+  -DgenerateBackupPoms=false \
+  -DnewVersion=${NEXT}-SNAPSHOT \
+  -DoldVersion=${CURRENT}${SNAPSHOT}

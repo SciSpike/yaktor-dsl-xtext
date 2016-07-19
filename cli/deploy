@@ -1,39 +1,58 @@
 #!/usr/bin/env bash -e
 
-echo -n "Determining deployment coordinates; please be patient..."
+echo "Determining deployment coordinates:"
 
-TARGET=$(mvn help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
-VERSION=$(mvn help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs)
-ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
-GROUP_ID=$(mvn help:evaluate -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
+DIR="${DIR:-.}"
+echo "DIR=$DIR"
+MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
+echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
+TARGET=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
+echo "TARGET=$TARGET"
+VERSION=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.version | egrep -v '^\[.*' | xargs)
+echo "VERSION=$VERSION"
+ARTIFACT_ID=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
+echo "ARTIFACT_ID=$ARTIFACT_ID"
+GROUP_ID=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
+echo "GROUP_ID=$GROUP_ID"
 REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
-POM=${POM:-pom.xml}
-if [ -n $(echo $VERSION | egrep '\-SNAPSHOT$') ]; then
-  REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
+echo "REPOSITORY_ID=$REPOSITORY_ID"
+POM="${POM:-$DIR/pom.xml}"
+echo "POM=$POM"
+if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
+  DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
+elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/service/local/staging/deploy/maven2'
 else
-  REPOSITORY_URL='https://oss.sonatype.org/service/local/staging/deploy/maven2'
+  echo "Badly formatted version: $VERSION"
+  exit 1
 fi
+REPOSITORY_URL=${REPOSITORY_URL:-DEFAULT_REPOSITORY_URL}
+echo "REPOSITORY_URL=$REPOSITORY_URL"
 if [ -z "$ARTIFACT" ]; then
-  ARTIFACT="$TARGET/yaktor-xtext-dsl-cli-light.jar"
+  ARTIFACT="$TARGET/yaktor-$ARTIFACT_ID-light.jar"
 fi
+echo "ARTIFACT=$ARTIFACT"
 if [ -z "$JAVADOC_ARTIFACT" ]; then
   JAVADOC_ARTIFACT="$TARGET/$ARTIFACT_ID-$VERSION-javadoc.jar"
 fi
+echo "JAVADOC_ARTIFACT=$JAVADOC_ARTIFACT"
 if [ -z "$SOURCES_ARTIFACT" ]; then
   SOURCES_ARTIFACT="$TARGET/$ARTIFACT_ID-$VERSION-sources.jar"
 fi
+echo "SOURCES_ARTIFACT=$SOURCES_ARTIFACT"
 if [ -z "$PASS" ]; then
-  PASS="$(mvn help:evaluate -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
+  PASS="$(mvn help:evaluate -f "$DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
 fi
-echo "done"
+echo "Coordinates done got gotten!"
 
 if [ ! -f "$ARTIFACT" ]; then
   echo "Building due to missing $ARTIFACT"
   mvn clean install
 fi
 
-set -x
 mvn gpg:sign-and-deploy-file \
+  -P release \
+  "--settings=$MAVEN_SETTINGS" \
   "-Durl=$REPOSITORY_URL" \
   "-DrepositoryId=$REPOSITORY_ID" \
   "-Dfile=$ARTIFACT" \
@@ -42,4 +61,3 @@ mvn gpg:sign-and-deploy-file \
   "-Djavadoc=$JAVADOC_ARTIFACT" \
   "-Dsources=$SOURCES_ARTIFACT" \
   "-Dgpg.passphrase=$PASS"
-set +x

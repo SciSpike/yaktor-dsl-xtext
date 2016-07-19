@@ -1,0 +1,26 @@
+# http://www.debonair.io/post/maven-cd/
+sudo: required
+dist: trusty
+language: java
+jdk:
+  - openjdk7
+env:
+  global:
+    - secure: "YD1flPPSUO+2rLgdmN29Lu4YUY9cej0mJczt6DF7s88wxK1/j/OsDpsKRpoPOaHvSbQNiWuuSkSuVKj4yvyKoF+7GnDmy7xoapuwdCdfGGVFcHwzNEwYqZRAp74T+rRuYodp2/xriu92UgwIaKhZ7+nwabZ8OBo+wAtpVj9YniEQ987hjrKHHOCx2d1Mw1OR+JnyKFwiF+ugL9c7hGCXU+m1dytFBDDdroyRQ4LMqnBg1OZBm1AInEZ72diMEKV3jq3PYX8lnaFqRsc5reNFm47ri8+tiQob542g4Orn2ymEQr4zWOnu3aTealZ3NlWLT4WzAuSgrg952VyIadownV3wvwWyDQ8c/G7Ia9PxpBEqyJptxEIOINwVGzOGFVUP3u6PqVVmX+AP1LZqJ1TU5SpO5USUwTHV3vVCf/JUOg9AjpYRCnOoNYjU6BQUXveaActtgbnN67EJaNLqXSNNLeleDDePgnREilJox4deTgmlosPtsWaE33aQIfpF3IR7nnp/DMFV4TrMQqMg9AdLI5M6QJqq44IX5L9aH5gxkJ7YrslMgTQnVrjQ55DltwPyoFySvzUWxIE+/eyR091knf4HFCD2fmrDYc9pBJ+Xs8m3MFkJZ+/KI3Yn6rCS30XXfZaef5Vu47sRs2txB1T4ru+Bi6CRRXknx41jwCl+BXE="
+    - # ^^ OSSRH_JIRA_USERNAME
+    - secure: "lGlhuLf6l+SE8ln5OSP9kT25aUpu0e75waUcfOXQQhnXdyVMXZpDZFl6zDDvPpbJZx7AE9zQQ/pUq45x4MCxdB0ZuHhG9FOfk61RH6/YGisromKFqXp54t7RGn1wafUi0jyrjCrgutfLyQiZpErzdrCNbp8gMZvRFl0aRBkpDuXCYlFBBI+P7lxYukeqtS0aBgtyLlxndOs7AH+UQbA+faAs+2mqfd+pH6+UKcAjCghziMovy4ocsFvCxhJsj9SaXYBZXTby2my7PxpIc1MuH+3GCk3XQK4Up5H0BE92yxVBJTXDoWT4POQbvtXQz4nXNanSht7z2nEvK10tZFk0gG/0EeduYVfMW3WQp3pqh57id7yLwG9kU8wDTwNIleeNhIsIod7wh9GzhbXl9BXMOhIrdAsln0bMwch6JEol3FuC5Y+NldhkpM3CGy3QSIgd6lIEf83hDpZLhyOmM1JZNGFX5ozenUkeYHqXgU7LTaJlPziItMOl3k+NiLB4iv1x11rD2LlsBroCcrt3rMNrZSSX9n4STCwjBliYUeTHNDvIXtk7idIKLNHxSN3RtaWaxOIr1bxae3R46tMsKbjs+PpIOtZBLBMKu+kkXsEuxyQJdUpzuayYBTLPePnDArjXAYnFK0zChJCuuaoB2H/TZjdYL/mONNjY9Fv8CJBA4y8="
+    - # ^^ OSSRH_JIRA_PASSWORD
+    - secure: "Gy0rjUOghYz+Qd9C+tj8Uut+dObjTe4v0r/5FTcROMifXcItvEJtEf/+Q0r5vv92F00Ha2FbjWxYrzYfYrK/4ZWqF6oMLP01gyoZ07S6dG7RMf3CFjUJXi8VXfJeiEHHJZrWBv3UCjDNxDDlspK1H0yPkaY3//S5qtZz/E5gJd0xXRHPTq9BtnirR5MdtyWhgw+tofUzGcE0igmlcY7wvoizJ16py92ADMJd1bwSwNWkD2mH7Y+BmINtQH9QLKYLCEO3lI6ZGeOAM0aDU0Ga0RpSUbSqlXB6i8sRPYn5a7qzeqMWROET1moBBTdm2Fxx8yn7Wd+Fmn3QODZhNt40yRNHEpzkIWZZtbXqzrPy32mKABArBQCG04sbfUE37/plaE2ZXSxdiTf/GtYOlCQ5NfM/+ySmFxrhd62dw/7OBhBzgk14AGLDGVLNZOX1KJAkNUiz4e7iXk7lxFR/S+T3+vtkttg+B4VDJbYwcIkHiHyjFawqw2wCjY+Oc/BiIdakPnaSRnZfJljwJFLppLxz0vrgB204dzKig0RnA2YcMoQD904Jh2ydqmC2Rhl6azZkcZSXmKAiHVHjR7KVIPViEReqXGmKV+vPxUMrAwE2qCv2myZjMFBUyI8YU0Y4S7Go3CyvMDnbuKTW9DFGpnVlbjTUHtAC5Ee7PJf5AiCIM78="
+    - # ^^ GPG_KEY_NAME
+    - secure: "hPEzmqcWR9Kwo4WezLEA0wmIqR3YlkC7oEzGc9J85oCzkSIJaFwcyawGa7wo5LB55HFMmXHR2XsryEuOfAkUwbOWGLXiD0eGFobwKoBnXAStN0MiiEL0Wszsn7vqnjWeAi5897vMvGV4oUXBzmE5YtPxD/cgDoKNaq+lcDgKDnx2fGODbBgCUfymtb3iLCvT/H2mSg2uAQxP7DM+RFCN5zfz/251+fPsLegj+quIG0cr0gcr5VK01kWvqOgjb64cRObF9+SGYqG6ANqH+EvJHeqC7s7PRXZ56pR2/AKgaeGwkZAUdfhmhk7wUnLMxCcqT2US/K4/W24pyQNYuQaITUGatPyujBt36KXwSh+7FZG1uuePY3DE6+eLE0vmHtfluY5MaESuKTcwEppmAo+YiGxGzRW2b+hGM0IyYzhdjSLMuEEDLBEx4WlSjy34ynOXmQvl6iYa4txc/4nlo4NuaEr9vAnG6GarIOhF2CPCye7CF1lfjCVq5HhELljb19H8QsAVqX2dXH9NZe2XQsd4S9V+Oxs4Jzb300X7TXJL56Kj2TYWDB+ejesIorJGlqtGmXnaAz3ntNkddydaRyLoAF/CLYU24XEBgvf5cUiMExYjQpg/nWvHtgSeTEPVY6CKF1alrLJzHjiNL7mRp6VEJ91Ih8qRJ9oFsHfvp5CjZMs="
+    - # ^^ GPG_PASSPHRASE
+before_install:
+  - nvm 4.4
+install: mvn install -P release -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -B -V
+script: mvn test -P release -B
+cache:
+  directories:
+    - ~/.m2/repository
+after_success:
+  - ./deploy/before-deploy.sh
+  - MAVEN_SETTINGS=deploy/maven-settings.xml DIR=./cli && ./cli/deploy
