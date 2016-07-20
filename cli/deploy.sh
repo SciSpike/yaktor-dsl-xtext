@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 
 echo "Determining deployment coordinates:"
 
@@ -7,13 +7,13 @@ CLI_DIR="${CLI_DIR:-.}"
 echo "CLI_DIR=$CLI_DIR"
 MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
 echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
-TARGET=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
+TARGET=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
 echo "TARGET=$TARGET"
-VERSION=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.version | egrep -v '^\[.*' | xargs)
+VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs)
 echo "VERSION=$VERSION"
-ARTIFACT_ID=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
+ARTIFACT_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
 echo "ARTIFACT_ID=$ARTIFACT_ID"
-GROUP_ID=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
+GROUP_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
 echo "GROUP_ID=$GROUP_ID"
 REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
 echo "REPOSITORY_ID=$REPOSITORY_ID"
