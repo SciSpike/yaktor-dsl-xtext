@@ -1,6 +1,6 @@
 {
   "name": "yaktor-dsl-xtext",
-  "version": "0.21.0",
+  "version": "0.22.0-pre.0",
   "private": true,
   "description": "Yaktor Xtext DSL",
   "license": "Apache-2.0",
