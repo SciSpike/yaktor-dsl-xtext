@@ -3,22 +3,9 @@ set -e
 
 echo "Determining deployment coordinates:"
 
-CLI_DIR="${CLI_DIR:-.}"
-echo "CLI_DIR=$CLI_DIR"
-MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
-echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
-TARGET=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
-echo "TARGET=$TARGET"
-VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs)
+VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # get "downloading" messages out of the way
+VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
 echo "VERSION=$VERSION"
-ARTIFACT_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
-echo "ARTIFACT_ID=$ARTIFACT_ID"
-GROUP_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
-echo "GROUP_ID=$GROUP_ID"
-REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
-echo "REPOSITORY_ID=$REPOSITORY_ID"
-POM="${POM:-$CLI_DIR/pom.xml}"
-echo "POM=$POM"
 if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
   DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
 elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -27,6 +14,23 @@ else
   echo "Badly formatted version: $VERSION"
   exit 1
 fi
+CLI_DIR="${CLI_DIR:-.}"
+echo "CLI_DIR=$CLI_DIR"
+MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
+echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
+TARGET="$CLI_DIR/target"
+#TARGET=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs) # overkill
+echo "TARGET=$TARGET"
+ARTIFACT_ID=xtext-dsl-cli
+#ARTIFACT_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs) # overkill
+echo "ARTIFACT_ID=$ARTIFACT_ID"
+GROUP_ID=io.yaktor
+#GROUP_ID=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.groupId | egrep -v '^\[.*' | xargs) # overkill
+echo "GROUP_ID=$GROUP_ID"
+REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
+echo "REPOSITORY_ID=$REPOSITORY_ID"
+POM="${POM:-$CLI_DIR/pom.xml}"
+echo "POM=$POM"
 REPOSITORY_URL=${REPOSITORY_URL:-$DEFAULT_REPOSITORY_URL}
 echo "REPOSITORY_URL=$REPOSITORY_URL"
 if [ -z "$ARTIFACT" ]; then
@@ -42,12 +46,14 @@ if [ -z "$SOURCES_ARTIFACT" ]; then
 fi
 echo "SOURCES_ARTIFACT=$SOURCES_ARTIFACT"
 if [ -z "$PASS" ]; then
-  PASS="$(mvn help:evaluate -f "$CLI_DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
+  PASS="$(mvn help:evaluate -f "$CLI_DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)" # get "downloading" messages out of the way
+  PASS="$(mvn help:evaluate -f "$CLI_DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)" # now egrep will work
 fi
 echo "Coordinates done got gotten!"
 
 if [ ! -f "$ARTIFACT" ]; then
   echo "WARNING: missing $ARTIFACT"
+  exit 2
 fi
 
 mvn gpg:sign-and-deploy-file \
