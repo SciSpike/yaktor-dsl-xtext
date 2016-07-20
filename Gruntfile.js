@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     grunt.log.error(err)
     throw err
   }
+  var skipYaktorBuild = grunt.option('skip-yaktor-build') // really only used for testing
   var dir = null
   var basePath = grunt.option('basePath') || './'
   var packageJson = grunt.file.readJSON('package.json')
@@ -159,7 +160,9 @@ module.exports = function (grunt) {
         command: './drop-snapshot.sh'
       },
       mvn: {
-        command: "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -Dyaktor.version='" + yaktorHome + "'"
+        command: skipYaktorBuild
+          ? 'echo "Skipping Yaktor build because --skip-yaktor-build="' + skipYaktorBuild + '"'
+          : "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -Dyaktor.version='" + yaktorHome + "'"
       },
       bumpMinor: {
         command: './bump.sh minor'

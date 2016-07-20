@@ -14,13 +14,16 @@ env:
     - # ^^ GPG_KEY_NAME
     - secure: "hPEzmqcWR9Kwo4WezLEA0wmIqR3YlkC7oEzGc9J85oCzkSIJaFwcyawGa7wo5LB55HFMmXHR2XsryEuOfAkUwbOWGLXiD0eGFobwKoBnXAStN0MiiEL0Wszsn7vqnjWeAi5897vMvGV4oUXBzmE5YtPxD/cgDoKNaq+lcDgKDnx2fGODbBgCUfymtb3iLCvT/H2mSg2uAQxP7DM+RFCN5zfz/251+fPsLegj+quIG0cr0gcr5VK01kWvqOgjb64cRObF9+SGYqG6ANqH+EvJHeqC7s7PRXZ56pR2/AKgaeGwkZAUdfhmhk7wUnLMxCcqT2US/K4/W24pyQNYuQaITUGatPyujBt36KXwSh+7FZG1uuePY3DE6+eLE0vmHtfluY5MaESuKTcwEppmAo+YiGxGzRW2b+hGM0IyYzhdjSLMuEEDLBEx4WlSjy34ynOXmQvl6iYa4txc/4nlo4NuaEr9vAnG6GarIOhF2CPCye7CF1lfjCVq5HhELljb19H8QsAVqX2dXH9NZe2XQsd4S9V+Oxs4Jzb300X7TXJL56Kj2TYWDB+ejesIorJGlqtGmXnaAz3ntNkddydaRyLoAF/CLYU24XEBgvf5cUiMExYjQpg/nWvHtgSeTEPVY6CKF1alrLJzHjiNL7mRp6VEJ91Ih8qRJ9oFsHfvp5CjZMs="
     - # ^^ GPG_PASSPHRASE
-before_install:
+install:
   - nvm 4.4
-install: mvn install -P release -DskipTests=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -B -V
-script: mvn test -P release -B
+  - mkdir -p ~/.yaktor
+  - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
+  - unzip ~/.yaktor/yaktor.zip -d ~/.yaktor
+script: mvn install -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0 -B -V
 cache:
   directories:
     - ~/.m2/repository
 after_success:
   - ./deploy/before-deploy.sh
-  - MAVEN_SETTINGS=deploy/maven-settings.xml DIR=./cli && ./cli/deploy
+  - echo "Call ./cli/deploy here"
+#  - MAVEN_SETTINGS=deploy/maven-settings.xml DIR=./cli && ./cli/deploy
