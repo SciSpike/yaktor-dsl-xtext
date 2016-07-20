@@ -1,22 +1,23 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
+set -e
 
 echo "Determining deployment coordinates:"
 
-DIR="${DIR:-.}"
-echo "DIR=$DIR"
+CLI_DIR="${CLI_DIR:-.}"
+echo "CLI_DIR=$CLI_DIR"
 MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
 echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
-TARGET=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
+TARGET=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs)
 echo "TARGET=$TARGET"
-VERSION=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.version | egrep -v '^\[.*' | xargs)
+VERSION=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.version | egrep -v '^\[.*' | xargs)
 echo "VERSION=$VERSION"
-ARTIFACT_ID=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
+ARTIFACT_ID=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.artifactId | egrep -v '^\[.*' | xargs)
 echo "ARTIFACT_ID=$ARTIFACT_ID"
-GROUP_ID=$(mvn -f "$DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
+GROUP_ID=$(mvn -f "$CLI_DIR" help:evaluate "--settings=$MAVEN_SETTINGS" -Dexpression=project.groupId | egrep -v '^\[.*' | xargs)
 echo "GROUP_ID=$GROUP_ID"
 REPOSITORY_ID=${REPOSITORY_ID:-ossrh}
 echo "REPOSITORY_ID=$REPOSITORY_ID"
-POM="${POM:-$DIR/pom.xml}"
+POM="${POM:-$CLI_DIR/pom.xml}"
 echo "POM=$POM"
 if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
   DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
@@ -26,7 +27,7 @@ else
   echo "Badly formatted version: $VERSION"
   exit 1
 fi
-REPOSITORY_URL=${REPOSITORY_URL:-DEFAULT_REPOSITORY_URL}
+REPOSITORY_URL=${REPOSITORY_URL:-$DEFAULT_REPOSITORY_URL}
 echo "REPOSITORY_URL=$REPOSITORY_URL"
 if [ -z "$ARTIFACT" ]; then
   ARTIFACT="$TARGET/yaktor-$ARTIFACT_ID-light.jar"
@@ -41,7 +42,7 @@ if [ -z "$SOURCES_ARTIFACT" ]; then
 fi
 echo "SOURCES_ARTIFACT=$SOURCES_ARTIFACT"
 if [ -z "$PASS" ]; then
-  PASS="$(mvn help:evaluate -f "$DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
+  PASS="$(mvn help:evaluate -f "$CLI_DIR" "--settings=$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)"
 fi
 echo "Coordinates done got gotten!"
 

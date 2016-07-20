@@ -1,9 +1,7 @@
-# http://www.debonair.io/post/maven-cd/
+# http://www.debonair.io/post/maven-cd/ was helpful
 sudo: required
-dist: trusty
-language: java
-jdk:
-  - oraclejdk7
+services:
+  - docker
 env:
   global:
     - secure: "YD1flPPSUO+2rLgdmN29Lu4YUY9cej0mJczt6DF7s88wxK1/j/OsDpsKRpoPOaHvSbQNiWuuSkSuVKj4yvyKoF+7GnDmy7xoapuwdCdfGGVFcHwzNEwYqZRAp74T+rRuYodp2/xriu92UgwIaKhZ7+nwabZ8OBo+wAtpVj9YniEQ987hjrKHHOCx2d1Mw1OR+JnyKFwiF+ugL9c7hGCXU+m1dytFBDDdroyRQ4LMqnBg1OZBm1AInEZ72diMEKV3jq3PYX8lnaFqRsc5reNFm47ri8+tiQob542g4Orn2ymEQr4zWOnu3aTealZ3NlWLT4WzAuSgrg952VyIadownV3wvwWyDQ8c/G7Ia9PxpBEqyJptxEIOINwVGzOGFVUP3u6PqVVmX+AP1LZqJ1TU5SpO5USUwTHV3vVCf/JUOg9AjpYRCnOoNYjU6BQUXveaActtgbnN67EJaNLqXSNNLeleDDePgnREilJox4deTgmlosPtsWaE33aQIfpF3IR7nnp/DMFV4TrMQqMg9AdLI5M6QJqq44IX5L9aH5gxkJ7YrslMgTQnVrjQ55DltwPyoFySvzUWxIE+/eyR091knf4HFCD2fmrDYc9pBJ+Xs8m3MFkJZ+/KI3Yn6rCS30XXfZaef5Vu47sRs2txB1T4ru+Bi6CRRXknx41jwCl+BXE="
@@ -19,24 +17,13 @@ branches:
   - master
   - /^v[0-9]+\.[0-9]+\.x$/
 install:
-  - nvm install 4.4
-  - nvm use 4.4
   - mkdir -p ~/.yaktor
   - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
   - unzip ~/.yaktor/yaktor.zip -d ~/.yaktor
-  - mkdir -p ~/.maven
-  - curl -L https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz > ~/.maven/maven.tgz
-  - tar xzf ~/.maven/maven.tgz -C ~/.maven
-  - sudo ln -sf $(which mvn) ~/.maven/apache-maven-3.2.5/bin/mvn
+  - docker build -t build:latest docker
+  - docker run -d --name bob -v $PWD:/build -v ~/.yaktor/yaktor-0.3.0:/yaktor -e MAVEN_OPTS="-Xms256m -XX:MaxPermSize=1024m -Xmx1024m" -e MAVEN_SETTINGS=deploy/maven-settings.xml -e CLI_DIR=./cli -e OSSRH_JIRA_USERNAME="$OSSRH_JIRA_USERNAME" -e OSSRH_JIRA_PASSWORD="$OSSRH_JIRA_PASSWORD" -e GPG_KEY_NAME="$GPG_KEY_NAME" -e GPG_PASSPHRASE="$GPG_PASSPHRASE" -e encrypted_ff7df2c82614_key="$encrypted_ff7df2c82614_key" -e encrypted_ff7df2c82614_iv="$encrypted_ff7df2c82614_iv" build:latest tail -f /dev/null
 script:
-  - export MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m'
-  - mvn install -B -V -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0
-cache:
-  directories:
-    - ~/.m2/repository
+  - docker exec -it bob mvn clean install -B -V -P release -Dyaktor.version=/yaktor
 after_success:
-  - ./deploy/before-deploy.sh
-  - echo "Call ./cli/deploy here"
-  - export MAVEN_SETTINGS=deploy/maven-settings.xml
-  - expoort DIR=./cli
-  - ./cli/deploy
+  - docker exec -it bob cli/travis-before-deploy.sh
+  - docker exec -it bob cli/deploy.sh

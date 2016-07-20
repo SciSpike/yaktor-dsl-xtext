@@ -16,3 +16,4 @@ site/
 *.iml
 npm-debug.log
 *.xml_gen
+*.asc
