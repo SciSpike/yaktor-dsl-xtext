@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.yaktor.domain.cs
 Bundle-Vendor: SciSpike LLC
-Bundle-Version: 0.12.0.qualifier
+Bundle-Version: 0.12.0
 Bundle-SymbolicName: io.yaktor.domain.cs; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;bundle-version="[2.7.0,2.9.0)",
