@@ -22,6 +22,7 @@ module.exports = function (grunt) {
     throw err
   }
   var skipYaktorBuild = grunt.option('skip-yaktor-build') // really only used for testing
+  var skipCi = grunt.option('no-skip-ci') ? '' : ' [ci skip]'
   var dir = null
   var basePath = grunt.option('basePath') || './'
   var packageJson = grunt.file.readJSON('package.json')
@@ -139,9 +140,9 @@ module.exports = function (grunt) {
       all: { options: { all: true } }
     },
     gitcommit: {
-      releaseMinor: { options: { message: 'Rev to ' + minorTag } },
-      releasePatch: { options: { message: 'Rev to ' + patchTag } },
-      vnext: { options: { message: 'v.next' } }
+      releaseMinor: { options: { message: 'Rev to ' + minorTag + skipCi } },
+      releasePatch: { options: { message: 'Rev to ' + patchTag + skipCi } },
+      vnext: { options: { message: 'v.next' + skipCi } }
     },
     shell: {
       confirmOnMasterBranch: {
