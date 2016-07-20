@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -e
 
 echo "Determining deployment coordinates:"
 
@@ -47,18 +47,17 @@ fi
 echo "Coordinates done got gotten!"
 
 if [ ! -f "$ARTIFACT" ]; then
-  echo "Building due to missing $ARTIFACT"
-  mvn clean install
+  echo "WARNING: missing $ARTIFACT"
 fi
 
 mvn gpg:sign-and-deploy-file \
   -P release \
-  "--settings=$MAVEN_SETTINGS" \
-  "-Durl=$REPOSITORY_URL" \
-  "-DrepositoryId=$REPOSITORY_ID" \
-  "-Dfile=$ARTIFACT" \
-  "-DpomFile=$POM" \
-  "-DgeneratePom=false" \
-  "-Djavadoc=$JAVADOC_ARTIFACT" \
-  "-Dsources=$SOURCES_ARTIFACT" \
-  "-Dgpg.passphrase=$PASS"
+  --settings="$MAVEN_SETTINGS" \
+  -Durl="$REPOSITORY_URL" \
+  -DrepositoryId=$REPOSITORY_ID \
+  -Dfile=$ARTIFACT \
+  -DpomFile="$POM" \
+  -DgeneratePom=false \
+  -Djavadoc="$JAVADOC_ARTIFACT" \
+  -Dsources="$SOURCES_ARTIFACT" \
+  -Dgpg.passphrase="$PASS"
