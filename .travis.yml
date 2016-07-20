@@ -3,7 +3,7 @@ sudo: required
 dist: trusty
 language: java
 jdk:
-  - openjdk7
+  - oraclejdk7
 env:
   global:
     - secure: "YD1flPPSUO+2rLgdmN29Lu4YUY9cej0mJczt6DF7s88wxK1/j/OsDpsKRpoPOaHvSbQNiWuuSkSuVKj4yvyKoF+7GnDmy7xoapuwdCdfGGVFcHwzNEwYqZRAp74T+rRuYodp2/xriu92UgwIaKhZ7+nwabZ8OBo+wAtpVj9YniEQ987hjrKHHOCx2d1Mw1OR+JnyKFwiF+ugL9c7hGCXU+m1dytFBDDdroyRQ4LMqnBg1OZBm1AInEZ72diMEKV3jq3PYX8lnaFqRsc5reNFm47ri8+tiQob542g4Orn2ymEQr4zWOnu3aTealZ3NlWLT4WzAuSgrg952VyIadownV3wvwWyDQ8c/G7Ia9PxpBEqyJptxEIOINwVGzOGFVUP3u6PqVVmX+AP1LZqJ1TU5SpO5USUwTHV3vVCf/JUOg9AjpYRCnOoNYjU6BQUXveaActtgbnN67EJaNLqXSNNLeleDDePgnREilJox4deTgmlosPtsWaE33aQIfpF3IR7nnp/DMFV4TrMQqMg9AdLI5M6QJqq44IX5L9aH5gxkJ7YrslMgTQnVrjQ55DltwPyoFySvzUWxIE+/eyR091knf4HFCD2fmrDYc9pBJ+Xs8m3MFkJZ+/KI3Yn6rCS30XXfZaef5Vu47sRs2txB1T4ru+Bi6CRRXknx41jwCl+BXE="
