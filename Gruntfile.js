@@ -161,7 +161,7 @@ module.exports = function (grunt) {
       },
       mvn: {
         command: skipYaktorBuild
-          ? 'echo "Skipping Yaktor build because --skip-yaktor-build="' + skipYaktorBuild + '"'
+          ? 'echo "Skipping Yaktor build because --skip-yaktor-build=' + skipYaktorBuild + '"'
           : "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -Dyaktor.version='" + yaktorHome + "'"
       },
       bumpMinor: {
