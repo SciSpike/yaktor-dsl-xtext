@@ -19,8 +19,11 @@ branches:
   - master
   - /^v[0-9]+\.[0-9]+\.x$/
 install:
-  - NODE_VERSION=4.4 ./ci/get-node.sh
-  - YAKTOR_VERSION=0.3.0 YAKTOR_DIR=~/.yaktor ./ci/get-yaktor-source.sh
+  - nvm install 4.4
+  - nvm use 4.4
+  - mkdir -p ~/.yaktor
+  - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
+  - unzip ~/.yaktor/yaktor.zip -d ~/.yaktor
 script:
   - mvn install -B -V -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0
 cache:
