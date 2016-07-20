@@ -23,6 +23,7 @@ install:
   - docker build -t build:latest docker
   - docker run -d --name bob -v $PWD:/build -v ~/.yaktor/yaktor-0.3.0:/yaktor -e MAVEN_OPTS="-Xms256m -XX:MaxPermSize=1024m -Xmx1024m" -e MAVEN_SETTINGS=deploy/maven-settings.xml -e CLI_DIR=./cli -e OSSRH_JIRA_USERNAME="$OSSRH_JIRA_USERNAME" -e OSSRH_JIRA_PASSWORD="$OSSRH_JIRA_PASSWORD" -e GPG_KEY_NAME="$GPG_KEY_NAME" -e GPG_PASSPHRASE="$GPG_PASSPHRASE" -e encrypted_ff7df2c82614_key="$encrypted_ff7df2c82614_key" -e encrypted_ff7df2c82614_iv="$encrypted_ff7df2c82614_iv" build:latest tail -f /dev/null
 script:
+  - docker exec -it bob npm install -g semver
   - docker exec -it bob mvn clean install -B -V -P release -Dyaktor.version=/yaktor
 after_success:
   - docker exec -it bob cli/travis-before-deploy.sh
