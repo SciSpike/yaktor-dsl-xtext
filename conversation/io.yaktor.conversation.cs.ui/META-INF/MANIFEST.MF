@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.yaktor.conversation.cs.ui
 Bundle-Vendor: SciSpike LLC
-Bundle-Version: 0.18.0.qualifier
+Bundle-Version: 0.18.0
 Bundle-SymbolicName: io.yaktor.conversation.cs.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: io.yaktor.conversation.cs;visibility:=reexport,
