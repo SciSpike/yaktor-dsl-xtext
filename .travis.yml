@@ -25,6 +25,7 @@ install:
   - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
   - unzip ~/.yaktor/yaktor.zip -d ~/.yaktor
 script:
+  - export MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m'
   - mvn install -B -V -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0
 cache:
   directories:

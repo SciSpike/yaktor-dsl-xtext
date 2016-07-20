@@ -140,8 +140,8 @@ module.exports = function (grunt) {
       all: { options: { all: true } }
     },
     gitcommit: {
-      releaseMinor: { options: { message: 'Rev to ' + minorTag + skipCi } },
-      releasePatch: { options: { message: 'Rev to ' + patchTag + skipCi } },
+      releaseMinor: { options: { message: 'Rev to ' + minorTag } },
+      releasePatch: { options: { message: 'Rev to ' + patchTag } },
       vnext: { options: { message: 'v.next' + skipCi } }
     },
     shell: {
