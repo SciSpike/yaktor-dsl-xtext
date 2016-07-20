@@ -27,13 +27,16 @@ install:
   - mkdir -p ~/.maven
   - curl -L https://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz > ~/.maven/maven.tgz
   - tar xzf ~/.maven/maven.tgz -C ~/.maven
+  - sudo ln -sf $(which mvn) ~/.maven/apache-maven-3.2.5/bin/mvn
 script:
   - export MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m'
-  - ~/.maven/apache-maven-3.2.5/bin/mvn install -B -V -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0
+  - mvn install -B -V -P release -Dyaktor.version=~/.yaktor/yaktor-0.3.0
 cache:
   directories:
     - ~/.m2/repository
 after_success:
   - ./deploy/before-deploy.sh
   - echo "Call ./cli/deploy here"
-#  - MAVEN_SETTINGS=deploy/maven-settings.xml DIR=./cli && ./cli/deploy
+  - export MAVEN_SETTINGS=deploy/maven-settings.xml
+  - expoort DIR=./cli
+  - ./cli/deploy
