@@ -46,8 +46,8 @@ module.exports = function (grunt) {
     'shell:confirmNoModifiedFiles',
     'gitfetch:tags',
     'gitpull:origin',
-    'shell:dropSnapshot',
     'bump:minor',
+    'shell:dropSnapshot',
     'shell:mvn',
     'gitadd:all',
     'gitcommit:releaseMinor',
@@ -77,7 +77,7 @@ module.exports = function (grunt) {
     'shell:dropSnapshot',
     'shell:mvn',
     'gitadd:all',
-    'gitcommit:releastPatch',
+    'gitcommit:releasePatch',
     'gittag:patch',
     'gittag:minor',
     'bump:prepatch',
@@ -97,9 +97,7 @@ module.exports = function (grunt) {
     bump: {
       options: {
         files: './package.json',
-        commit: true,
-        commitMessage: 'Rev to v%VERSION%',
-        commitFiles: [ '-a' ],
+        commit: false,
         push: false,
         pushTo: origin,
         prereleaseName: 'pre',
@@ -136,8 +134,8 @@ module.exports = function (grunt) {
       all: { options: { all: true } }
     },
     gitcommit: {
-      releaseMinor: { options: { message: 'Release ' + minorTag } },
-      releasePatch: { options: { message: 'Release ' + patchTag } },
+      releaseMinor: { options: { message: 'Rev to ' + minorTag } },
+      releasePatch: { options: { message: 'Rev to ' + patchTag } },
       vnext: { options: { message: 'v.next' } }
     },
     shell: {
