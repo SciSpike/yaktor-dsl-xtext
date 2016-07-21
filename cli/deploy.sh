@@ -7,6 +7,7 @@ VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -
 VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
 echo "VERSION=$VERSION"
 if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
+  SNAPSHOT=1
   DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/content/repositories/snapshots'
 elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   DEFAULT_REPOSITORY_URL='https://oss.sonatype.org/service/local/staging/deploy/maven2'
@@ -67,3 +68,9 @@ mvn gpg:sign-and-deploy-file \
   -Djavadoc="$JAVADOC_ARTIFACT" \
   -Dsources="$SOURCES_ARTIFACT" \
   -Dgpg.passphrase="$PASS"
+
+if [ -N "$SNAPSHOT" ]; then
+  exit 0
+fi
+
+# else staged; now close & release

@@ -129,7 +129,7 @@ module.exports = function (grunt) {
       all: { options: { all: true } }
     },
     gitcommit: {
-      releaseMinor: { options: { message: 'release ' + minorTag } },
+      releaseMinor: { options: { message: 'release ' + patchTag } },
       releasePatch: { options: { message: 'release ' + patchTag } },
       vnext: { options: { message: 'prepare for next dev iteration' } }
     },
