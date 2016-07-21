@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.yaktor.conversation.as
 Bundle-SymbolicName: io.yaktor.conversation.as;singleton:=true
-Bundle-Version: 0.29.0.qualifier
+Bundle-Version: 0.29.0
 Bundle-ClassPath: .
 Bundle-Vendor: SciSpike LLC
 Bundle-Localization: plugin
