@@ -143,7 +143,7 @@ module.exports = function (grunt) {
     gitcommit: {
       releaseMinor: { options: { message: 'release ' + minorTag } },
       releasePatch: { options: { message: 'release ' + patchTag } },
-      vnext: { options: { message: 'prepare for next dev iteration' + skipCi } }
+      vnext: { options: { message: 'prepare for next dev iteration' } }
     },
     shell: {
       confirmOnMasterBranch: {
