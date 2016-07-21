@@ -1,7 +1,18 @@
-FROM maven:3.2-jdk-7
+FROM anapsix/alpine-java:jdk7
 
-RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
-RUN apt-get install -y nodejs
+RUN wget -q -O - http://archive.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz | tar -xz
+ENV PATH=/apache-maven-3.2.5/bin:$PATH
+
+RUN apk --update add --no-cache \
+    bash \
+    g++ \
+    git \
+    make \
+    nodejs-lts \
+    python \
+    sudo \
+    gnupg \
+    openssl
 
 VOLUME /yaktor
 VOLUME /build
