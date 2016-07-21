@@ -6,9 +6,6 @@ module.exports = function (grunt) {
     scope: 'devDependencies'
   })
 
-  var semver = require('semver')
-  var exec = require('child_process').exec
-  var async = require('async')
   var yaktorHome = grunt.option('yaktor-home')
   if (yaktorHome === true) yaktorHome = null
   if (!yaktorHome) {
@@ -21,8 +18,7 @@ module.exports = function (grunt) {
     grunt.log.error(err)
     throw err
   }
-  var skipYaktorBuild = grunt.option('skip-yaktor-build') // really only used for testing
-  var skipCi = grunt.option('no-skip-ci') ? '' : ' [ci skip]'
+  var skipBuild = grunt.option('skip-build') // helpful when testing the release process
   var dir = null
   var basePath = grunt.option('basePath') || './'
   var packageJson = grunt.file.readJSON('package.json')
@@ -48,16 +44,13 @@ module.exports = function (grunt) {
     'shell:confirmNoModifiedFiles',
     'gitfetch:tags',
     'gitpull:origin',
-    'gitcheckout:maintenance',
     'bump:minor',
     'shell:dropSnapshot',
     'shell:mvn',
     'gitadd:all',
     'gitcommit:releaseMinor',
     'gittag:patch',
-    'gittag:minor',
-    'gittag:latest',
-    'gitpush:maintenance',
+    'gitcheckout:maintenance',
     'bump:prepatch',
     'shell:bumpPatch',
     'gitadd:all',
@@ -69,9 +62,7 @@ module.exports = function (grunt) {
     'gitadd:all',
     'gitcommit:vnext',
     'gitpush:master',
-    'gitpush:patchTag',
-    'gitpush:minorTag',
-    'gitpush:latestTag'
+    'gitpush:patchTag'
   ]
 
   var releasePatch = [
@@ -86,15 +77,12 @@ module.exports = function (grunt) {
     'gitadd:all',
     'gitcommit:releasePatch',
     'gittag:patch',
-    'gittag:minor',
     'bump:prepatch',
     'shell:bumpPatch',
     'gitadd:all',
     'gitcommit:vnext',
     'gitpush:maintenance',
-    'gitpush:patchTag',
-    'gitpush:minorTag',
-    'advanceLatestTagIfNecessary' // creates & pushes latestTag only if necessary
+    'gitpush:patchTag'
   ]
 
   var config = {
@@ -162,8 +150,8 @@ module.exports = function (grunt) {
         command: './drop-snapshot.sh'
       },
       mvn: {
-        command: skipYaktorBuild
-          ? 'echo "Skipping Yaktor build because --skip-yaktor-build=' + skipYaktorBuild + '"'
+        command: skipBuild
+          ? 'echo "Skipping Yaktor build because --skip-build=' + skipBuild + '"'
           : "MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -Dyaktor.version='" + yaktorHome + "'"
       },
       bumpMinor: {
@@ -179,82 +167,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('release-patch', 'Creates patch-level tag & advances minor tag, and, optionally, the latest tag', releasePatch)
   grunt.registerTask('release-minor', 'Creates maintenance branch, patch- & minor-level tags, and advances latest tag', releaseMinor)
-  grunt.registerTask('advanceLatestTagIfNecessary', 'Advances tag "latest" if necessary', function () {
-    var done = this.async()
-    var scrubTags = function (versionsString) {
-      if (!('' + versionsString).trim()) return []
-      return versionsString
-        .replace(new RegExp('\\s*' + latestTag), ' ') // remove latestTag
-        .replace(/\s+/g, ' ') // normalize whitespace
-        .trim()
-        .split(' ')
-        .reduce(function (filteredDistincts, v) { // only keep non-prerelease valid semver versions (of the form a.b.c)
-          if (semver.valid(v)) {
-            v = semver.clean(v).replace(/\-.*$/, '')
-            if (filteredDistincts.indexOf(v) === -1) filteredDistincts.push(v)
-          }
-          return filteredDistincts
-        }, [])
-    }
-    var cmd
-    async.waterfall([ function (next) {
-      cmd = 'git rev-list -n 1 ' + latestTag // returns commit that latestTag points to
-      grunt.log.writeln('finding commit that latest tag "' + latestTag + '" points to with:')
-      grunt.log.writeln(cmd)
-      exec(cmd, function (err, stdout) {
-        stdout = '' + stdout.trim()
-        if (err && parseInt(err.code, 10) === 128) {
-          grunt.log.writeln('no latest tag "' + latestTag + '" found')
-          err = 'create'
-        } else {
-          grunt.log.writeln('latest tag "' + latestTag + '" points to commit ' + stdout)
-        }
-        return next(err, stdout)
-      })
-    }, function (stdout, next) {
-      stdout = '' + stdout.trim()
-      cmd = 'git tag --points-at ' + stdout // returns all tags that point to commit
-      grunt.log.writeln('finding all tags that point to commit ' + stdout + ' with:')
-      grunt.log.writeln(cmd)
-      exec(cmd, next)
-    }, function (stdout, stderr, next) {
-      grunt.log.writeln('all tags that point to latest tag "' + latestTag + '":')
-      grunt.log.writeln(stdout.replace(/\s+/g, ' ').trim())
-      var mostRecentTagAtLatest = scrubTags(stdout).sort(semver.rcompare)[ 0 ] // get the latest version
-      if (mostRecentTagAtLatest) {
-        next(null, mostRecentTagAtLatest)
-      } else {
-        grunt.log.writeln('WARN: erroneous latest tag "' + latestTag + '": no other tags found at its commit')
-        return next('skip')
-      }
-    }, function (mostRecentTagAtLatest, next) {
-      var create = false
-      if (semver.gt(patchTag, mostRecentTagAtLatest)) {
-        create = true
-        grunt.log.writeln('new release ' + patchTag + ' is NEWER than latest release ' + mostRecentTagAtLatest)
-      } else {
-        grunt.log.writeln('new release ' + patchTag + ' is OLDER than latest release ' + mostRecentTagAtLatest)
-      }
-      next(null, create)
-    } ], function (err, create) {
-      if (err && !(create = (err === 'create'))) {
-        if (err === 'skip') {
-          grunt.log.error('NOT advancing erroneous latest tag "' + latestTag + '"')
-          return done()
-        }
-        grunt.log.error(err)
-        return done(false)
-      }
-      if (create) {
-        // create latestTag to point at same commit as patchTag
-        grunt.log.writeln('advancing latest tag "' + latestTag + '" to same commit as ' + patchTag)
-        grunt.task.run([ 'gittag:latest', 'gitpush:latestTag' ])
-      } else {
-        grunt.log.writeln('NOT advancing latest tag "' + latestTag + '"')
-      }
-      done()
-    })
-  })
 
   for (var s in config.shell) {
     if (config.shell[ s ].usage) {
