@@ -69,7 +69,7 @@ mvn gpg:sign-and-deploy-file \
   -Dsources="$SOURCES_ARTIFACT" \
   -Dgpg.passphrase="$PASS"
 
-if [ -N "$SNAPSHOT" ]; then
+if [ -n "$SNAPSHOT" ]; then
   exit 0
 fi
 
