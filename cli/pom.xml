@@ -11,49 +11,6 @@
 	<description>A command-line code generator that reads Yaktor's DSLs and produces Node.js Yaktor applications.</description>
 	<groupId>io.yaktor</groupId>
 	<artifactId>xtext-dsl-cli</artifactId>
-
-	<!--
-	<profiles>
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-								<phase>verify</phase>
-								<configuration>
-									<skip>true</skip>
-								</configuration>
-							</execution>
-							<execution>
-								<id>deploy-cli-manually</id>
-								<goals>
-									<goal>sign-and-deploy-file</goal>
-								</goals>
-								<phase>deploy</phase>
-								<configuration>
-									<repositoryId>${deployment.repo.id}</repositoryId>
-									<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-									<repositoryId>${deployment.repo.id}</repositoryId>
-									<file>${project.build.directory}/yaktor-xtext-dsl-cli-light.jar</file>
-									<javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
-									<sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
-									<generatePom>false</generatePom>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
--->
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
