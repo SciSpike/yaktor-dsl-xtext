@@ -57,6 +57,7 @@ module.exports = function (grunt) {
     'gittag:patch',
     'gittag:minor',
     'gittag:latest',
+    'gitpush:maintenance',
     'bump:prepatch',
     'shell:bumpPatch',
     'gitadd:all',
