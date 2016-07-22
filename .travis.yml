@@ -17,8 +17,6 @@ branches:
     - master
     - /^v[0-9]+\.[0-9]+\.x$/
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-before_install:
-  - env
 install:
   - mkdir -p ~/.yaktor
   - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
