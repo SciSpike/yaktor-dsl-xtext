@@ -92,7 +92,7 @@ fi
 # now close & release
 COORDS="-DserverId=$REPOSITORY_ID -DnexusUrl=$REPOSITORY_URL"
 STAGINGS=$(mvn nexus-staging:rc-list --settings="$MAVEN_SETTINGS" $COORDS | egrep '^\[INFO\]\s{1,}ioyaktor\-[0-9]{4,}\s{1,}OPEN.*$' | awk '{print $2}' | sort -r -b)
-STAGING=$(cat "$STAGINGS" | head -n 1)
+STAGING=$(echo "$STAGINGS" | head -n 1)
 if [ -z "$STAGING" ]; then
   echo "ERROR: No staging repositories found!" >&2
   exit 5
