@@ -94,7 +94,7 @@ elif [ $(echo -n "$OPEN_STAGINGS" | wc -l) -gt 1 ]; then
   echo "ERROR: multiple staging repositories found:\n$OPEN_STAGINGS" >&2
   exit 6
 fi
-$COORDS="$COORDS -DstagingRepositoryId=$STAGING"
+COORDS="$COORDS -DstagingRepositoryId=$STAGING"
 set -x
 mvn nexus-staging:rc-close $COORDS
 mvn nexus-staging:rc-release $COORDS
