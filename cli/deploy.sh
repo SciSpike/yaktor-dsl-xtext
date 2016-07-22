@@ -96,7 +96,7 @@ STAGING=$(cat "$STAGINGS" | head -n 1)
 if [ -z "$STAGING" ]; then
   echo "ERROR: No staging repositories found!" >&2
   exit 5
-elif [ $(cat "$STAGINGS" | wc -l) -gt 1 ]; then
+elif [ $(echo "$STAGINGS" | wc -l) -gt 1 ]; then
   echo "WARNING: multiple staging repositories found; only using the latest: $STAGING" >&2
 fi
 mvn nexus-staging:rc-close --settings="$MAVEN_SETTINGS" $COORDS \
