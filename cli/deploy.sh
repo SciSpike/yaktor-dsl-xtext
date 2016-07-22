@@ -99,4 +99,4 @@ set -x
 mvn nexus-staging:rc-close $COORDS
 mvn nexus-staging:rc-release $COORDS
 set +x
-echo "released ok; see http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.yaktor%22%20AND%20a%3A%22xtext-dsl-cli%22%20AND%20v%3A%22$VERSION%22"
+echo "sync requested at $(date); when complete, see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
