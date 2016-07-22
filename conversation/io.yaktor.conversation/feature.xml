@@ -2,7 +2,7 @@
 <feature
       id="io.yaktor.conversation"
       label="conversation"
-      version="0.36.0"
+      version="0.37.0.qualifier"
       provider-name="Yaktor">
 
    <description url="http://yaktor.io">
@@ -21,21 +21,21 @@
          id="io.yaktor.conversation.as"
          download-size="0"
          install-size="0"
-         version="0.36.0"
+         version="0.37.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.conversation.cs"
          download-size="0"
          install-size="0"
-         version="0.36.0"
+         version="0.37.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.conversation.cs.ui"
          download-size="0"
          install-size="0"
-         version="0.36.0"
+         version="0.37.0.qualifier"
          unpack="false"/>
 
 </feature>
