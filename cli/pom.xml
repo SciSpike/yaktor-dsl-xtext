@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.yaktor</groupId>
 		<artifactId>dsl-xtext-parent</artifactId>
-		<version>0.34.0</version>
+		<version>0.35.0-SNAPSHOT</version>
 	</parent>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A command-line code generator that reads Yaktor's DSLs and produces Node.js Yaktor applications.</description>
