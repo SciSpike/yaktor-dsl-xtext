@@ -81,10 +81,12 @@ if [ "$RELEASE_TAG_COMMIT" != "$HEAD_COMMIT" ]; then
   exit 3
 fi
 # now close & release
-COORDS="--settings=\"$MAVEN_SETTINGS\" -DserverId=$REPOSITORY_ID -DnexusUrl=$REPOSITORY_URL"
+COORDS="--settings=$MAVEN_SETTINGS -DserverId=$REPOSITORY_ID -DnexusUrl=$REPOSITORY_URL"
 STAGING_REPO_BASENAME=$(echo -n $GROUP_ID | sed -E 's/\.//g')
+set -x
 OPEN_STAGINGS=$(mvn nexus-staging:rc-list $COORDS | egrep "^\\[INFO\\]\\s{1,}$STAGING_REPO_BASENAME\\-[0-9]{4,}\\s{1,}OPEN.*$" | awk '{print $2}' | sort -r -b)
 STAGING=$(echo -n "$OPEN_STAGINGS" | head -n 1)
+set +x
 if [ -z "$STAGING" ]; then
   echo "ERROR: no staging repositories found" >&2
   exit 5
