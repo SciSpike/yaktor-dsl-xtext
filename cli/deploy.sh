@@ -78,7 +78,7 @@ fi
 # if release tag commit is not HEAD commit, bork
 RELEASE_TAG_COMMIT=$(git show-ref -s --tags v$VERSION)
 HEAD_COMMIT=$(git rev-parse HEAD)
-if [ "$RELEASE_TAG_COMMIT" != "HEAD_COMMIT" ]; then
+if [ "$RELEASE_TAG_COMMIT" != "$HEAD_COMMIT" ]; then
   echo "ERROR: release tag v$VERSION commit $RELEASE_TAG_COMMIT != head commit $HEAD_COMMIT; skipping staging" >&2
   exit 3
 fi
