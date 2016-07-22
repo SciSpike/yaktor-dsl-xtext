@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/io.yaktor.domain.cs.sdk_0.38.0.jar" id="io.yaktor.domain.cs.sdk" version="0.38.0">
-      <category name="domain_0.38.0"/>
+   <feature url="features/io.yaktor.domain.cs.sdk_0.38.1.qualifier.jar" id="io.yaktor.domain.cs.sdk" version="0.38.1.qualifier">
+      <category name="domain_0.38.1"/>
    </feature>
-   <feature url="features/io.yaktor.conversation.cs.sdk_0.38.0.jar" id="io.yaktor.conversation.cs.sdk" version="0.38.0">
-      <category name="conversation_0.38.0"/>
+   <feature url="features/io.yaktor.conversation.cs.sdk_0.38.1.qualifier.jar" id="io.yaktor.conversation.cs.sdk" version="0.38.1.qualifier">
+      <category name="conversation_0.38.1"/>
    </feature>
-   <category-def name="domain_0.38.0" label="domain_0.38.0"/>
-   <category-def name="conversation_0.38.0" label="conversation_0.38.0"/>
+   <category-def name="domain_0.38.1" label="domain_0.38.1"/>
+   <category-def name="conversation_0.38.1" label="conversation_0.38.1"/>
 </site>
