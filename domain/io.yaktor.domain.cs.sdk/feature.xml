@@ -2,27 +2,27 @@
 <feature
       id="io.yaktor.domain.cs.sdk"
       label="Domain SDK Feature "
-      version="0.38.0.qualifier">
+      version="0.38.0">
 
    <plugin
          id="io.yaktor.domain.cs"
          download-size="0"
          install-size="0"
-         version="0.38.0.qualifier"
+         version="0.38.0"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.domain.cs.ui"
          download-size="0"
          install-size="0"
-         version="0.38.0.qualifier"
+         version="0.38.0"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.domain.as"
          download-size="0"
          install-size="0"
-         version="0.38.0.qualifier"
+         version="0.38.0"
          unpack="false"/>
 
 </feature>
