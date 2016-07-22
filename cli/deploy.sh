@@ -46,17 +46,14 @@ if [ -z "$SOURCES_ARTIFACT" ]; then
   SOURCES_ARTIFACT="$TARGET/$ARTIFACT_ID-$VERSION-sources.jar"
 fi
 echo "SOURCES_ARTIFACT=$SOURCES_ARTIFACT"
-if [ -z "$PASS" ]; then
-  PASS="$(mvn help:evaluate -f "$CLI_DIR" --settings="$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)" # get "downloading" messages out of the way
-  PASS="$(mvn help:evaluate -f "$CLI_DIR" --settings="$MAVEN_SETTINGS" -Dexpression=gpg.passphrase | egrep -v '^\[.*' | xargs)" # now egrep will work
-fi
 echo "Coordinates done got gotten!"
 
 if [ ! -f "$ARTIFACT" ]; then
-  echo "WARNING: missing $ARTIFACT"
+  echo "ERROR: missing $ARTIFACT"
   exit 2
 fi
 
+set -x
 mvn gpg:sign-and-deploy-file \
   -P release \
   --settings="$MAVEN_SETTINGS" \
@@ -66,11 +63,12 @@ mvn gpg:sign-and-deploy-file \
   -DpomFile="$POM" \
   -DgeneratePom=false \
   -Djavadoc="$JAVADOC_ARTIFACT" \
-  -Dsources="$SOURCES_ARTIFACT" \
-  -Dgpg.passphrase="$PASS"
+  -Dsources="$SOURCES_ARTIFACT"
+set +x
 
 # if this is a SNAPSHOT build, then we're done
 if [ -n "$SNAPSHOT" ]; then
+  echo "INFO: exiting successfully; build is a SNAPSHOT: $VERSION"
   exit 0
 fi
 # else this is a release & is now staged
@@ -79,27 +77,24 @@ fi
 RELEASE_TAG_COMMIT=$(git show-ref -s --tags v$VERSION)
 HEAD_COMMIT=$(git rev-parse HEAD)
 if [ "$RELEASE_TAG_COMMIT" != "$HEAD_COMMIT" ]; then
-  echo "ERROR: release tag v$VERSION commit $RELEASE_TAG_COMMIT != head commit $HEAD_COMMIT; skipping staging" >&2
+  echo "ERROR: release tag v$VERSION commit $RELEASE_TAG_COMMIT != head commit $HEAD_COMMIT" >&2
   exit 3
 fi
-# if we're not on a maintenance branch, bork
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "$CURRENT_BRANCH" =~ ^v[0-9]+\.[0-9]+\.x$ ]]; then
-  echo "ERROR: current branch $CURRENT_BRANCH is not a maintenance branch; skiping staging" >&2
-  exit 4
-fi
-
 # now close & release
-COORDS="-DserverId=$REPOSITORY_ID -DnexusUrl=$REPOSITORY_URL"
-STAGINGS=$(mvn nexus-staging:rc-list --settings="$MAVEN_SETTINGS" $COORDS | egrep '^\[INFO\]\s{1,}ioyaktor\-[0-9]{4,}\s{1,}OPEN.*$' | awk '{print $2}' | sort -r -b)
-STAGING=$(echo "$STAGINGS" | head -n 1)
+COORDS="--settings=\"$MAVEN_SETTINGS\" -DserverId=$REPOSITORY_ID -DnexusUrl=$REPOSITORY_URL"
+STAGING_REPO_BASENAME=$(echo -n $GROUP_ID | sed -E 's/\.//g')
+OPEN_STAGINGS=$(mvn nexus-staging:rc-list $COORDS | egrep "^\\[INFO\\]\\s{1,}$STAGING_REPO_BASENAME\\-[0-9]{4,}\\s{1,}OPEN.*$" | awk '{print $2}' | sort -r -b)
+STAGING=$(echo -n "$OPEN_STAGINGS" | head -n 1)
 if [ -z "$STAGING" ]; then
-  echo "ERROR: No staging repositories found!" >&2
+  echo "ERROR: no staging repositories found" >&2
   exit 5
-elif [ $(echo "$STAGINGS" | wc -l) -gt 1 ]; then
-  echo "WARNING: multiple staging repositories found; only using the latest: $STAGING" >&2
+elif [ $(echo -n "$OPEN_STAGINGS" | wc -l) -gt 1 ]; then
+  echo "ERROR: multiple staging repositories found:\n$OPEN_STAGINGS" >&2
+  exit 6
 fi
-mvn nexus-staging:rc-close --settings="$MAVEN_SETTINGS" $COORDS \
-  -DstagingRepositoryId=$STAGING \
-  -DautoReleaseAfterClose=true \
-  -DautoDropAfterRelease=true
+$COORDS="$COORDS -DstagingRepositoryId=$STAGING"
+set -x
+mvn nexus-staging:rc-close $COORDS
+mvn nexus-staging:rc-release $COORDS
+set +x
+echo "released ok; see http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.yaktor%22%20AND%20a%3A%22xtext-dsl-cli%22%20AND%20v%3A%22$VERSION%22"
