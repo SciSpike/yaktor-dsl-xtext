@@ -17,11 +17,11 @@ Try this:
 
 npm run mvn
 
-To upload:
+To Release a New Version to the Eclipse Update Site:
 ---------
 To upload a new version (ie 1.0.0).
 
-### ATTENTION
+>> ATTENTION
 requires [aws cli](http://docs.aws.amazon.com/cli/latest/userguide/installing.html#install-bundle-other-os) 
 
 ```
