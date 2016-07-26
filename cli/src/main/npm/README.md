@@ -1,37 +1,46 @@
 # yaktor-lang
-
-Generate Node.js code from Domain & Conversation DSLs.  
+Generate Node.js code from Yaktor Domain & Conversation DSL files.
 
 ## Description
+`yaktor-lang` generates the default Node.js implementation for a [Yaktor](http://yaktor.io) project based on your Yaktor Conversation Language (`*.cl`) and Domain Model (`*.dm`) files.
+The generated code can easily be extended and enhanced *without losing your changes*. Additionally, you can maintain documentation which adds tremendous value to your project.
 
-Generate default implementation for a [Yaktor](https://github.com/Scispike/yaktor) project based on the `cl` and `dm` syntax.
-The generated code can easily be extended and enhanced. As well you can maintain documentation which add value to the generated code. 
+> NOTE: this npm module requires `java` >= 1.7.0 (JRE, not the JDK).
 
+Because this npm module is a thin wrapper around a Java command line executable jar built by [yaktor-dsl-xtext](https://github.com/SciSpike/yaktor-dsl-xtext), this npm module requires that `java` version `1.7.0` or later be on the machine's `PATH` where this module is run.
 
+> NOTE: if you're using Yaktor's Docker image, you will have no need for Java on your own machine.
 
 ## Usage
-
-It is a thin wrapper around the Java command line runnable jar built by [yaktor-dsl-xtext](https://github.com/SciSpike/yaktor-dsl-xtext), so this module requires that `java` version `1.7.0` or later be on the machine's path whereon this module is run.
-
 ```bash
-yaktor-lang files ... 
+yaktor-lang files ...
 ```
-Where files are `cl` and/or `dm` syntax files.
+where `files` is a whitespace-delimited list of Yaktor Conversation Language (`*.cl`) and Domain Model (`*.dm`) files.
 
-Run the above command from the root of your Yaktor project.  A common form of the command is to use `find`:
+> NOTE: Run the above command from the root of your Yaktor project.
 
+A common invocation is
 ```bash
 find . -name '*.dm' -o -name '*.cl'| xargs yaktor-lang
 ```
 
-## For Yaktor developers
+## For Yaktor Developers
+The following is information for those working on Yaktor itself (or the curious).
 
-The following is information for those working on Yaktor itself.
+### Version Correspondence
+We use [semver](http://semver.org/).
 
-### Version correspondence
-[Semver](http://semver.org/) is used, and prerelease versions are signifed by a `-pre.YYYYmmddHHMMSS` suffix (using UTC). However, in the Maven world of [yaktor-dsl-xtext](https://github.com/SciSpike/yaktor-dsl-xtext),
-prereleases are signifed by a `-SNAPSHOT` suffix.  So, for example, version `1.0.0-pre.20160725231748` of this module will contain Maven artifact `io.yaktor:yaktor-xtext-dsl-cli:1.0.0-SNAPSHOT` that was staged to Sonatype's Maven snapshot repository at `2016-07-25T23:17:48Z`, but is included here simply as `xtext-dsl-cli-1.0.0-SNAPSHOT.jar`.  All prerelease iteration numbers will map to `-SNAPSHOT` at a given UTC staging second.
+For generally available (GA) releases, the version correspondence between this npm module and the Maven artifact version is one-to-one.
 
-For non-prerelease versions, the version correspondence is one-to-one:  `yaktor-lang@1.0.0` will contain Maven artifact `io.yaktor:xtext-dsl-cli:1.0.0` (`xtext-dsl-cli-1.0.0.jar`), `yaktor-lang@1.0.1` will contain `xtext-dsl-cli-1.0.1.jar`, and so on.
+For example, `yaktor-lang@1.0.0` will contain Maven artifact `io.yaktor:xtext-dsl-cli:1.0.0` (`xtext-dsl-cli-1.0.0.jar`), `yaktor-lang@1.0.1` will contain `xtext-dsl-cli-1.0.1.jar`, and so on.
+If you ever need to, you can find the executable jar in [Maven Central](http://repo1.maven.org/maven2/io/yaktor/xtext-dsl-cli/), but, remember, it's included in the root of this npm module itself.
 
-Essentially, the versions of this module and Maven artifact `io.yaktor:yaktor-dsl-text-cli` are linked; a change in one will force a change in the other.
+Prerelease versions of this npm module are signifed by a `-pre.YYYYmmddHHMMSS` version suffix. However, in the Maven world of [yaktor-dsl-xtext](https://github.com/SciSpike/yaktor-dsl-xtext),
+prereleases are signifed by a `-SNAPSHOT` suffix.
+The actual Maven executable jar file corresponding to a given prerelease can be found at the [Maven Snapshot Repository](https://oss.sonatype.org/content/repositories/snapshots/io/yaktor/xtext-dsl-cli/).
+
+For example, prerelease version `1.0.0-pre.20160725231748` of this npm module would contain Maven artifact `io.yaktor:yaktor-xtext-dsl-cli:1.0.0-SNAPSHOT` that was staged to Sonatype's Maven snapshot repository at `2016-07-25T23:17:48Z`, but is included in the npm module simply as `xtext-dsl-cli-1.0.0-SNAPSHOT.jar`.  All prerelease iteration numbers will map to `-SNAPSHOT` at a given staging second in UTC.
+
+In order to find the jar in Maven, you'd need to browse to https://oss.sonatype.org/content/repositories/snapshots/io/yaktor/xtext-dsl-cli/1.0.0-SNAPSHOT, then look for a jar whose name is of the form
+`xtext-dsl-cli-1.0.0-YYYYmmdd.HHMMSS-n.jar`, where the timestamp is *close to* `20160725.231748`, but may not be *exactly* the same
+due to delays incurred when promoting the jar from Maven's staging area to production.
