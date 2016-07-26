@@ -1,0 +1,14 @@
+{
+  "name": "yaktor-lang",
+  "version": "${project.version}",
+  "license": "Apache-2.0",
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SciSpike/yaktor-dsl-xtext.git"
+  },
+  "bin": {
+    "yaktor-lang": "./generate.js"
+  }
+}

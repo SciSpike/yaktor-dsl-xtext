@@ -99,4 +99,17 @@ set -x
 mvn nexus-staging:rc-close $COORDS
 mvn nexus-staging:rc-release $COORDS
 set +x
-echo "sync requested at $(date); when complete, see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
+INSTANT=$(date --utc +%Y%m%d%H%M%S)
+echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
+
+# npm auth
+echo "$NPM_AUTH_TOKEN" > ~/.npmrc
+chmod go-rwx ~/.npmrc
+NPM_VERSION="$VERSION"
+if [[ "$NPM_VERSION" =~ /\-SNAPSHOT$/ ]]; then # translate -SNAPSHOT to -pre.YYYYmmddHHMMSS
+  SUFFIX="-pre.$INSTANT"
+  NPM_VERSION=$(echo -n "$NPM_VERSION" | sed -E "s,\\-SNAPSHOT$,$SUFFIX,g")
+  find "$TARGET/npm" -name package.json | xargs sed -i.SNAPSHOT -E "s,\\-SNAPSHOT,$SUFFIX,g"
+  rm -f "$TARGET/npm/package.json.SNAPSHOT"
+fi
+npm publish "$TARGET/npm" --tag "$NPM_VERSION"
