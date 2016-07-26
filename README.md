@@ -21,7 +21,7 @@ To Release a New Version to the Eclipse Update Site:
 ---------
 To upload a new version (ie 1.0.0).
 
->> ATTENTION
+> ATTENTION
 requires [aws cli](http://docs.aws.amazon.com/cli/latest/userguide/installing.html#install-bundle-other-os) 
 
 ```
@@ -30,7 +30,7 @@ composite/site.js --sites 0.2.0,1.0.0 # include all sites you wish to make avail
 composite/upload.sh
 ```
 
-Make sure that you have credendial in `~/.aws/credentials` like:
+Make sure that you have credentials in `~/.aws/credentials` like:
 
 ```
 [scispike]
