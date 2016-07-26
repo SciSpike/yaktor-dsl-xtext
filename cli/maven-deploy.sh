@@ -69,8 +69,12 @@ set +x
 # if this is a SNAPSHOT build, then we're done
 if [ -n "$SNAPSHOT" ]; then
   echo "INFO: Maven build successful; build is a SNAPSHOT: $VERSION"
-  export INSTANT=$(date --utc +%Y%m%d%H%M%S)
-  $(dirname $0)/npm-publish.sh
+  if [ -n "$NPM_PUBLISH_SNAPSHOT" ]; then
+    export INSTANT=$(date --utc +%Y%m%d%H%M%S)
+    $(dirname $0)/npm-publish.sh
+  else
+    echo "Not performing npm publish because envvar NPM_PUBLISH_SNAPSHOT is empty"
+  fi
   exit 0
 fi
 # else this is a release & is now staged
@@ -103,5 +107,4 @@ mvn nexus-staging:rc-release $COORDS
 set +x
 export INSTANT=$(date --utc +%Y%m%d%H%M%S)
 echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
-
 $(dirname $0)/npm-publish.sh
