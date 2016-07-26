@@ -104,6 +104,7 @@ echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven
 
 # npm auth
 echo "$NPM_AUTH_TOKEN" > ~/.npmrc
+set -x
 chmod go-rwx ~/.npmrc
 NPM_VERSION="$VERSION"
 if [[ "$NPM_VERSION" =~ /\-SNAPSHOT$/ ]]; then # translate -SNAPSHOT to -pre.YYYYmmddHHMMSS
