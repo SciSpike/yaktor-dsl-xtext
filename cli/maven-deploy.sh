@@ -4,7 +4,7 @@ set -e
 echo "Determining deployment coordinates:"
 
 VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # get "downloading" messages out of the way
-VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
+export VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
 echo "VERSION=$VERSION"
 if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
   SNAPSHOT=1
@@ -21,7 +21,7 @@ CLI_DIR="${CLI_DIR:-.}"
 echo "CLI_DIR=$CLI_DIR"
 MAVEN_SETTINGS="${MAVEN_SETTINGS:-$HOME/.m2/settings.xml}"
 echo "MAVEN_SETTINGS=$MAVEN_SETTINGS"
-TARGET="$CLI_DIR/target"
+export TARGET="$CLI_DIR/target"
 #TARGET=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.build.directory | egrep -v '^\[.*' | xargs) # overkill
 echo "TARGET=$TARGET"
 ARTIFACT_ID=xtext-dsl-cli
@@ -68,7 +68,9 @@ set +x
 
 # if this is a SNAPSHOT build, then we're done
 if [ -n "$SNAPSHOT" ]; then
-  echo "INFO: exiting successfully; build is a SNAPSHOT: $VERSION"
+  echo "INFO: Maven build successful; build is a SNAPSHOT: $VERSION"
+  export INSTANT=$(date --utc +%Y%m%d%H%M%S)
+  $(dirname $0)/npm-publish.sh
   exit 0
 fi
 # else this is a release & is now staged
@@ -99,18 +101,7 @@ set -x
 mvn nexus-staging:rc-close $COORDS
 mvn nexus-staging:rc-release $COORDS
 set +x
-INSTANT=$(date --utc +%Y%m%d%H%M%S)
+export INSTANT=$(date --utc +%Y%m%d%H%M%S)
 echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
 
-# npm auth
-echo "$NPM_AUTH_TOKEN" > ~/.npmrc
-set -x
-chmod go-rwx ~/.npmrc
-NPM_VERSION="$VERSION"
-if [[ "$NPM_VERSION" =~ /\-SNAPSHOT$/ ]]; then # translate -SNAPSHOT to -pre.YYYYmmddHHMMSS
-  SUFFIX="-pre.$INSTANT"
-  NPM_VERSION=$(echo -n "$NPM_VERSION" | sed -E "s,\\-SNAPSHOT$,$SUFFIX,g")
-  find "$TARGET/npm" -name package.json | xargs sed -i.SNAPSHOT -E "s,\\-SNAPSHOT,$SUFFIX,g"
-  rm -f "$TARGET/npm/package.json.SNAPSHOT"
-fi
-npm publish "$TARGET/npm" --tag "$NPM_VERSION"
+$(dirname $0)/npm-publish.sh

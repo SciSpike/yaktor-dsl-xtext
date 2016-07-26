@@ -28,4 +28,4 @@ install:
 script:
   - docker exec -it bob mvn clean install -B -V -P release -Dyaktor.version=/yaktor
   - docker exec -it bob cli/travis-before-deploy.sh
-  - docker exec -it bob cli/deploy.sh
+  - docker exec -it bob cli/maven-deploy.sh
