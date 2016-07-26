@@ -6,7 +6,7 @@ if [ -n "$NPM_AUTH_TOKEN" ]; then
   chmod go-rwx ~/.npmrc
 fi
 set -x
-TARGET=${TARGET:-.}
+TARGET=${TARGET:-./target/npm}
 if [ -z "$VERSION" ]; then
   VERSION=$(mvn -f "$TARGET/../../" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # get "downloading" messages out of the way, if any
   VERSION=$(mvn -f "$TARGET/../../" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
@@ -18,7 +18,7 @@ if [[ "$NPM_VERSION" =~ /\-SNAPSHOT$/ ]]; then # translate -SNAPSHOT to -pre.YYY
   fi
   SUFFIX="-pre.$INSTANT"
   NPM_VERSION=$(echo -n "$NPM_VERSION" | sed -E "s,\\-SNAPSHOT$,$SUFFIX,g")
-  find "$TARGET" -name package.json | xargs sed -i.SNAPSHOT -E "s,\\-SNAPSHOT,$SUFFIX,g"
+  sed -i.SNAPSHOT -E "s,\\-SNAPSHOT,$SUFFIX,g" "$TARGET/package.json"
   rm -f "$TARGET/package.json.SNAPSHOT"
 fi
-npm publish "$TARGET" --tag "$NPM_VERSION"
+npm publish "$TARGET"
