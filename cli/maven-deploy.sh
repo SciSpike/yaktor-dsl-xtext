@@ -105,6 +105,7 @@ set -x
 mvn nexus-staging:rc-close $COORDS
 mvn nexus-staging:rc-release $COORDS
 set +x
+export TARGET=$TARGET/npm
 export INSTANT=$(date --utc +%Y%m%d%H%M%S)
 echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
 $(dirname $0)/npm-publish.sh
