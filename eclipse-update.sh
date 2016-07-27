@@ -7,11 +7,13 @@ fi
 echo "VERSION=$VERSION"
 
 # auth
+set -x
 AWS_DIR=${AWS_DIR:-$HOME/.aws}
 mkdir -p "$AWS_DIR"
 CREDENTIALS="${CREDENTIALS:-$AWS_DIR/credentials}"
 touch "$CREDENTIALS"
 chmod go-rwx "$CREDENTIALS"
+set +x
 cat <<EOF >> "$CREDENTIALS"
 [scispike]
 aws_access_key_id=$AWS_ACCESS_KEY_ID
@@ -19,6 +21,7 @@ aws_secret_access_key=$AWS_SECRET_ACCESS_KEY
 EOF
 
 # go!
+set -x
 npm install
 composite/site.js --sites $VERSION
 composite/upload.sh
