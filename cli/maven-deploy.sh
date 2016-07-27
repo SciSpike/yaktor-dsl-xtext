@@ -102,8 +102,7 @@ elif [ $(echo -n "$OPEN_STAGINGS" | wc -l) -gt 1 ]; then
 fi
 COORDS="$COORDS -DstagingRepositoryId=$STAGING"
 set -x
-mvn nexus-staging:rc-close $COORDS
-mvn nexus-staging:rc-release $COORDS
+mvn nexus-staging:rc-close nexus-staging:rc-release $COORDS
 set +x
 export TARGET=$TARGET/npm
 export INSTANT=$(date --utc +%Y%m%d%H%M%S)
