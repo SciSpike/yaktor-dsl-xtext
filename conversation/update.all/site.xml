@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/io.yaktor.domain.cs.sdk_0.45.1.qualifier.jar" id="io.yaktor.domain.cs.sdk" version="0.45.1.qualifier">
+   <feature url="features/io.yaktor.domain.cs.sdk_0.45.1.jar" id="io.yaktor.domain.cs.sdk" version="0.45.1">
       <category name="domain_0.45.1"/>
    </feature>
-   <feature url="features/io.yaktor.conversation.cs.sdk_0.45.1.qualifier.jar" id="io.yaktor.conversation.cs.sdk" version="0.45.1.qualifier">
+   <feature url="features/io.yaktor.conversation.cs.sdk_0.45.1.jar" id="io.yaktor.conversation.cs.sdk" version="0.45.1">
       <category name="conversation_0.45.1"/>
    </feature>
    <category-def name="domain_0.45.1" label="domain_0.45.1"/>
