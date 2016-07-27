@@ -31,10 +31,10 @@ install:
   - curl -L https://github.com/SciSpike/yaktor/archive/v0.3.0.zip > ~/.yaktor/yaktor.zip
   - unzip ~/.yaktor/yaktor.zip -d ~/.yaktor
   # create "Bob the Builder" https://youtu.be/-P2-Nmk1uFQ
-  - docker build -t bobthebuilder:latest docker
+  - docker build -t bobthebuilder:canwebuildit docker
   - docker run
     -d
-    --name bobthebuilder
+    --name bobthebuilder_yeswecan
     -v $PWD:/build
     -v ~/.yaktor/yaktor-0.3.0:/yaktor
     -e MAVEN_OPTS="-Xms256m -XX:MaxPermSize=1024m -Xmx1024m"
@@ -49,9 +49,9 @@ install:
     -e NPM_AUTH_TOKEN="$NPM_AUTH_TOKEN"
     -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
     -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
-    build:latest
+    bobthebuilder:canwebuildit
     tail -f /dev/null
 script:
-  - docker exec -it bobthebuilder mvn clean install -B -V -P release -Dyaktor.version=/yaktor
-  - docker exec -it bobthebuilder cli/travis-before-deploy.sh
-  - docker exec -it bobthebuilder cli/maven-deploy.sh
+  - docker exec -it bobthebuilder_yeswecan mvn clean install -B -V -P release -Dyaktor.version=/yaktor
+  - docker exec -it bobthebuilder_yeswecan cli/travis-before-deploy.sh
+  - docker exec -it bobthebuilder_yeswecan cli/maven-deploy.sh
