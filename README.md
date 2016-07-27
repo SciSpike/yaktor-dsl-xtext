@@ -1,10 +1,10 @@
 # Yaktor DSL
 
-[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)]()
-[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=2592000)]()
-[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=2592000)]()
-[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=2592000)]()
-[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=2592000)]()
+[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)]()
+[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)]()
+[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)]()
+[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)]()
+[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)]()
 
 ## Introduction
 
