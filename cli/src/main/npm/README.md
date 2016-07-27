@@ -1,5 +1,11 @@
 # yaktor-lang
-Generate Node.js code from Yaktor Domain & Conversation DSL files.
+[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)]()
+[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=2592000)]()
+[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=2592000)]()
+[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=2592000)]()
+[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=2592000)]()
+
+Generate Node.js code from Yaktor Domain and Conversation DSL files.
 
 ## Description
 `yaktor-lang` generates the default Node.js implementation for a [Yaktor](http://yaktor.io) project based on your Yaktor Conversation Language (`*.cl`) and Domain Model (`*.dm`) files.
