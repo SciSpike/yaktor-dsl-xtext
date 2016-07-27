@@ -98,6 +98,7 @@ Make sure that you have credentials in `~/.aws/credentials` like:
 aws_access_key_id = xxxxxxxxxxxxxx
 aws_secret_access_key = yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 ```
+
 To upload a new version of the Yaktor DSL Eclipse Plugin and make it available at our Eclipse update site, http://yaktor.io/eclipse:
 ```
 npm install
