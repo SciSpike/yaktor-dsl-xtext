@@ -62,7 +62,13 @@ fs.removeSync(target)
     dstdir = path.resolve(target, 'plugins')
     dstpath = path.resolve(dstdir, dstfile)
     fs.copySync(srcpath, dstpath)
-    sizes[ size({ dir: 'plugins', filename: srcfile }) ] = fs.statSync(dstpath).size
+    console.error('component: ' + dstpath)
+    var key = size({ dir: 'plugins', filename: srcfile })
+    console.error('key: ' + key)
+    var stat = fs.statSync(dstpath)
+    console.error(stat)
+    sizes[ key ] = stat.size
+    console.error(sizes)
   })
 })
 
@@ -77,6 +83,7 @@ dstfile = 'artifacts.xml'
 dstdir = target
 dstpath = path.resolve(dstdir, dstfile)
 _.assign(sizes, params)
+console.error(sizes)
 fs.writeFileSync(dstpath, artifacts(sizes))
 proc.execSync('jar cfM ' + dstdir + '/artifacts.jar -C ' + dstdir + ' ' + dstfile)
 fs.removeSync(dstpath)
@@ -86,5 +93,5 @@ dstdir = target
 dstpath = path.resolve(dstdir, dstfile)
 fs.writeFileSync(dstpath, site(params))
 
-// write to stdout the version
+// write the version to stdout
 console.log(version + (qualifier ? ('.' + qualifier) : ''))
