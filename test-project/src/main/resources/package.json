@@ -19,6 +19,6 @@
     "standard": "7.1.2"
   },
   "scripts":{
-    "test":"istanbul cover _mocha -- --colors -R spec"
+    "test":"istanbul cover _mocha -- --colors -R spec && standard -v"
   }
 }

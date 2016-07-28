@@ -24,10 +24,6 @@ class JsDto {
   def genType(Projection p) {
     '''
       var converter = require('yaktor/services/conversionService')
-      «IF p.type != null»
-        var model = require('mongoose').model('«p.type.name»')
-      «ENDIF»
-      
       «p.comments»
       var type = «p.map(null)»
       converter.registerType('«p.fullName»', type)
