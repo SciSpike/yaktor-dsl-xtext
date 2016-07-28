@@ -122,8 +122,8 @@ class NodeJsGenerator {
       «FOR en : e.allReferencedEntities.sortBy[en|en.name] BEFORE "// Import all the entities\n"»
         require(path.resolve('src-gen', '«en.modelPath»«en.name.toFirstLower»')) // to ensure registered
       «ENDFOR»
-      «FOR en : e.allFields.filter(typeof(TypeField)).sortBy[en|en.name] BEFORE "// Import all the types\n"»
-        var __«en.isType?.name» = require(path.resolve('src-gen', '«en.isType?.modelPath»«en.isType?.name?.toFirstLower»')) // to ensure registered
+      «FOR isType : e.allFields.filter(typeof(TypeField)).map[en| en.isType].toSet.sortBy[isType|isType.name] BEFORE "// Import all the types\n"»
+        var __«isType?.name» = require(path.resolve('src-gen', '«isType?.modelPath»«isType?.name?.toFirstLower»')) // to ensure registered
       «ENDFOR»
       
       // Create the schema
