@@ -14,6 +14,5 @@ if (fs.existsSync(modelAll)) {
   }
 }
 
-
 module.exports = function () {
 }

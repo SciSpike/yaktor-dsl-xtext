@@ -8,30 +8,56 @@ function Global (m) {
   return m
 }
 
-var types = {}
-var mockConverter = {
-  registerType: function (t,type) {
-    types[t]=type
-  },
-  Field: function (name, name2, kind, type) {
-    this.name = name
-    this.type = type
-  },
-  Type: function (name, fields, meta) {
-    this.name = name
-    this.fields = fields
-    this.meta - meta
-  }
-}
-
+var noop = function () {}
 var proxy = {
-  'yaktor/services/conversionService': Global({}),
-  'yaktor/services/Response': Global({}),
+  'yaktor/services/conversionService': Global({
+    to: noop,
+    from: noop,
+    toQuery: noop,
+    fromQuery: noop
+  }),
+  'yaktor/services/Response': Global({
+    create: noop,
+    read: noop,
+    update: noop,
+    delete: noop,
+    find: noop
+  }),
   'mongoose': Global(mongoose)
 }
-
+var rest = function (path, m, cb) {
+  cb({
+    params: {
+      id: 'id'
+    }
+  }, {}, noop)
+}
+var test = function (path, cb) {
+  cb({
+  }, {
+    render: noop
+  }, noop)
+}
 describe(path.basename(__filename), function () {
-  it('should be able to import routes', function () {
-    proxyquire(path.resolve('rest', 'DEFAULT', 'test', 'Test'), proxy)
+  it('should be able to import rest routes', function () {
+    var restRoutes = proxyquire(path.resolve('routes', 'DEFAULT', 'Test'), proxy)
+    // init and invoke all methods
+    restRoutes({
+      app: {
+        get: rest,
+        put: rest,
+        post: rest,
+        delete: rest
+      }
+    })
+  })
+  it('should be able to import test routes', function () {
+    var testRoutes = proxyquire(path.resolve('routes', 'DEFAULT', '___Test_test'), proxy)
+    // init and invoke all methods
+    testRoutes({
+      app: {
+        get: test
+      }
+    })
   })
 })

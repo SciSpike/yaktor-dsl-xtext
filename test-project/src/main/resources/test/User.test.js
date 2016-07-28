@@ -2,7 +2,6 @@
 var path = require('path')
 var assert = require('assert')
 var async = require('async')
-var mongoose = require('mongoose')
 
 var User = null
 var House = null
@@ -16,7 +15,6 @@ describe(path.basename(__filename), function () {
       done()
     })
   })
- 
 
   describe('CRUD', function () {
     beforeEach(function (done) {
@@ -41,13 +39,11 @@ describe(path.basename(__filename), function () {
     it('find', function (done) {
       // This should work but there is a bug due to the 'email' field being a Mongoose virtual
       var query = {'_id': 'a@b.com'}
-      // The following "name" query works
-      // var query = {"name":"abc"}
       async.waterfall([
-        function (pQ, cb) {
+        function (cb) {
           var page = 1
           var pageSize = 10
-          User.find(pQ).paginate(page, pageSize, cb)
+          User.find(query).paginate(page, pageSize, cb)
         }
       ], function (err, result) {
         assert.ifError(err)
@@ -105,7 +101,7 @@ describe(path.basename(__filename), function () {
       var body = { '_id': 'foo@bar.com', 'name': 'foobar' }
 
       async.waterfall([
-        async.apply(User.create.bind(User),body)
+        async.apply(User.create.bind(User), body)
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'foo@bar.com')
@@ -141,7 +137,7 @@ describe(path.basename(__filename), function () {
       var body = { 'house': {'_id': '000000000000000000000101'} }
 
       async.waterfall([
-        function ( cb) {
+        function (cb) {
           User.findOneAndUpdate({_id: id}, body, {new: true}, cb)
         } //
       ], function (err, result) {

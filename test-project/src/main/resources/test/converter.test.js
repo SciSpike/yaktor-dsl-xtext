@@ -11,8 +11,8 @@ function Global (m) {
 
 var types = {}
 var mockConverter = {
-  registerType: function (t,type) {
-    types[t]=type
+  registerType: function (t, type) {
+    types[t] = type
   },
   Field: function (name, name2, kind, type) {
     this.name = name
@@ -38,8 +38,8 @@ describe(path.basename(__filename), function () {
     assert.ok(types['Test.B'].meta.keys.id)
     assert.ok(types['Test.B'].fields)
     assert.ok(types['Test.B'].fields[0])
-    assert.equal(types['Test.B'].fields[0].name,'a')
-    assert.equal(types['Test.B'].fields[1].name,'b')
-    assert.equal(types['Test.B'].fields[2].name,'id')
+    assert.equal(types['Test.B'].fields[0].name, 'a')
+    assert.equal(types['Test.B'].fields[1].name, 'b')
+    assert.equal(types['Test.B'].fields[2].name, 'id')
   })
 })

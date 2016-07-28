@@ -27,7 +27,7 @@ var proxy = {
 }
 require(path.resolve('src-gen', 'modelAll'))
 
-mongoose.model('AgentConversation', new mongoose.Schema({agent:String, state: String, agentDataId: String}))
+mongoose.model('AgentConversation', new mongoose.Schema({agent: String, state: String, agentDataId: String}))
 
 describe('Agent', function () {
   describe('Test.Test', function () {
@@ -36,13 +36,13 @@ describe('Agent', function () {
       var tt = 'Test.Test'
       var td = 'Test.TestDepend'
       var ptt = Promise.fromCallback(function (cb) {
-        Test.agents[tt].init({ agentDataId: tt }, function(ac){
+        Test.agents[tt].init({ agentDataId: tt }, function (ac) {
           assert.ok(ac)
           cb()
         })
       })
       var ptd = Promise.fromCallback(function (cb) {
-        Test.agents[td].init({ agentDataId: td }, function(ac){
+        Test.agents[td].init({ agentDataId: td }, function (ac) {
           assert.ok(ac)
           cb()
         })
@@ -55,8 +55,7 @@ describe('Agent', function () {
       assert.ok(Test.agents[tt].states.working.transitions.finished.to)
       assert.equal(Test.agents[tt].states.working.transitions.finished.to, Test.agents[tt].states.done)
       assert.ok(Test.agents[td])
-      
-      return Promise.all([ptt,ptd])
+      return Promise.all([ptt, ptd])
     })
   })
   describe('UserUnitTest.Test.Test', function () {
@@ -64,15 +63,15 @@ describe('Agent', function () {
       var Test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
       proxy[path.resolve('conversations', 'js', 'Test', 'Test')] = Global(Test)
       var UserUnitTest = proxyquire(path.resolve('conversations', 'js', 'UserUnitTest'), proxy)
-      
+
       var utr = 'UserUnitTest.Reach'
       var utrp = Promise.fromCallback(function (cb) {
-        UserUnitTest.agents[utr].init({ agentDataId: utr }, function(ac){
+        UserUnitTest.agents[utr].init({ agentDataId: utr }, function (ac) {
           assert.ok(ac)
           cb()
         })
       })
-      
+
       assert.ok(Test.agents['Test.Test'])
       assert.ok(UserUnitTest.agents['Test.Test'])
       assert.equal(UserUnitTest.agents['Test.Test'], proxy[path.resolve('conversations', 'js', 'Test', 'Test')])
