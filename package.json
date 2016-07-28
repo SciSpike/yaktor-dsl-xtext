@@ -21,9 +21,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "mvn":"MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -V",
-    "mvno":"MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -V -o",
-    "mvny":"MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -V -Dyaktor.version=../../../../yaktor",
-    "mvnoy":"MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -V -o -Dyaktor.version=../../../../yaktor"
+    "mvno":"MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' mvn clean install -V -o"
   },
   "repository": {
     "type": "git",
