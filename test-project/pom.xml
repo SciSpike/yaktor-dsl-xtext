@@ -119,7 +119,6 @@
 						<configuration>
 							<arguments>
                 <argument>install</argument>
-                <argument>--verbose</argument>
 							</arguments>
 						</configuration>
 					</execution>
