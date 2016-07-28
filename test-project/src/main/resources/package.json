@@ -3,31 +3,22 @@
   "version": "0.1.0-pre.0",
   "private": true,
   "dependencies": {
-    "async": "0.2.9",
-    "backo": "1.0.1",
-    "body-parser": "1.4.3",
-    "yaktor": "@yaktor.version@",
-    "emitter-component": "1.1.1",
-    "express":"4.9.5",
+    "async": "1.5.2",
     "mongoose": "4.4.14",
     "mongoose-pagination": "1.0.0",
-    "mongoose-shortid-nodeps":"0.6.5",
-    "nice-xml": "0.1.1-rc2",
-    "node-cassandra-cql": "0.2.10",
-    "swagger-parser": "3.4.1",
-    "supertest-session": "0.0.5",
-    "tv4":"1.1.9",
-    "winston": "0.7.1"
+    "mongoose-shortid-nodeps": "0.6.5",
+    "node-uuid": "1.4.7",
+    "swagger-parser": "3.4.1"
   },
   "devDependencies": {
-    "express-session":"1.8.2",
-    "mocha":"1.20.1",
-    "mockgoose": "4.0.1",
-    "proxyquire":"1.0.1",
-    "standard": "7.0.1",
-    "standard-format": "2.1.1"
+    "bluebird": "3.4.1",
+    "istanbul": "0.4.4",
+    "mocha": "2.5.3",
+    "mockgoose": "4.0.2",
+    "proxyquire": "1.7.10",
+    "standard": "7.1.2"
   },
   "scripts":{
-    "test":"mocha -R spec test/*.test.js"
+    "test":"istanbul cover _mocha -- --colors -R spec"
   }
 }

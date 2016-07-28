@@ -14,10 +14,6 @@ if (fs.existsSync(modelAll)) {
   }
 }
 
-var types = path.resolve(path.join('conversations', 'types'))
 
 module.exports = function () {
-  if (fs.existsSync(types)) {
-    require(types)
-  }
 }

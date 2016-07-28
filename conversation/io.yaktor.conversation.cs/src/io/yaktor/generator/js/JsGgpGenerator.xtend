@@ -21,7 +21,7 @@ class JsGgpGenerator {
   def genRoot(String name) {
     '''
       var util = require('util');
-      var my = module.exports = require("./«name».gen.js");
+      var my = module.exports = require('./«name».gen.js');
       util._extend(my,{
         
       });
@@ -32,49 +32,48 @@ class JsGgpGenerator {
     var c = agent.parent;
     var cName = c?.name;
     '''
-      var async = require('async');
-      var yaktor = require("yaktor");
-      var AgentConversation = require('mongoose').model("AgentConversation");
-      var path = require('path');
+      var async = require('async')
+      var AgentConversation = require('mongoose').model('AgentConversation')
+      var path = require('path')
       var logger = require('yaktor/logger')
-      var my = module.exports= {
+      var my = module.exports = {
         init: function(meta,callback){
-          var iAc = null;
-          var conversationId = meta.conversationId;
-          var agentConversations={};
-          var agent = "«cName».«agent.name»";
+          var iAc = null
+          var conversationId = meta.conversationId
+          var agentConversations={}
+          var agent = "«cName».«agent.name»"
           var a = new AgentConversation({
-            conversationId:require("node-uuid").v1(),
-            agentDataId:meta.agentDataId,
-            disposition:"1",
-            agent:agent,
-            state:my.initialState || "null"
-          });
+            conversationId: require("node-uuid").v1(),
+            agentDataId: meta.agentDataId,
+            disposition: '1',
+            agent: agent,
+            state: my.initialState || 'null'
+          })
           a.save(function(err,data){
             if (err && err.message.search("duplicate")>=0) {
-              logger.warn("failed to init conversation as one is already present %s",JSON.stringify(a));
-              err=null;
+              logger.warn("failed to init conversation as one is already present %s",JSON.stringify(a))
+              err=null
             } else if (err){
-              return logger.error(err.stack);
+              return logger.error(err.stack)
             }
             
             AgentConversation.findOne({agentDataId:meta.agentDataId,
               disposition:"1",
               agent:agent},function(err, a) {
-                agentConversations[agent] = a;
-                callback(agentConversations);
-              });
-          });              
+                agentConversations[agent] = a
+                callback(agentConversations)
+              })
+          })
         },
-        name:"«cName».«agent.name»",
-        conversationName:"«cName»",
-        isConnectable:«agent.projection!=null»,
+        name: '«cName».«agent.name»',
+        conversationName: '«cName»',
+        isConnectable: «agent.projection!=null»,
         /*
          * specify an auth function
          * args (user, event, meta, reqData, cb)
          */
-        messageAuth:null,
-        internalEvents:[
+        messageAuth: null,
+        internalEvents: [
           «FOR e : agent.events.filter(PrivatePubSub) SEPARATOR ','»
             "«e.eventLabel»"
           «ENDFOR»
@@ -91,19 +90,19 @@ class JsGgpGenerator {
           ];map;])»
           «FOR entry: daMap.entrySet.sortWith[e1,e2|e1.key.eventLabel.toString().compareTo(e2.key.eventLabel.toString())] SEPARATOR ','»
             «var e = entry.key»
-            "«e.getEventDescription(agent, c)»":{
-              label: "«e.eventLabel»",
+            '«e.getEventDescription(agent, c)»': {
+              label: '«e.eventLabel»',
               states: [
                 «FOR state:entry.value SEPARATOR ','»
-                  "«state.name»"
+                  '«state.name»'
                 «ENDFOR»
               ] 
             }
           «ENDFOR»
         },
         states:require(path.join(__dirname,"lib","states.js")),
-        «IF agent.stateMachine.initialState != null»initialState: "«agent.stateMachine.initialState.name»"«ENDIF»
-      };
+        «IF agent.stateMachine.initialState != null»initialState: '«agent.stateMachine.initialState.name»'«ENDIF»
+      }
     '''
   }
 
@@ -115,21 +114,21 @@ class JsGgpGenerator {
   def genStates(Agent agent) {
     '''
       (function(){
-        "use strict";
+        'use strict'
         var util = require('util');
-        var my = module.exports = require("./states.gen.js");
+        var my = module.exports = require('./states.gen.js')
         util._extend(my,{
           
-        });
+        })
         «IF agent.stateMachine != null && agent.stateMachine.allStates != null && agent.stateMachine.states.size > 0»
           «FOR state : agent.stateMachine.allStates.sortBy[state|state.name]»
             «IF state.requiresExecution»
               «state.comments»
               my.«state.name».on=function(meta,data,done){
-                var results = {«FOR name : state.transitions.filter[trans|trans.causedBy != null && trans.causedBy instanceof PublishableByMe].map[trans|trans.causedBy.name] SEPARATOR ','»"«name»":"«name»"«ENDFOR»};
-                util.deprecate(function(){},"XXX: Missing Business Logic at «agent.parent.name».«agent.name».«state.name»")();
-                done(null,data,Object.keys(results)[0]);
-              };
+                var results = {«FOR name : state.transitions.filter[trans|trans.causedBy != null && trans.causedBy instanceof PublishableByMe].map[trans|trans.causedBy.name] SEPARATOR ','»'«name»': '«name»'«ENDFOR»}
+                util.deprecate(function(){}, 'XXX: Missing Business Logic at «agent.parent.name».«agent.name».«state.name»')()
+                done(null, data, Object.keys(results)[0])
+              }
             «ENDIF»
             «FOR trans : state.transitions.filter[trans|trans.requiresExecution].sortBy[trans|var trigger = trans.triggers ?: trans.exTriggers;
           (trans.causedBy ?: trans.exCausedBy).name + " " +
@@ -146,10 +145,10 @@ class JsGgpGenerator {
                * While in «state.name».
                * «trans.description»
                */
-              my.«state.name».transitions["«cause.getEventDescription(agent, agent.parent)»"].handler=function(causedByEventName,meta,data,done){
-                util.deprecate(function(){},"XXX: Missing Business Logic at «trans.description»")();
-                done(null,data);
-              };
+              my.«state.name».transitions["«cause.getEventDescription(agent, agent.parent)»"].handler=function(causedByEventName, meta, data, done){
+                util.deprecate(function(){}, 'XXX: Missing Business Logic at «trans.description»')()
+                done(null,data)
+              }
             «ENDFOR»
           «ENDFOR»
         «ENDIF»
@@ -160,11 +159,11 @@ class JsGgpGenerator {
   def genUserFile(String name) {
     '''
       (function(){
-        "use strict";
-        var util = require('util');
-        var my = module.exports = require("./«name».gen.js");
-        util._extend(my,require("./«name».def.js"));
-      })();
+        'use strict'
+        var util = require('util')
+        var my = module.exports = require('./«name».gen.js')
+        util._extend(my, require('./«name».def.js'))
+      })()
     '''
   }
   

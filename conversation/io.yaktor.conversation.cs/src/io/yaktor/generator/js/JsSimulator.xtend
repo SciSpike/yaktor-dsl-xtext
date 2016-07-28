@@ -14,25 +14,24 @@ class JsSimulator {
   def genSimulator(Conversation c) {
     '''
       process.on('uncaughtException', function (err) {
-        console.log(err.stack);
-      });
-      var mongo = require("../config/initializers/02_mongo.js");
-      mongo.call({settings:{env:process.env.NODE_ENV||"development"}},function(){});
-      var didy = require("../src-gen/modelAll");
+        console.log(err.stack)
+      })
+      var mongo = require('../config/initializers/02_mongo.js"')
+      mongo.call({ settings: { env: process.env.NODE_ENV || 'development' } }, function () { })
+      require('../src-gen/modelAll')
       «FOR dto : c.reachableAgents.filter[a|a.projection != null].map[a|a.projection.fullName].toSet»
-        var «dto.replace(".", "_")» = require("../conversations/types/«dto»");
+        var «dto.replace(".", "$")» = require('../conversations/types/«dto»')
       «ENDFOR»
-      var uuid = require("node-uuid");
-      var argv = require('commander');
-      var async = require('async');
-      var path = require("path");
-      var request = require("request");
-      var cookie = require("cookie");
-      var mocker = require("conversation/test/mocker");
-        
-      argv.option('-i, --iterations [n]', 'how many times to run a simulation',parseInt, 50)
-      .option('-u, --urlPrefix [value]', 'override urlPrefix', String.valueOf(),"http://localhost:3000" )
-      .option('-d, --default-id [string]', 'id to be used if none is provided',"defaultId")
+      var argv = require('commander')
+      var async = require('async')
+      var request = require('request')
+      var cookie = require('cookie')
+      var path = require('path')
+      var mocker = require('conversation/test/mocker')
+      
+      argv.option('-i, --iterations [n]', 'how many times to run a simulation', parseInt, 50)
+      .option('-u, --urlPrefix [value]', 'override urlPrefix', String.valueOf(), 'http://localhost:3000')
+      .option('-d, --default-id [string]', 'id to be used if none is provided', 'defaultId')
       «FOR agent : c.reachableAgents.filter[a|a.projection != null]»
         .option('--«agent.parent.name.toLowerCase»-«agent.name.toLowerCase» <string>', 'Id of a persisted «agent.
         projection.name» for «agent.parent.name».«agent.name»')
@@ -41,93 +40,93 @@ class JsSimulator {
         .option('--ignore-«agent.parent.name.toLowerCase»-«agent.name.toLowerCase»', 'Should this agent be skipped while initializing agents.')
       «ENDFOR»
       .option('-v, --verbose', 'verbose')
-      .parse(process.argv);
+      .parse(process.argv)
       
-      var times = function(async,times,task,callback){
-        var count=0;
-        var stop = false;
-        var done = 0;
-        var cb = function(err) {
-          done++;
+      var times = function (async, times, task, callback) {
+        var count = 0
+        var stop = false
+        var done = 0
+        var cb = function (err) {
+          done++
           if (err) {
-            stop = true;
-            callback(err,done);
-          } else if (done == times) {
-            callback(null, done);
+            stop = true
+            callback(err, done)
+          } else if (done === times) {
+            callback(null, done)
           } else if (!async) {
-            process.nextTick(pt);
+            process.nextTick(pt)
           }
-        };
-        var pt = function() {
-          if (!stop && count++ < times ) {
-            task(count,cb);
+        }
+        var pt = function () {
+          if (!stop && count++ < times) {
+            task(count, cb)
             if (async) {
-              process.nextTick(pt);
+              process.nextTick(pt)
             }
           }
-        };
-        pt();
-      };
-      var start = new Date().getTime();
-      var infiniteChildren = [];
-      times(false, argv.iterations, function(n, callback) {
+        }
+        pt()
+      }
+      var start = new Date().getTime()
+      var infiniteChildren = []
+      times(false, argv.iterations, function (n, callback) {
         async.parallel([
           «FOR agent : c.reachableAgents.filter[a|a.projection != null && a.stateMachineType == StateMachineType.FINITE] SEPARATOR ','»
             function(callback) {
-              if(argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper») return callback();
+              if (argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper») return callback();
               
               request.get(argv.urlPrefix, function(err, res, b) {
-                var qId = null;
+                var qId = null
                 for(var c  in res.headers["set-cookie"]) {
-                  var cookieValue = cookie.parse(res.headers["set-cookie"][c]);
+                  var cookieValue = cookie.parse(res.headers["set-cookie"][c])
                   if (cookieValue["connect.sid"]) {
-                    qId = cookieValue["connect.sid"].replace(/s:([^\.]*).*/,"$1");
+                    qId = cookieValue["connect.sid"].replace(/s:([^\.]*).*/,"$1")
                   }
                 }
-                «agent.projection.fullName.replace(".", "_")».findOne({_id:argv.«agent.parent.name.toLowerCase»«agent.
-        name.toLowerCase.toFirstUpper»||argv.defaultId},function(err,dto){
+                «agent.projection.fullName.replace(".", "$")».findOne({ _id: argv.«agent.parent.name.toLowerCase»«agent.
+        name.toLowerCase.toFirstUpper» || argv.defaultId }, function (err,dto) {
                   var processData = {
-                    n:n,
-                    qId:qId,
-                    args:argv,
-                    dto:dto
-                  };
-                  mocker(__dirname+"/«agent.parent.name»/«agent.name».js",processData,callback);
-                });
-              });
+                    n: n,
+                    qId: qId,
+                    args: argv,
+                    dto: dto
+                  }
+                  mocker(path.join(__dirname, '«agent.parent.name»', '«agent.name».js'), processData, callback)
+                })
+              })
             }
           «ENDFOR»
-          ],callback);
+        ], callback)
       },
-      function() {
-        var end = new Date().getTime();
-        var time = (end-start)/1000;
-        console.log("total: %s time: %s (s); result: %s (tp/s)", argv.iterations, time, (argv.iterations/(time)));
-        async.each(infiniteChildren, function(p, done) {
-          p.kill();
-          done();
-        },process.exit);
-      });
-      «FOR agent : c.reachableAgents.filter[a|a.projection != null && a.stateMachineType != StateMachineType.FINITE] SEPARATOR ','»
-        if(!argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper»){
-          request.get(argv.urlPrefix, function(err, res, b) {
-            var qId = null;
-            for(var c  in res.headers["set-cookie"]) {
-              var cookieValue = cookie.parse(res.headers["set-cookie"][c]);
-              if (cookieValue["connect.sid"]) {
-                qId = cookieValue["connect.sid"].replace(/s:([^\.]*).*/,"$1");
+      function () {
+        var end = new Date().getTime()
+        var time = (end - start) / 1000
+        console.log('total: %s time: %s (s); result: %s (tp/s)', argv.iterations, time, (argv.iterations / time))
+        async.each(infiniteChildren, function (p, done) {
+          p.kill()
+          done()
+        }, process.exit)
+      })
+      «FOR agent : c.reachableAgents.filter[a|a.projection != null && a.stateMachineType != StateMachineType.FINITE] »
+        if (!argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper») {
+          request.get(argv.urlPrefix, function (ignoredError, res, b) {
+            var qId = null
+            for (var c in res.headers['set-cookie']) {
+              var cookieValue = cookie.parse(res.headers['set-cookie'][c])
+              if (cookieValue['connect.sid']) {
+                qId = cookieValue['connect.sid'].replace(/s:([^\.]*).*/, '$1')
               }
             }
-            «agent.projection.fullName.replace(".", "_")».findOne({_id:argv.«agent.parent.name.toLowerCase»«agent.name.
-        toLowerCase.toFirstUpper»||argv.defaultId},function(err,dto){
+            «agent.projection.fullName.replace(".", "$")».findOne({ _id: argv.«agent.parent.name.toLowerCase»«agent.
+        name.toLowerCase.toFirstUpper» || argv.defaultId }, function (ignoredError, dto) {
               var processData = {
-                qId:qId,
-                args:argv,
-                dto:dto
-              };
-              infiniteChildren.push(mocker(__dirname+"/«agent.parent.name»/«agent.name».js",processData));
-            });
-          });
+                qId: qId,
+                args: argv,
+                dto: dto
+              }
+              infiniteChildren.push(mocker(path.join(__dirname, '«agent.parent.name»', '«agent.name».js'), processData))
+            })
+          })
         }
       «ENDFOR»
     '''
@@ -136,51 +135,51 @@ class JsSimulator {
   def genSimulator(Agent a) {
     '''
       process.on('uncaughtException', function (err) {
-        console.log(err.stack);
-      });
-      var path = require('path');
-      var agentApi = require(path.resolve('public','api','«a.parent.name»','«a.name».js'));
-      var socketApi = require(path.resolve('public','socketApi.js'));
-      process.on("message",function(processData){
-        var dto = processData.dto||{};
+        console.log(err.stack)
+      })
+      var path = require('path')
+      var agentApi = require(path.resolve('public', 'api', '«a.parent.name»', '«a.name».js'))
+      var socketApi = require(path.resolve('public', 'socketApi.js'))
+      process.on('message', function (processData) {
+        var dto = processData.dto || {}
         var dataSet = {
           «FOR event : a.events.filter(PrivatePubSub) SEPARATOR ','»
             "«event.name»": «event.genData»
           «ENDFOR»
-        };
-        var me = processData.«a.name»||{};
-        var script = me.script || {};
-        var qId = processData.qId;
-        console.log("starting %s, %s", qId, processData.n);
-        socketApi.connectWithPrefix(processData.args.urlPrefix, processData.qId,function(cb){
-          cb(null,null,processData.qId)
-        }, processData.args.verbose, function(socket, data) {
+        }
+        var me = processData.«a.name» || {}
+        var script = me.script || {}
+        var qId = processData.qId
+        console.log('starting %s, %s', qId, processData.n)
+        socketApi.connectWithPrefix(processData.args.urlPrefix, processData.qId, function (cb) {
+          cb(null, null, processData.qId)
+        }, processData.args.verbose, function (socket, data) {
           for (var state in agentApi.stateMatrix) {
-            (function(state) {
-              var stateOn = state.replace(/[^:]*:/, "");
-              agentApi.socket.on[stateOn](qId, dto, function(data, qId) {
+            (function (state) {
+              var stateOn = state.replace(/[^:]*:/, '')
+              agentApi.socket.on[stateOn](qId, dto, function (data, qId) {
                 if (agentApi.terminalStates[state]) {
-                  process.send({qId:qId});
-                  socketApi.disconnect(qId);
+                  process.send({ qId: qId })
+                  socketApi.disconnect(qId)
                   if (processData.args.verbose) {
-                    console.log("disconnect «a.name»:%s:%s", qId, state);
+                    console.log('disconnect «a.name»:%s:%s', qId, state)
                   }
-                  process.exit(0);
+                  process.exit(0)
                 } else {
-                  var myEventsToFire = Object.keys(agentApi.stateMatrix[state]);
+                  var myEventsToFire = Object.keys(agentApi.stateMatrix[state])
                   if (myEventsToFire.length) {
-                    var event = script[state] || myEventsToFire[parseInt(Math.random()*myEventsToFire.length)];
-                    agentApi.socket.emit[event](qId, dto, dataSet[event]);
+                    var event = script[state] || myEventsToFire[parseInt(Math.random() * myEventsToFire.length)]
+                    agentApi.socket.emit[event](qId, dto, dataSet[event])
                   }
                 }
-              });
+              })
             })(state)
           }
-          processData.args.verbose && console.log("«a.name» connected %s", qId);
-          agentApi.socket.emit["init"](qId, dto);
-        });
-      });
-      process.send({loaded:true});
+          processData.args.verbose && console.log('«a.name» connected %s', qId)
+          agentApi.socket.emit['init'](qId, dto)
+        })
+      })
+      process.send({ loaded: true })
     '''
   }
 }

@@ -28,10 +28,10 @@ class JsGenerator {
   
   def genRoot(Conversation c,String subPath) {
     '''
-      var path = require("path");
+      var path = require('path')
       
       var my = module.exports = {
-        name:"«c.name»",
+        name: "«c.name»",
         agents : {
           «var agents = c.reachableAgents.sortBy[agent|agent.name]»
           «FOR agent : agents SEPARATOR ','»
@@ -39,7 +39,7 @@ class JsGenerator {
             "«cName».«agent.name»": require(path.resolve("«subPath»","«agent?.parent?.name»","«agent.name»"))
           «ENDFOR»
         }
-      };
+      }
     '''
   }
 
@@ -596,8 +596,8 @@ class JsGenerator {
   
   def genSecurity(Agent agent) {
     '''
-      module.exports={
-        accessRequirement:"«agent.accessRequirement»"
+      module.exports = {
+        accessRequirement: '«agent.accessRequirement»'
       }
     '''
   }

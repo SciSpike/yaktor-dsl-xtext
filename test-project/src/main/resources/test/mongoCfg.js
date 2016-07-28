@@ -4,7 +4,6 @@ var EventEmitter = require('events').EventEmitter
 var emitter = new EventEmitter()
 var path = require('path')
 var assert = require('assert')
-require('./fakeCassandra')
 
 emitter.setMaxListeners(0)
 module.exports = function (done) {
