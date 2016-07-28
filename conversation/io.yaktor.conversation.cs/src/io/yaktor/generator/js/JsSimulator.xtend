@@ -72,19 +72,18 @@ class JsSimulator {
       times(false, argv.iterations, function (n, callback) {
         async.parallel([
           «FOR agent : c.reachableAgents.filter[a|a.projection != null && a.stateMachineType == StateMachineType.FINITE] SEPARATOR ','»
-            function(callback) {
-              if (argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper») return callback();
-              
-              request.get(argv.urlPrefix, function(err, res, b) {
+            function (callback) {
+              if (argv.ignore«agent.parent.name.toLowerCase.toFirstUpper»«agent.name.toLowerCase.toFirstUpper») return callback()
+              request.get(argv.urlPrefix, function (ignoredErr, res, b) {
                 var qId = null
-                for(var c  in res.headers["set-cookie"]) {
-                  var cookieValue = cookie.parse(res.headers["set-cookie"][c])
-                  if (cookieValue["connect.sid"]) {
-                    qId = cookieValue["connect.sid"].replace(/s:([^\.]*).*/,"$1")
+                for (var c in res.headers['set-cookie']) {
+                  var cookieValue = cookie.parse(res.headers['set-cookie'][c])
+                  if (cookieValue['connect.sid']) {
+                    qId = cookieValue['connect.sid'].replace(/s:([^\.]*).*/, '$1')
                   }
                 }
                 «agent.projection.fullName.replace(".", "$")».findOne({ _id: argv.«agent.parent.name.toLowerCase»«agent.
-        name.toLowerCase.toFirstUpper» || argv.defaultId }, function (err,dto) {
+        name.toLowerCase.toFirstUpper» || argv.defaultId }, function (ignoredError, dto) {
                   var processData = {
                     n: n,
                     qId: qId,
@@ -144,7 +143,7 @@ class JsSimulator {
         var dto = processData.dto || {}
         var dataSet = {
           «FOR event : a.events.filter(PrivatePubSub) SEPARATOR ','»
-            "«event.name»": «event.genData»
+            '«event.name»': «event.genData("'")»
           «ENDFOR»
         }
         var me = processData.«a.name» || {}

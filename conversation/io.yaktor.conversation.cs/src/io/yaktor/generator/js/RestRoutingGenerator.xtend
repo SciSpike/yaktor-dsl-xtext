@@ -52,10 +52,9 @@ class RestRoutingGenerator {
         ConversationOutputConfigurationProvider.GEN_ROOT, c.genRestServices(rs))
       fsa.generateFile(thisEndpointsPath + "/" + rs.url + "/" + rs.refType.name + ".js",
         ConversationOutputConfigurationProvider.GEN_ONCE_ROOT, '''
-          (function(){
-            "use strict"
-            var util = require('util')
-            var my = module.exports = require('./«rs.refType.name».def.js')
+          (function () {
+            'use strict'
+            module.exports = require('./«rs.refType.name».def.js')
           })()
         ''')
 
@@ -197,10 +196,10 @@ class RestRoutingGenerator {
               async.apply(converter.from, '«rs.refType.fullName»', body),
               async.apply(«rs.refType.repositoryServiceName».create.bind(«rs.refType.repositoryServiceName»)),
               async.apply(converter.to, '«rs.refType.fullName»') //
-            ],Response.create(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
+            ], Response.create(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
           «ELSE»
             // No Domain
-            Response.create(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null, body)
+            Response.create(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»')(null, body)
           «ENDIF»
         }
       '''
@@ -209,24 +208,24 @@ class RestRoutingGenerator {
           «IF rs.refType.entity != null»
             async.waterfall([
               async.apply(«rs.refType.repositoryServiceName».findOne.bind(«rs.refType.repositoryServiceName»), {_id: id}),
-              async.apply(converter.to,'«rs.refType.fullName»') //
-            ],Response.read(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»"))
+              async.apply(converter.to, '«rs.refType.fullName»') //
+            ], Response.read(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
           «ELSE»
             // No Domain
-            Response.read(req, res, "«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»")(null, req.query)
+            Response.read(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»')(null, req.query)
           «ENDIF»
         }
       '''
       case method == RestAccess.PUT: '''
-        module.exports.«method.crud» = function (id, body,req, res) {
+        module.exports.«method.crud» = function (id, body, req, res) {
           «IF rs.refType.entity != null»
             async.waterfall([
               async.apply(converter.from, '«rs.refType.fullName»', body),
               function (domain, cb) {
-                «rs.refType.repositoryServiceName».findOneAndUpdate({_id:id}, domain,{new:true},cb)
+                «rs.refType.repositoryServiceName».findOneAndUpdate({ _id: id }, domain, { new: true }, cb)
               },
               async.apply(converter.to, '«rs.refType.fullName»') //
-            ],Response.update(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
+            ], Response.update(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
           «ELSE»
             // No Domain
             Response.update(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»')(null, body)
@@ -236,7 +235,7 @@ class RestRoutingGenerator {
       case method == RestAccess.DELETE: '''
         module.exports.«method.crud» = function (id, req, res) {
           «IF rs.refType.entity != null»
-            «rs.refType.repositoryServiceName».findOneAndRemove({_id: id},Response.delete(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
+            «rs.refType.repositoryServiceName».findOneAndRemove({ _id: id }, Response.delete(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
           «ELSE»
             // No Domain
             Response.delete(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»')(null)
@@ -248,17 +247,17 @@ class RestRoutingGenerator {
           «IF rs.refType.entity != null»
             async.waterfall([
               async.apply(converter.toQuery, '«rs.refType.fullName»', query),
-              function(pQ, cb){
+              function (pQ, cb) {
                 var page = parseInt(req.param('page')) || 1
-                var pageSize = parseInt(req.param("pageSize")) || 10
+                var pageSize = parseInt(req.param('pageSize')) || 10
                 «rs.refType.repositoryServiceName».find(pQ).paginate(page, pageSize, cb)
               },
-              function(domains, total, cb){
-                converter.to('«rs.refType.fullName»', domains, function(err, dtos) {
+              function (domains, total, cb) {
+                converter.to('«rs.refType.fullName»', domains, function (err, dtos) {
                   cb(err, dtos, total)
                 })
               } //
-            ],Response.find(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
+            ], Response.find(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»'))
           «ELSE»
             // No Domain
             Response.find(req, res, '«FOR type : rs.supportedDocumentTypes.sort SEPARATOR ','»«type.literal»«ENDFOR»')(null, [])

@@ -192,7 +192,7 @@ class JsGenerator {
                   «IF entity == null»
                     «agent.projection.entity =EMPTY_TYPE »
                   «ENDIF»
-«IF agent.projection != null»«agent.projection.genData»«ENDIF»</textArea></td>
+«IF agent.projection != null»«agent.projection.genData('"')»«ENDIF»</textArea></td>
                   «IF entity != agent.projection.entity»
                     «agent.projection.entity =entity»
                   «ENDIF»
@@ -202,7 +202,7 @@ class JsGenerator {
                   <tr>
                     <td>JSON:</td>
                     <td><textArea id="«agent.parent.name»_«agent.name»_«event.name»_input">
-«event.genData»</textArea></td>
+«event.genData('"')»</textArea></td>
                     <td><button class="eventButton «agent.parent.name»_«agent.name» «event.name»" onclick="«agent.
         name»DoEvent('«event.name»')">«event.name»</button>
                   </tr>
@@ -221,30 +221,29 @@ class JsGenerator {
   
   
 
-  def genTerminalStatesHash (Agent agent){
+  def genTerminalStatesHash (Agent agent, String quote){
     '''
       {
         «FOR s : agent.stateMachine.states.filter[state|state.transitions.empty] SEPARATOR ','»
-          "«s.eventName»":true
+          «quote»«s.eventName»«quote»: true
         «ENDFOR»
       }
     '''
   }
   @Deprecated
-  def genStateMatrix(Agent agent){
+  def genStateMatrix(Agent agent, String quote){
     '''
     «FOR s : agent.stateMachine.allStates SEPARATOR ','»
-      "«s.eventName»":{
-        
+      «quote»«s.eventName»«quote»: {
         «IF !s.requiresExecution»
           «FOR t : s.transitions.filter[t|t.causedBy != null && t.causedBy instanceof PublishableByMe] SEPARATOR ','»
-            "«t.causedBy.name»":{
+            «quote»«t.causedBy.name»«quote»: {
               «IF t.causedBy.refType != null»
-                "type":{
-                  «t.causedBy.refType.schematize»
+                «quote»type«quote»: {
+                  «t.causedBy.refType.schematize(quote)»
                 },
               «ENDIF»
-              "subPath":"/«t.causedBy.name»"
+              «quote»subPath«quote»: «quote»/«t.causedBy.name»«quote»
             }
           «ENDFOR»
         «ENDIF»
@@ -252,22 +251,22 @@ class JsGenerator {
     «ENDFOR»
     '''
   }
-  def genStateView(Agent agent){
+  def genStateView(Agent agent, String quote){
     '''
     «FOR s : agent.stateMachine.allStates.sortWith[s1,s2|(s1.name?:"null").compareTo(s2.name?:"null")] SEPARATOR ','»
       {
-        name:"«s.name»",
-        endpoint:"ws:///«s.eventName»",
-        actions:{
+        «quote»name«quote»: «quote»«s.name»«quote»,
+        «quote»endpoint«quote»: «quote»ws:///«s.eventName»«quote»,
+        «quote»actions«quote»: {
           «IF !s.requiresExecution»
             «FOR t : s.transitions.filter[t|t.causedBy != null && t.causedBy instanceof PublishableByMe].sortWith[t1,t2|t1.description.toString().compareTo(t2.description.toString())] SEPARATOR ','»
-              "«t.causedBy.name»":{
+              «quote»«t.causedBy.name»«quote»: {
                 «IF t.causedBy.refType != null»
-                  "type":{
-                    «t.causedBy.refType.schematize»
+                  «quote»type«quote»: {
+                    «t.causedBy.refType.schematize(quote)»
                   },
                 «ENDIF»
-                "subPath":"/«t.causedBy.name»"
+                «quote»subPath«quote»: «quote»/«t.causedBy.name»«quote»
               }
             «ENDFOR»
           «ENDIF»
@@ -294,26 +293,26 @@ class JsGenerator {
 //    '''
   }
   def genAllInOne(Agent agent){
+    var quote = "'"
     '''
-«««    var tv4 = require("tv4").tv4;
-    
-    module.exports={
-      stateMatrix:{
-        «agent.genStateMatrix»
+    module.exports = {
+      «quote»stateMatrix«quote»: {
+        «agent.genStateMatrix(quote)»
       },
-      terminalStates:«agent.genTerminalStatesHash»
-    };
+      «quote»terminalStates«quote»: «agent.genTerminalStatesHash(quote)»
+    }
     '''
   }
-  def genAgentList(Entity e, Conversation c) {
+  def genAgentList(Entity e, Conversation c, String quote) {
     '''
     «FOR a : c.reachableAgents.filter[agent| agent?.projection?.entity == e] SEPARATOR ',' »
-      "«c.name».«a.name»"
+      «quote»«c.name».«a.name»«quote»
     «ENDFOR»
     '''
   }
   
   def genSwagger(Conversation c,String server) {
+    var quote = '"'
     var s = new HashMap
     '''
     {
@@ -340,7 +339,7 @@ class JsGenerator {
           «IF r.server == server»
           «
           {
-            s.putAll(new JsSchema2(r.refType).docs)
+            s.putAll(new JsSchema2(r.refType,quote).docs)
             ''
           }»
           «val a = r.methods.fold(new HashMap<String,List<RestAccess>>,[ss,m|{
@@ -360,10 +359,10 @@ class JsGenerator {
                "tags": ["«c.name»"],
                 «var description = r.bareComments»
                 «IF description!=null && description.length>0»
-                  "description":"«description.join('\u2424').replace('"','\\"')»",
+                  "description": "«description.join('\u2424').replace('"','\\"')»",
                 «ENDIF»
                 "security":[
-                  {"implicit":["*"]}
+                  {"implicit": ["*"]}
                 ],
                 "produces": [
                   "application/json"
@@ -428,7 +427,7 @@ class JsGenerator {
                           «ENDIF»
                           «IF p.value.items != null»
                             "items": {
-                              «p.value.items.itemize» 
+                              «p.value.items.itemize(quote)» 
                             },
                           «ENDIF»
                           "in": "query",
@@ -491,7 +490,7 @@ class JsGenerator {
         } «IF !s.empty»,«ENDIF»
         «FOR entry : s.entrySet SEPARATOR ','»
           "«entry.key»": {
-            «entry.value.schematize»
+            «entry.value.schematize(quote)»
           }
         «ENDFOR»
       }
@@ -500,53 +499,54 @@ class JsGenerator {
   }
   
   def genViewJs(Conversation c){
+    var quote = "'"
     '''
-    module.exports={
-      "«c.name»":{
-        //the plural of crud is curd?
-        crud:[
+    module.exports = {
+      «quote»«c.name»«quote»: {
+        // the plural of crud is curd?
+        «quote»crud«quote»: [
           «FOR v : c.views SEPARATOR ','»
             {
-              name:"«v.url.replaceFirst("/","").replaceAll("/","_s_").replaceAll("\\.","_d_")»",
-              "endpoint":"http://«v.backedBy.url»",
-              "agents":[
-                «v?.backedBy?.refType?.entity?.genAgentList(c)»
+              «quote»name«quote»: «quote»«v.url.replaceFirst("/","").replaceAll("/","_s_").replaceAll("\\.","_d_")»«quote»,
+              «quote»endpoint«quote»: «quote»http://«v.backedBy.url»«quote»,
+              «quote»agents«quote»: [
+                «v?.backedBy?.refType?.entity?.genAgentList(c, quote)»
               ],
-              "actions":{
+              «quote»actions«quote»: {
                 «FOR m : v.backedBy.methods.sort SEPARATOR ','»
-                  "«m.name()»":{
-                    "type":{
-                      «v.backedBy.refType.schematize»
+                  «quote»«m.name()»«quote»: {
+                    «quote»type«quote»: {
+                      «v.backedBy.refType.schematize(quote)»
                     },
-                    "subPath":"«m.pathFragment»"
+                    «quote»subPath«quote»: «quote»«m.pathFragment»«quote»
                   }
                 «ENDFOR»
               }
             }
           «ENDFOR»
         ],
-        agents:[
+        «quote»agents«quote»: [
           «FOR agent:c.agents.sortWith[a1,a2|a1.name.compareTo(a2.name)] SEPARATOR ','»
             {
-              id:"«agent.parent.name».«agent.name»",
-              name:"«agent.name»_of_«agent.parent.name»",
-              "endpoint":"ws:///«agent.parent.name».«agent.name»",
-              "actions":{
-                "init":{
-                  type:{
-                    «agent.projection.schematize(true)»
+              «quote»id«quote»: «quote»«agent.parent.name».«agent.name»«quote»,
+              «quote»name«quote»: «quote»«agent.name»_of_«agent.parent.name»«quote»,
+              «quote»endpoint«quote»: «quote»ws:///«agent.parent.name».«agent.name»«quote»,
+              «quote»actions«quote»: {
+                «quote»init«quote»: {
+                  «quote»type«quote»: {
+                    «agent.projection.schematize(true,quote)»
                   },
-                  subPath:"/init"
+                  «quote»subPath«quote»: «quote»/init«quote»
                 }
               },
-              states:[
-                «agent.genStateView»
+              «quote»states«quote»: [
+                «agent.genStateView(quote)»
               ]
             }
           «ENDFOR»
         ]
       }
-    };
+    }
     '''
   }
   def getPathFragment(RestAccess a){
