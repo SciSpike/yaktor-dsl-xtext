@@ -12,8 +12,8 @@
 	<modules>
 		<module>domain</module>
 		<module>conversation</module>
-		<module>cli</module>
 		<module>test-project</module>
+		<module>cli</module>
 	</modules>
 
 	<licenses>
