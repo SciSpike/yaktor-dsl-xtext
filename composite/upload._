@@ -1,4 +1,4 @@
 #!/bin/bash -ex
 aws s3 --region us-west-2 --profile scispike cp composite/compositeArtifacts.xml s3://yaktor.io/eclipse/compositeArtifacts.xml
 aws s3 --region us-west-2 --profile scispike cp composite/compositeContent.xml s3://yaktor.io/eclipse/compositeContent.xml
-aws s3 --region us-west-2 --profile scispike cp conversation/update.all s3://yaktor.io/eclipse/<%= sites[sites.length-1] %>/ --recursive
+aws s3 --region us-west-2 --profile scispike cp conversation/update.all.tmpl/target s3://yaktor.io/eclipse/<%= sites[sites.length-1] %>/ --recursive

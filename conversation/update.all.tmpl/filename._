@@ -1,0 +1,1 @@
+<%= filename.replace(/^([\w|\.]+)\-(\d+\.\d+\.\d+)(\-SNAPSHOT)?\.jar$/, '$1_$2' + (qualifier ? ('.' + qualifier) : '') + '.jar') %>

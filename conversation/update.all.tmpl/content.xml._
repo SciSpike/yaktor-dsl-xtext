@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.1.0'?>
+<repository name='Update Site' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1'>
+  <properties size='2'>
+    <property name='p2.timestamp' value='<%= timestamp %>'/>
+    <property name='p2.compressed' value='true'/>
+  </properties>
+  <units size='12'>
+    <unit id='io.yaktor.domain.cs.sdk.feature.group' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>' singleton='false'>
+      <update id='io.yaktor.domain.cs.sdk.feature.group' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Domain SDK Feature'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.sdk.feature.group' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.ui' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.as' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.sdk.feature.jar' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='domain_<%= version %>' version='1.0.0.08Q-cEEaxb7735E3G7G5G37'>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='domain_<%= version %>'/>
+        <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='domain_<%= version %>' version='1.0.0.08Q-cEEaxb7735E3G7G5G37'/>
+      </provides>
+      <requires size='1'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.sdk.feature.group' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='io.yaktor.domain.cs.sdk.feature.jar' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <properties size='1'>
+        <property name='org.eclipse.equinox.p2.name' value='Domain SDK Feature'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.sdk.feature.jar' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='io.yaktor.domain.cs.sdk' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='io.yaktor.domain.cs.sdk' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.conversation.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.conversation.as' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='3'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.conversation.as'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      </properties>
+      <provides size='12'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.conversation.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor.access' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.access.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.access.util' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.conversation' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.conversation.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.conversation.util' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.types' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.types.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.types.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='3'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.as' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.conversation.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.conversation.as;singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.domain.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.domain.as' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='3'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.domain.as'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+        <property name='org.eclipse.equinox.p2.bundle.localization' value='plugin'/>
+      </properties>
+      <provides size='9'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.domain.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor.domain' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.domain.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.domain.util' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.mongoNode' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.mongoNode.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.mongoNode.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='2'>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.domain.as' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.domain.as;singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.domain.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.domain.cs' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.domain.cs'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+      </properties>
+      <provides size='13'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.domain.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.generator.nodejs' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.serializer' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.services' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.validation' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='12'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.generator' range='[2.7.0,2.9.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.launch' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.apache.commons.logging' range='1.0.4' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.objectweb.asm' range='[5.0.1,6.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.as' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.domain.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.domain.cs; singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='conversation_<%= version %>' version='1.0.0.08Q-cEP8xb7735E3G7G5G37'>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='conversation_<%= version %>'/>
+        <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='conversation_<%= version %>' version='1.0.0.08Q-cEP8xb7735E3G7G5G37'/>
+      </provides>
+      <requires size='1'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.sdk.feature.group' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='io.yaktor.conversation.cs.sdk.feature.jar' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <properties size='1'>
+        <property name='org.eclipse.equinox.p2.name' value='Conversation SDK Feature'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.sdk.feature.jar' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='io.yaktor.conversation.cs.sdk' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='io.yaktor.conversation.cs.sdk' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.conversation.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.conversation.cs.ui' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.conversation.cs.ui'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.conversation.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor.ui.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.contentassist' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.contentassist.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.internal' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='16'>
+        <required namespace='osgi.bundle' name='io.yaktor.conversation.cs' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.compare' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='io.yaktor.conversation.as' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.cs.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.7.0,2.9.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.conversation.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.conversation.cs.ui; singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.conversation.cs.sdk.feature.group' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>' singleton='false'>
+      <update id='io.yaktor.conversation.cs.sdk.feature.group' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='Conversation SDK Feature'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.sdk.feature.group' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </provides>
+      <requires size='4'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.as' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.ui' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs.sdk.feature.jar' range='[<%= version %><%= qualifier ? ('.' + qualifier) : '' %>,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='io.yaktor.conversation.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.conversation.cs' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.conversation.cs'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+      </properties>
+      <provides size='12'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.conversation.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.conversation.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.services' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.serializer' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.validation' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.formatting' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='14'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.generator' range='[2.7.0,2.9.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.launch' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.apache.commons.logging' range='1.0.4' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.objectweb.asm' range='[5.0.1,6.0.0)' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='io.yaktor.conversation.as' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.as' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.cs' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.conversation.cs' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.conversation.cs; singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='io.yaktor.domain.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'>
+      <update id='io.yaktor.domain.cs.ui' range='[0.0.0,<%= version %><%= qualifier ? ('.' + qualifier) : '' %>)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='io.yaktor.domain.cs.ui'/>
+        <property name='org.eclipse.equinox.p2.provider' value='SciSpike LLC'/>
+      </properties>
+      <provides size='7'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='io.yaktor.domain.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='osgi.bundle' name='io.yaktor.domain.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+        <provided namespace='java.package' name='io.yaktor.ui.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.contentassist' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.contentassist.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='io.yaktor.ui.internal' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='14'>
+        <required namespace='osgi.bundle' name='io.yaktor.domain.cs' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates.ui' range='[2.7.0,2.9.0)'/>
+        <required namespace='osgi.bundle' name='org.eclipse.compare' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='[2.7.0,2.9.0)'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='io.yaktor.domain.cs.ui' version='<%= version %><%= qualifier ? ('.' + qualifier) : '' %>'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: io.yaktor.domain.cs.ui; singleton:=true&#xA;Bundle-Version: <%= version %><%= qualifier ? ('.' + qualifier) : '' %>
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+  </units>
+</repository>

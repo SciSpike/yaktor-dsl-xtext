@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="io.yaktor.domain.cs.sdk"
+      label="Domain SDK Feature "
+      version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>">
+
+   <plugin
+         id="io.yaktor.domain.cs"
+         download-size="0"
+         install-size="0"
+         version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>"
+         unpack="false"/>
+
+   <plugin
+         id="io.yaktor.domain.cs.ui"
+         download-size="0"
+         install-size="0"
+         version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>"
+         unpack="false"/>
+
+   <plugin
+         id="io.yaktor.domain.as"
+         download-size="0"
+         install-size="0"
+         version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>"
+         unpack="false"/>
+
+</feature>
