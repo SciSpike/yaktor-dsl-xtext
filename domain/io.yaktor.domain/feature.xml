@@ -2,7 +2,7 @@
 <feature
       id="io.yaktor.domain"
       label="io.yaktor.domain"
-      version="0.47.0.qualifier"
+      version="0.47.0"
       provider-name="Yaktor">
 
    <description url="http://www.example.com/description">
@@ -21,21 +21,21 @@
          id="io.yaktor.domain.as"
          download-size="0"
          install-size="0"
-         version="0.47.0.qualifier"
+         version="0.47.0"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.domain.cs"
          download-size="0"
          install-size="0"
-         version="0.47.0.qualifier"
+         version="0.47.0"
          unpack="false"/>
 
    <plugin
          id="io.yaktor.domain.cs.ui"
          download-size="0"
          install-size="0"
-         version="0.47.0.qualifier"
+         version="0.47.0"
          unpack="false"/>
 
 </feature>
