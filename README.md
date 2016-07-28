@@ -15,6 +15,23 @@ This is an Xtext-based project containing the Yaktor DSLs created by SciSpike, w
 
 ## Building
 Prerequisites:
+
+* `docker build -t yaktor-mvn-build docker`
+
+```
+./build.sh mvn clean install
+```
+
+FTW
+
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+Or, to build in from unsupported native environment gather up:
+
 * Maven 3.2 (*exactly* 3.2, for now)
 * JDK 7 (JDK 8 has not yet been tested)
 * Node 4.4.x & its associated `npm`
@@ -25,6 +42,16 @@ Prerequisites:
 MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' \
   mvn clean install -V
 ```
+
+Oh, so sorry you have errors.
+
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[ERROR] Your Environment is to blame
+```
+
 ## Releasing the Yaktor DSL CLI
 > NOTE: this creates a new release that's published to the world.
 
