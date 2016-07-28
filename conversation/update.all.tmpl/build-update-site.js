@@ -20,8 +20,12 @@ var artifacts = _.template(fs.readFileSync(path.resolve('artifacts.xml._')), opt
 var content = _.template(fs.readFileSync(path.resolve('content.xml._')), options)
 var site = _.template(fs.readFileSync(path.resolve('site.xml._')), options)
 
-var findFirstJarIn = function (dir) {
-  return _.find(fs.readdirSync(dir), it => it.match(/\.jar$/))
+var findFirstJarIn = function (dir, v) {
+  var regex = '(\\-SNAPSHOT)?\\.jar$'
+  // if (v) {
+  //   regex = v.replace(/\./g, '\\.').replace(/\-/g, '\\-') + regex
+  // }
+  return _.find(fs.readdirSync(dir), it => it.match(new RegExp(regex)))
 }
 var target = path.resolve('target')
 var srcdir, dstdir, srcfile, dstfile, srcpath, dstpath
@@ -44,7 +48,8 @@ fs.removeSync(target)
 } ].forEach(it => {
   fs.writeFileSync(path.resolve(target, 'features', 'feature.xml'), it.feature(params))
   srcdir = path.resolve(it.dir, 'io.yaktor.' + it.type + '.cs.sdk', 'target')
-  srcfile = findFirstJarIn(srcdir)
+  srcfile = findFirstJarIn(srcdir, version)
+  if (!srcfile) throw new Error('no jar in ' + srcdir)
   dstfile = filename({ filename: srcfile, qualifier })
   dstdir = path.resolve(target, 'features')
   dstpath = path.resolve(dstdir, dstfile)
@@ -55,14 +60,14 @@ fs.removeSync(target)
   ;
   [ 'as', 'cs', 'cs.ui' ].forEach(component => {
     srcdir = path.resolve(it.dir, 'io.yaktor.' + it.type + '.' + component, 'target')
-    srcfile = findFirstJarIn(srcdir)
+    srcfile = findFirstJarIn(srcdir, version)
     if (!srcfile) throw new Error('no jar in ' + srcdir)
     srcpath = path.resolve(srcdir, srcfile)
     dstfile = filename({ filename: srcfile, qualifier })
     dstdir = path.resolve(target, 'plugins')
     dstpath = path.resolve(dstdir, dstfile)
     fs.copySync(srcpath, dstpath)
-    console.error('component: ' + dstpath)
+    console.error('file: ' + dstpath)
     var key = size({ dir: 'plugins', filename: srcfile })
     console.error('key: ' + key)
     var stat = fs.statSync(dstpath)
