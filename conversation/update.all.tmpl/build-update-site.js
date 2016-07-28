@@ -19,13 +19,10 @@ var domain = _.template(fs.readFileSync(path.resolve('domain.feature.xml._')), o
 var artifacts = _.template(fs.readFileSync(path.resolve('artifacts.xml._')), options)
 var content = _.template(fs.readFileSync(path.resolve('content.xml._')), options)
 var site = _.template(fs.readFileSync(path.resolve('site.xml._')), options)
+var jarRegex = /^[\w|\.]+\-\d+\.\d+\.\d+(\-SNAPSHOT)?\.jar$/g
 
 var findFirstJarIn = function (dir, v) {
-  var regex = '(\\-SNAPSHOT)?\\.jar$'
-  // if (v) {
-  //   regex = v.replace(/\./g, '\\.').replace(/\-/g, '\\-') + regex
-  // }
-  return _.find(fs.readdirSync(dir), it => it.match(new RegExp(regex)))
+  return _.find(fs.readdirSync(dir), it => jarRegex.test(it))
 }
 var target = path.resolve('target')
 var srcdir, dstdir, srcfile, dstfile, srcpath, dstpath
