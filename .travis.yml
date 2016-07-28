@@ -1,33 +1,36 @@
-# http://www.debonair.io/post/maven-cd/ was helpful
 sudo: required
 services:
   - docker
 env:
   global:
+    # OSSRH_JIRA_USERNAME
     - secure: "YD1flPPSUO+2rLgdmN29Lu4YUY9cej0mJczt6DF7s88wxK1/j/OsDpsKRpoPOaHvSbQNiWuuSkSuVKj4yvyKoF+7GnDmy7xoapuwdCdfGGVFcHwzNEwYqZRAp74T+rRuYodp2/xriu92UgwIaKhZ7+nwabZ8OBo+wAtpVj9YniEQ987hjrKHHOCx2d1Mw1OR+JnyKFwiF+ugL9c7hGCXU+m1dytFBDDdroyRQ4LMqnBg1OZBm1AInEZ72diMEKV3jq3PYX8lnaFqRsc5reNFm47ri8+tiQob542g4Orn2ymEQr4zWOnu3aTealZ3NlWLT4WzAuSgrg952VyIadownV3wvwWyDQ8c/G7Ia9PxpBEqyJptxEIOINwVGzOGFVUP3u6PqVVmX+AP1LZqJ1TU5SpO5USUwTHV3vVCf/JUOg9AjpYRCnOoNYjU6BQUXveaActtgbnN67EJaNLqXSNNLeleDDePgnREilJox4deTgmlosPtsWaE33aQIfpF3IR7nnp/DMFV4TrMQqMg9AdLI5M6QJqq44IX5L9aH5gxkJ7YrslMgTQnVrjQ55DltwPyoFySvzUWxIE+/eyR091knf4HFCD2fmrDYc9pBJ+Xs8m3MFkJZ+/KI3Yn6rCS30XXfZaef5Vu47sRs2txB1T4ru+Bi6CRRXknx41jwCl+BXE="
-    - # ^^ OSSRH_JIRA_USERNAME
+    # OSSRH_JIRA_PASSWORD
     - secure: "lGlhuLf6l+SE8ln5OSP9kT25aUpu0e75waUcfOXQQhnXdyVMXZpDZFl6zDDvPpbJZx7AE9zQQ/pUq45x4MCxdB0ZuHhG9FOfk61RH6/YGisromKFqXp54t7RGn1wafUi0jyrjCrgutfLyQiZpErzdrCNbp8gMZvRFl0aRBkpDuXCYlFBBI+P7lxYukeqtS0aBgtyLlxndOs7AH+UQbA+faAs+2mqfd+pH6+UKcAjCghziMovy4ocsFvCxhJsj9SaXYBZXTby2my7PxpIc1MuH+3GCk3XQK4Up5H0BE92yxVBJTXDoWT4POQbvtXQz4nXNanSht7z2nEvK10tZFk0gG/0EeduYVfMW3WQp3pqh57id7yLwG9kU8wDTwNIleeNhIsIod7wh9GzhbXl9BXMOhIrdAsln0bMwch6JEol3FuC5Y+NldhkpM3CGy3QSIgd6lIEf83hDpZLhyOmM1JZNGFX5ozenUkeYHqXgU7LTaJlPziItMOl3k+NiLB4iv1x11rD2LlsBroCcrt3rMNrZSSX9n4STCwjBliYUeTHNDvIXtk7idIKLNHxSN3RtaWaxOIr1bxae3R46tMsKbjs+PpIOtZBLBMKu+kkXsEuxyQJdUpzuayYBTLPePnDArjXAYnFK0zChJCuuaoB2H/TZjdYL/mONNjY9Fv8CJBA4y8="
-    - # ^^ OSSRH_JIRA_PASSWORD
+    # GPG_KEY_NAME
     - secure: "Gy0rjUOghYz+Qd9C+tj8Uut+dObjTe4v0r/5FTcROMifXcItvEJtEf/+Q0r5vv92F00Ha2FbjWxYrzYfYrK/4ZWqF6oMLP01gyoZ07S6dG7RMf3CFjUJXi8VXfJeiEHHJZrWBv3UCjDNxDDlspK1H0yPkaY3//S5qtZz/E5gJd0xXRHPTq9BtnirR5MdtyWhgw+tofUzGcE0igmlcY7wvoizJ16py92ADMJd1bwSwNWkD2mH7Y+BmINtQH9QLKYLCEO3lI6ZGeOAM0aDU0Ga0RpSUbSqlXB6i8sRPYn5a7qzeqMWROET1moBBTdm2Fxx8yn7Wd+Fmn3QODZhNt40yRNHEpzkIWZZtbXqzrPy32mKABArBQCG04sbfUE37/plaE2ZXSxdiTf/GtYOlCQ5NfM/+ySmFxrhd62dw/7OBhBzgk14AGLDGVLNZOX1KJAkNUiz4e7iXk7lxFR/S+T3+vtkttg+B4VDJbYwcIkHiHyjFawqw2wCjY+Oc/BiIdakPnaSRnZfJljwJFLppLxz0vrgB204dzKig0RnA2YcMoQD904Jh2ydqmC2Rhl6azZkcZSXmKAiHVHjR7KVIPViEReqXGmKV+vPxUMrAwE2qCv2myZjMFBUyI8YU0Y4S7Go3CyvMDnbuKTW9DFGpnVlbjTUHtAC5Ee7PJf5AiCIM78="
-    - # ^^ GPG_KEY_NAME
+    # GPG_PASSPHRASE
     - secure: "fY++0lNC63Pl/fIYKkCh+VlHxly64mMYJ7rFz3DRyVwCYZxTmrADphFfwWgWzuMWkD8oCdvdxrwCAQ9w5exYbEhRiKzSfuyagdkWBKTlkcouYpZLXncY1vf02gZO5VWJXX8WAlDQPlWOWJWrj+cWZEeX+OVXsHlJRHokXfPIQ/2WRUKBMyFtSdgtmS/BFLGKAgpN7sCHVqIree82Rj0gZVFy2drCBaLySbHk4OZeW3sbIcJulmmrbM2Rt7gWIkSWZnPZwofbhcwl8G27dwUdn24AIz9zSbn858+ZLCdQd79zjo2FeHnW0VLOYDDG4OLW1/kGgQ0WDIGpDy0Vmzrdyrd+5+BMqc3xYlQ3TuYqT7TfoJH2hqh4QGRg5S+2y0W49vb4l1t8eJKB9pXDGgtw1QyHBOG+P84mCQ62USWMM12Ioni799hM37pJiEMmhWApinw/aK5iCiBcHcmPlIu1pXCvhMuSHbs3odb5AZp0WnNvU0V4RlKLqNskNkyR12knRQTRv+A4R7egCGJ8VoPkKRhxlS9diOnxBf8C4nxPmIwZtdixKJvEqAavArxKjBNplXfFTdz7gn4FTn27iDdA5ORXBaqpWhHUaPYA3JS3pb5QN7imINIjIdSK6la6WhI7iySRLRJk/kir7YsF9tAbIoqbHoqdqCpcLSKnvMShpVE="
-    - # ^^ GPG_PASSPHRASE
+    # TRAVIS_GPG_KEY
     - secure: "J/qH0lLj1zEz0Jy4uUidaf/0nIgdKrrkfPZik7fcss65avszD9QcviQg/xMizilX0nLyS2JwxkzBlhFdHkRn6Ne+Seg0VPmtY9XUgX0qdtMsM7nSO4iVHdYGceADxtZGy5t/ENqBsH5JowwV38yaHNOqOLYGa3kOM8Dka5jSjn1l9LE5MGV4FXgSqmCPXVQyp3IMyPLFYO+kkkTA+c59XSKLhYb6nXzqvZDCMWphjIKPtAIcKI3pqMewjlP/O1Amf7ejRAhdE5J4MgvLnFWK9r3Oa+sCTwXUMVUWh8qzCZvRGUZocZjrqxhAob8UFO740Yaur+LhfSp/FN85bTWL1hP7mnOsPyEZnjWwONwJS2FlcwuVh9m/OlJWrHd2lKRSDaeOjoc9tXRhW0cKHD6S+SLyLtrILF2kl+UN6StQiNq3VMP2jYCXM6USXe3aZGYU4PPNZ53tl4mJTLmI3knnPFQNKzG5TRGSC+Y2xVvE2D5lvmDAkXpxaBK/6LBXw7XuGWYajkO1U2OGBaZInV42mND1UdGFWA76jfiZnV2q1ZyeL4STwAepZJInOIXmA8aqYgLE944gEHRWoys/wUZOAjIFD3p0WF6myHbsQWneeoJTCX0g9kdS+7sXre+vsgOYNmC2SardVxvRYDPH2V9lA6ZbgUq78T6/j7W9t3e2wGA="
-    - # ^^ TRAVIS_GPG_KEY
+    # TRAVIS_GPG_IV
     - secure: "aworSLFzU3g1NuFvAK8DFgQMPU/7mu6hK5qbLy6RNJR9UefnXnaXzSojbK+tht/WC/VSykICarGicJrh0Dk5O23XX3vmhk44fLM4S9MiDdypCRnQVba20vCDpueN9WnniZyJ6ITBZUsfHQ6Tqlq6i55D11RQo0fnjNmkqQha5dOE/5WfWODsOhnmFxKvneR4aMdkbFUumGtGIacjcN8Y2PpqcAZ/LsxvlvnhyWG1l8MI6lpARuCARkq/kBdZSKGP3z6sbghKhDbOPJGMxKTEEIaSFlZojMSA8HkxM0cDZDkdDOyy4xNM15rb8RFIthaoNbGeoYQ1EhaRj3wsxG8nAtAqmVM64DMNZKcNsc3B+6RxTNPRqeir8zdnjj6MjUx1QGwv6Anpp4xzJ3Y1kecDqgLBNdanZ9jpFRZT8ezeAWlMZJixhwrf8HtyCJ7LnQaJhoi9jdF57u2GExo87/w4SHyZilUN9Y3iKlZnJ7/5KYS3p7qRrgARzm0a09b2tpqFrUdI0+Kqxs7L+pNESr8KX/mldH5Dpw3REwZscrw2k+7HISNRTSUwbLwiymCzyKzqCxUp4GyRFT1g5ZTEnnvk+9f/UJXgztf90zQnX9LDwU/oFWd7lSs56HMHZdhc5Qx48QE3Nkkt+H7CaBfogPJtQjXtDatuPvlg+1NCW5gw4jM="
-    - # ^^ TRAVIS_GPG_IV
+    # NPM_AUTH_TOKEN
     - secure: "l0niICCC0yQYbvfyWHLXzKzvF/Fbxv5I0/ugCZrMTjIb/uktqGQ1mM3RwvIjX+lriKFL10coS+u8O1yLsD3l2ba1sm6aCCDT22m/s6AQb+XYjIELq88xj+JEpQ8Ab5csGaoaCRZwrdvkAKNUBMN9tv+FF+Xmu8GEUm7XQ70vF2F6kfNb2Fly1KZJBhhO4YSQPavnj/PIkXCqeYVvBjCJ3r0SNq1D4drvhlYd7iqhD0XPqA46TY+N9YCsUz0R9rzuIpJRWceTWvG7NltsO2OuWj7kxoyMZqsKwNjPwP9l7ux0jXYdsMnNnMGXgZZ5KCBKcmVIJy8/QrRJ+2O2EUVHEyNaa4utiLmOrUNteQBbQIT7cqsk10JG8WYz5PAfysJaO1tnHE2wVkn8IILyoeRHi4hImCfjs4GsLzbvhWZZbAfkUbyHz9gY7YT2DEYx9obUpyJL0FcONNXsQqSBYol1G7i9j3NzJohACKS96YazEyxG0z8AVrLiOAdG9poGgoyApV5mAAJ7vjDAgRWnY+YejcEKVirrbamdxcwKbjUTu1TSFzAwOn/1BfCpIk2fki3EXNTIMjLBEHyIjqwOrZSi3bdhUOBH9l5QDMfquhYi7C6on1CnPDnoM/GX9jBONf8RzQYmHWiEj2cWU11jXkgi9E6AcKtboOSPmHkmrZ6e6UE="
-    - # ^^ NPM_AUTH_TOKEN
+    # AWS_ACCESS_KEY_ID
+    - secure: "mAOxZ20lSB+rS+E3luelA4gtX+3cymkcLPNNalZxW1zugg8lpHKM4Ic2EejyrqIdewumAEzrx8rODW80dL/YckUEFiyT3t+9ddClboizYCxZn168UJPtKAPeobgFQ/O+3MMNqtWDM/JCfCOEbxM7/PXtxrrfBA79INJ0DQf1gAVdUQzt2JrmOLMZAdUv6Y/UJsn2fCdiMO8dxESTKLyn3kCX4+h2ByAcLX3wXOJb+3b9HsiDM2nnaYizICDE9Z4Kjrt5mRqDcxNFJu6L72DDWIcK0dLeBC+uizyMSzyvVSvjXSla4JRDwZw5gJRZ1Z1aiJ3+u5zy6PARkCwG2t4hkCePMVgZpTqc5yd1VKz6uAb6JE1mouYApBRNXk0q5C/k50f1h0OFbI3EE3N7lfKg3/CvGcyq9PsKvWjnBEiWOZnhjNFnXux7MzLid6o8MqU93bW3VKeYYnkt0JOYjskjDlKxbkHuFt0Zw/3g9CF5nU7yVwgyxHrTI5zMNyei3EnpwgYLCycA9reUjxC36IHEtI24K4W/j5qM2NGIlsbVfV/F9jqBpICTWHzdTiox3kWH+bfhxhuniMOE11dOolMzGWQTrZoIKrtTHVK9xNtcC5u6i3v+Brcv24NNCwfW0jV9st9pfxaaB1pY4uDDOK/u6ukKiKBQ+xx/ohhdrLoalJc="
+    # AWS_SECRET_ACCESS_KEY
+    - secure: "KCSHGuUDuMmfQdPrCGKX+26/NbG1Isw3ahfb46brGDe9SPLtkHjyyh6Q5PAhU1el8RdTIz9KelubZC8ky/Q11GmkMg2HCX4CrYOlecHqaJxpI9715y+H92c5lTx+Jzg7kKvFrH3FQaJz23Gxo2cfOruPs/lKxSIyHmga/4e6IGCzfPftcrL0hjPcZ7UjIcnTDTRz0xIbcSyJPb4l7PP60GLFfS6dEu3JExhTNL8iaRbRr1yJoHSXKQ28oce7Qp6ybcIFW0Dw6l8Bl4qDh0akV2078rhjQXZns1eykDNw21KTnnnbLbZQVyT5zrA2ZiNc/b3XJT86JzsjVRSIEdccYLdYPUeWcqC87DxdfAn1PoTw0nZwUjMd+EP1f9+zD6xB8Rn4i7stYZeUwUwa9+YFgtvWBS0TBPkfpa8RAwd+t+82kOhfKs8lD5ze4TZR4qqDE3g/CuMfyvdjNIMm3YJ+3SFn0cHLk+TpHZPZL8+OBP/AgNyoXWKN018WvB/IkINEqg9vl1oZBm+JOakIGQ4S5eqngDzBiJ/AJND4fAL3XjNTfTl/gXENoR8Vwy59lTWSjkJvj4HDRCLBYY9TSY54N6KSRvYlorSU+bE+pHOYYNGmiMhjuc+sSBoT/OQCQqGzg6PrB4ZI+5o22zDXFvpVoTJcLqmOrtRIV2qQx20VDG8="
 branches:
   only:
     - master
     - /^v[0-9]+\.[0-9]+\.x$/
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
 install:
-  - docker build -t build:latest docker
+  - docker build -t bobthebuilder:canwebuildit docker
   - docker run
     -d
-    --name bob
+    --name bobthebuilder_yeswecan
     -v $PWD:/build
     -e MAVEN_OPTS="-Xms256m -XX:MaxPermSize=1024m -Xmx1024m"
     -e MAVEN_SETTINGS=cli/maven-deploy-settings.xml
@@ -38,9 +41,12 @@ install:
     -e GPG_PASSPHRASE="$GPG_PASSPHRASE"
     -e TRAVIS_GPG_KEY="$TRAVIS_GPG_KEY"
     -e TRAVIS_GPG_IV="$TRAVIS_GPG_IV"
-    build:latest
+    -e NPM_AUTH_TOKEN="$NPM_AUTH_TOKEN"
+    -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
+    -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
+    bobthebuilder:canwebuildit
     tail -f /dev/null
 script:
-  - docker exec -it bob mvn clean install -B -V -P release
-  - docker exec -it bob cli/travis-before-deploy.sh
-  - docker exec -it bob cli/maven-deploy.sh
+  - docker exec -it bobthebuilder_yeswecan mvn clean install -B -V -P release
+  - docker exec -it bobthebuilder_yeswecan cli/travis-before-deploy.sh
+  - docker exec -it bobthebuilder_yeswecan cli/maven-deploy.sh

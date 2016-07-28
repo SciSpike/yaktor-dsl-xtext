@@ -3,8 +3,10 @@ set -e
 
 echo "Determining deployment coordinates:"
 
-VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # get "downloading" messages out of the way
-export VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
+if [ -z "$VERSION" ]; then
+  VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # get "downloading" messages out of the way
+  export VERSION=$(mvn -f "$CLI_DIR" help:evaluate -Dexpression=project.version | egrep -v '^\[.*' | xargs) # now egrep will work
+fi
 echo "VERSION=$VERSION"
 if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\-SNAPSHOT$ ]]; then
   SNAPSHOT=1
@@ -102,10 +104,12 @@ elif [ $(echo -n "$OPEN_STAGINGS" | wc -l) -gt 1 ]; then
 fi
 COORDS="$COORDS -DstagingRepositoryId=$STAGING"
 set -x
-mvn nexus-staging:rc-close $COORDS
-mvn nexus-staging:rc-release $COORDS
+mvn nexus-staging:rc-close nexus-staging:rc-release $COORDS
 set +x
 export TARGET=$TARGET/npm
 export INSTANT=$(date --utc +%Y%m%d%H%M%S)
-echo "Maven Central sync requested at $INSTANT; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
+echo "Maven Central sync requested at ${INSTANT}Z; see http://repo1.maven.org/maven2/$(echo $GROUP_ID | sed -E 's,\.,/,g')/$ARTIFACT_ID/$VERSION/"
 $(dirname $0)/npm-publish.sh
+
+# now copy to the Yaktor eclipse update site
+$(dirname $0)/../eclipse-update.sh

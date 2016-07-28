@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/io.yaktor.domain.cs.sdk_<%= version %><%= qualifier ? ('.' + qualifier) : '' %>.jar" id="io.yaktor.domain.cs.sdk" version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>">
+      <category name="domain_<%= version %>"/>
+   </feature>
+   <feature url="features/io.yaktor.conversation.cs.sdk_<%= version %><%= qualifier ? ('.' + qualifier) : '' %>.jar" id="io.yaktor.conversation.cs.sdk" version="<%= version %><%= qualifier ? ('.' + qualifier) : '' %>">
+      <category name="conversation_<%= version %>"/>
+   </feature>
+   <category-def name="domain_<%= version %>" label="domain_<%= version %>"/>
+   <category-def name="conversation_<%= version %>" label="conversation_<%= version %>"/>
+</site>

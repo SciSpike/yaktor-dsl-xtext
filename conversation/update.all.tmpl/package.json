@@ -1,0 +1,17 @@
+{
+  "name": "update.all.template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Yaktor Eclipse Update Site Builder",
+  "main": "build-update-site.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "async": "^2.0.1",
+    "fs-extra": "^0.30.0",
+    "lodash": "^4.14.0"
+  }
+}
