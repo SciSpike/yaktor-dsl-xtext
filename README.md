@@ -32,7 +32,7 @@ FTW
 [INFO] ------------------------------------------------------------------------
 ```
 
-Or, to build in from unsupported native environment gather up:
+Or, to build from your unsupported native environment:
 
 * Maven 3.2 (*exactly* 3.2, for now)
 * JDK 7 (JDK 8 has not yet been tested)
