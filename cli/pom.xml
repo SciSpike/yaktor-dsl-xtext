@@ -135,11 +135,11 @@
                                 </resource>
                                 <resource>
                                     <directory>
-                                        ${settings.localRepository}/io/yaktor/${project.artifactId}/${project.version}
+                                        ${settings.localRepository}/io/yaktor/${cli.basename}/${project.version}
                                     </directory>
                                     <filtering>false</filtering>
                                     <includes>
-                                        <include>${project.artifactId}-${project.version}.jar</include>
+                                        <include>${cli.basename}-${project.version}.jar</include>
                                     </includes>
                                 </resource>
                             </resources>
