@@ -1,3 +1,4 @@
+/* global describe, it, after */
 var assert = require('assert')
 var path = require('path')
 var async = require('async')
@@ -9,11 +10,9 @@ require(path.resolve('src-gen', 'modelAll'))
 var All = mongoose.model('All')
 var Ref = mongoose.model('Ref')
 var Simple = mongoose.model('Simple')
-var converter = require('yaktor/services/conversionService')
-require(path.resolve('conversations', 'types'))
 var Validation = mongoose.model('Validation')
 var Validation2 = mongoose.model('Validation2')
-describe('domain', function () {
+describe(path.basename(__filename), function () {
   after('config', function (done) {
     mockgoose.reset()
     done()
@@ -40,7 +39,7 @@ describe('domain', function () {
     })
     it('should throw with a [{type}]', function () {
       new Validation({
-        ts: [{}],
+        ts: [{}]
       }).save(function (err) {
         assert.ok(err)
         assert.ok(err.errors)
@@ -50,7 +49,7 @@ describe('domain', function () {
     })
     it('should throw with a [{nest:[{type}]}]', function () {
       new Validation({
-        ts: [{a: 'value',tts: [{}]}],
+        ts: [{a: 'value', tts: [{}]}]
       }).save(function (err) {
         assert.ok(err)
         assert.ok(err.errors)
@@ -60,7 +59,7 @@ describe('domain', function () {
     })
     it('should throw with a [{nest:{type}}]', function () {
       new Validation({
-        ts: [{a: 'value',tt: {}}],
+        ts: [{a: 'value', tt: {}}]
       }).save(function (err) {
         assert.ok(err)
         assert.ok(err.errors)
@@ -70,7 +69,7 @@ describe('domain', function () {
     })
     it('should throw with a {nest:{type}}', function () {
       new Validation2({
-        tt: {},
+        tt: {}
       }).save(function (err) {
         assert.ok(err)
         assert.ok(err.errors)
@@ -118,7 +117,8 @@ describe('domain', function () {
   })
   describe('WithId', function () {
     it('should get an Id when saved', function (done) {
-      new mongoose.model('WithId')({}).save(function (err, withId) {
+      var WithId = mongoose.model('WithId')
+      new WithId({}).save(function (err, withId) {
         assert.ifError(err)
         assert.ok(withId._id)
         done()
@@ -141,7 +141,6 @@ describe('domain', function () {
           ref.i = i._id
           cb(null, ref)
         },
-        async.apply(converter.fromDto, 'Test.TestRef'),
         async.apply(Ref.create.bind(Ref)),
         function (domain, cb) {
           Ref.findOne({_id: domain._id}).exec(cb)
@@ -150,7 +149,7 @@ describe('domain', function () {
           assert.equal(ref.a, domain.a)
           assert.equal(ref.i.toString(), domain.i.toString())
           cb()
-        },
+        }
       ], done)
     })
   })

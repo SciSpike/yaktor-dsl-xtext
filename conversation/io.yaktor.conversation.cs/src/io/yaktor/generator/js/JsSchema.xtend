@@ -21,96 +21,96 @@ class JsSchema {
     return fmt.format(date);
   }
 
-  static def schematize(Projection t) {
-    t.schematize(false)
+  static def schematize(Projection t, String quote) {
+    t.schematize(false, quote)
   }
-  static def schematize(Projection t, boolean includeId) {
-    var schem = new JsSchema2(t)
-    schem.docs.get(t.fullName).schematize(true)
+  static def schematize(Projection t, boolean includeId, String quote) {
+    var schem = new JsSchema2(t, quote)
+    schem.docs.get(t.fullName).schematize(true, quote)
   }
-  static def CharSequence itemize (Doc items) {
-    items.itemize(false)
+  static def CharSequence itemize (Doc items, String quote) {
+    items.itemize(false, quote)
   }
-  static def CharSequence itemize (Doc items, boolean nest) {
+  static def CharSequence itemize (Doc items, boolean nest, String quote) {
     '''
       «IF items.type!=null»
-        «items.typify»
+        «items.typify(quote)»
       «ELSEIF items.ref!=null»
         «IF nest»
-          «items.refDoc.schematize(nest)»
+          «items.refDoc.schematize(nest, quote)»
         «ELSE»
-          "$ref":"#/definitions/«items.ref»"
+          «quote»$ref«quote»: «quote»#/definitions/«items.ref»«quote»
         «ENDIF»
       «ENDIF»
     '''
   }
-  static def CharSequence typify (Doc d) {
+  static def CharSequence typify (Doc d, String quote) {
     '''
       «IF d.typeRef!=null»
-        "x-typeRef": "«d.typeRef»",
+        «quote»x-typeRef«quote»: «quote»«d.typeRef»«quote»,
       «ENDIF»
       «IF d.format!=null»
-        "format": "«d.format»",
+        «quote»format«quote»: «quote»«d.format»«quote»,
       «ENDIF»
       «IF d.dfault!=null»
-        "default": «IF d.type ==  Type.string»"«ENDIF»«d.dfault»«IF d.type ==  Type.string»"«ENDIF»,
+        «quote»default«quote»: «IF d.type ==  Type.string»«quote»«ENDIF»«d.dfault»«IF d.type ==  Type.string»«quote»«ENDIF»,
       «ENDIF»
       «IF d.enm!=null»
-        "enum": ["«d.enm.join('","')»"],
+        «quote»enum«quote»: [«quote»«d.enm.join('","')»«quote»],
       «ENDIF»
       «IF d.maximum!=null»
-        "maximum": «d.maximum»,
+        «quote»maximum«quote»: «d.maximum»,
       «ENDIF»
       «IF d.minimum!=null»
-        "minimum": «d.minimum»,
+        «quote»minimum«quote»: «d.minimum»,
       «ENDIF»
       «IF d.maxLength!=null»
-        "maxLength": «d.maxLength»,
+        «quote»maxLength«quote»: «d.maxLength»,
       «ENDIF»
       «IF d.minLength!=null»
-        "minLength": «d.minLength»,
+        «quote»minLength«quote»: «d.minLength»,
       «ENDIF»
       «IF d.pattern!=null»
-        "pattern": "«d.pattern»",
+        «quote»pattern«quote»: «quote»«d.pattern»«quote»,
       «ENDIF»
       «IF d.example!=null && d.example.toString.length>0»
-        "example": «d.example»,
+        «quote»example«quote»: «d.example»,
       «ENDIF»
       «IF d.description!=null»
-        "description":"«d.description»",
+        «quote»description«quote»: «quote»«d.description»«quote»,
       «ENDIF»
-      "type":"«d.type.name»"
+      «quote»type«quote»: «quote»«d.type.name»«quote»
     '''
   }
-  static def  CharSequence schematize(Doc d){
-    d.schematize(false)
+  static def  CharSequence schematize(Doc d, String quote){
+    d.schematize(false, quote)
   }
-  static def  CharSequence schematize(Doc d, boolean nest){
+  static def  CharSequence schematize(Doc d, boolean nest, String quote){
     '''
     «IF d.requiredFields.length>0»
-      "required":["«d.requiredFields.join('","')»"],
+      «quote»required«quote»: [«quote»«d.requiredFields.join('''«quote», «quote»''')»«quote»],
     «ENDIF»
     «IF d.typeRef!=null»
-      "x-typeRef":"«d.typeRef»",
+      «quote»x-typeRef«quote»: «quote»«d.typeRef»«quote»,
     «ENDIF»
-    "properties":{
+    «quote»properties«quote»: {
       «FOR pentry: d.properties.entrySet SEPARATOR ','»
-        "«pentry.key»":{
+        «quote»«pentry.key»«quote»: {
           «IF pentry.value.type!= null»
-            «pentry.value.typify»
+            «pentry.value.typify(quote)»
           «ELSEIF pentry.value.ref!= null»
             «IF nest»
-              «pentry.value.refDoc.schematize(nest)»
+              «pentry.value.refDoc.schematize(nest, quote)»
             «ELSE»
-              "$ref":"#/definitions/«pentry.value.ref»"
+              «quote»$ref«quote»: «quote»#/definitions/«pentry.value.ref»«quote»
             «ENDIF»
           «ELSEIF pentry.value.items!=null»
             «IF d.format!=null»
-              "format":"«d.format»",
+              «quote»format«quote»: «quote»«d.format»«quote»,
             «ENDIF»
-            "type":"array",
-            "items": {
-              «pentry.value.items.itemize(nest)»
+            «quote»type«quote»: «quote»array«quote»,
+            «quote»items«quote»: {
+              «pentry.value.items.itemize(nest, quote)»
             }
           «ENDIF»
         }

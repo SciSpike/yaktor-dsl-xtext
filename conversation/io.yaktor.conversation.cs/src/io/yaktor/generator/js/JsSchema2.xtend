@@ -59,8 +59,8 @@ class JsSchema2 {
 
   public Map<String, Doc> docs = new LinkedHashMap
 
-  new(Projection t) {
-    t.type(true, true)
+  new(Projection t, String quote) {
+    t.type(true, true, quote)
   }
 
   static def dateTime(Date date) {
@@ -75,11 +75,11 @@ class JsSchema2 {
     return fmt.format(date);
   }
 
-  def type(Projection t, boolean includeId) {
-    t.type(includeId, true)
+  def type(Projection t, boolean includeId, String quote) {
+    t.type(includeId, true, quote)
   }
 
-  def type(Projection t, boolean includeId, boolean root) {
+  def type(Projection t, boolean includeId, boolean root, String quote) {
     var fields = t.allProjectionFields
     val key = t.type?.keys?.head
     var isKeyed = fields.filter[f|(f?.oldField ?: "").equals(key)].size > 0
@@ -90,10 +90,10 @@ class JsSchema2 {
       }
       var type = t.getType()
       if (!isKeyed && includeId && type != null && !(type instanceof io.yaktor.domain.Type)) {
-        d.properties.put("_id", type.refDef(false))
+        d.properties.put("_id", type.refDef(false, quote))
       }
       for (field : fields) {
-        var f = field(field)
+        var f = field(field, quote)
         d.properties.put(field.name, f)
         if (f.required) {
           d.requiredFields.add(field.name)
@@ -107,11 +107,11 @@ class JsSchema2 {
     doc
   }
 
-  def Doc field(ProjectionField field) {
+  def Doc field(ProjectionField field, String quote) {
     var fi = if (field.many) {
         var d = new Doc()
         d.items = {
-          var f = field.typeDef
+          var f = field.typeDef(quote)
           if (f.properties.size > 0) {
             var dd = new Doc()
             dd.refDoc = f
@@ -124,7 +124,7 @@ class JsSchema2 {
         }
         d
       } else {
-        var f = field.typeDef
+        var f = field.typeDef(quote)
         if (f.properties.size > 0) {
           var dd = new Doc()
           dd.refDoc = f
@@ -140,19 +140,19 @@ class JsSchema2 {
     fi
   }
 
-  def Doc typeDef(ProjectionField field) {
+  def Doc typeDef(ProjectionField field, String quote) {
     switch (field) {
       ProjectionContainmentField: {
-        field.projection.type(true, false)
+        field.projection.type(true, false, quote)
       }
       MappedField case field.projection != null:
-        field.projection.type(true)
+        field.projection.type(true, quote)
       default:
-        (field.oldField ?: field.newField).typeDef
+        (field.oldField ?: field.newField).typeDef(quote)
     }
   }
 
-  def Doc typeDef(Field field) {
+  def Doc typeDef(Field field, String quote) {
     var entity = switch field {
       GeoLocationField: {
         var d = new Doc
@@ -182,7 +182,7 @@ class JsSchema2 {
         d
       }
       IdField: {
-        _id(field.name)
+        _id(field.name, quote)
       }
       StringField: {
         var d = new Doc
@@ -246,12 +246,12 @@ class JsSchema2 {
       }
       //We will give you a mapping but it won't go any deeper
       TypeField: {
-        field.toProjection.type(false)
+        field.toProjection.type(false, quote)
       }
       AssociationEnd:
-        field.references.refDef(true)
+        field.references.refDef(true, quote)
       EntityReferenceField:
-        field.refType.refDef(true)
+        field.refType.refDef(true, quote)
       // Price Amount Count fields
       default: {
         var d = new Doc
@@ -261,7 +261,7 @@ class JsSchema2 {
       }
     }
     entity.description = field.cleanComments
-    entity.example = field.genData
+    entity.example = field.genData(quote)
     entity.required = field.required
     entity
   }
@@ -273,21 +273,21 @@ class JsSchema2 {
     }
   }
 
-  def Doc _id(String name){
+  def Doc _id(String name, String quote){
     var dd = new Doc()
     dd.type = Type.string
     dd.format = "objectId"
     dd.pattern = "[A-Z0-9]{24}"
-    dd.example = (name?:"1").genIdValue
+    dd.example = (name?:"1").genIdValue(quote)
     dd
   }
 
-  def Doc refDef(TableType type, boolean includeRef) {
+  def Doc refDef(TableType type, boolean includeRef, String quote) {
     var key = type.findKey
     var d = if (key != null) {
-        key.typeDef
+        key.typeDef(quote)
       } else {
-        _id(type.name)
+        _id(type.name, quote)
       }
     if (includeRef) {
       d.typeRef = '''«type.model.name».«type.name»'''

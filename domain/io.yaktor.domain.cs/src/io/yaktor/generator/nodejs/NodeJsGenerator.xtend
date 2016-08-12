@@ -51,29 +51,29 @@ class NodeJsGenerator {
 
     fsa.generateFile('''modelAll/index.js''',
       '''
-        var fs = require('fs');
-        var path = require('path');
-        fs.readdirSync(__dirname).forEach(function(file) {
-          if(__filename != file){
-            var mod = require(path.join(__dirname,file));
-            for(var model in mod ){
-              module.exports[model] = mod[model];
+        var fs = require('fs')
+        var path = require('path')
+        fs.readdirSync(__dirname).forEach(function (file) {
+          if (__filename !== file) {
+            var mod = require(path.join(__dirname, file))
+            for (var model in mod) {
+              module.exports[model] = mod[model]
             }
           }
-        });
+        })
       ''')
     for (EnumType et : model.types.filter(typeof(EnumType)).sortBy[e|e.name]) {
       fsa.generateFile('''«path»«et.name.toFirstLower».js''', et.genEnumType())
       fsa.generateFile('''modelAll/«et.name.toFirstLower».js''',
         '''
-          require("../«path»«et.name.toFirstLower».js");
+          require('../«path»«et.name.toFirstLower».js')
         ''')
     }
     for (Association a : model.getBidirectionalManyToManyAssociations.sortBy[a|a.name]) {
       fsa.generateFile('''«path»«a.name.toFirstLower».js''', a.genMany2ManyAssociation)
       fsa.generateFile('''modelAll/«a.name.toFirstLower».js''',
         '''
-          require("../«path»«a.name.toFirstLower».js")
+          require('../«path»«a.name.toFirstLower».js')
         ''')
     }
     for (TableType e : model.types.filter(typeof(TableType)).sortBy[e|e.name]) {
@@ -81,22 +81,22 @@ class NodeJsGenerator {
         fsa.generateFile('''«path»«e.name.toFirstLower».js''', e.genType())
         fsa.generateFile('''modelAll/«e.name.toFirstLower».js''',
           '''
-            require("../«path»«e.name.toFirstLower».js");
+            require('../«path»«e.name.toFirstLower».js')
           ''')
       }
     }
     fsa.generateFile('''«path»index.js''',
       '''
-        var fs = require('fs');
-        var path = require('path');
-        fs.readdirSync(__dirname).forEach(function(file) {
-          if(__filename != file){
-            var mod = require(path.join(__dirname,file));
-            for(var model in mod ){
-              module.exports[model] = mod[model];
+        var fs = require('fs')
+        var path = require('path')
+        fs.readdirSync(__dirname).forEach(function (file) {
+          if (__filename !== file) {
+            var mod = require(path.join(__dirname, file))
+            for (var model in mod) {
+              module.exports[model] = mod[model]
             }
           }
-        });
+        })
       ''')
   }
 
@@ -107,37 +107,36 @@ class NodeJsGenerator {
     var requiresDiscriminator = e.requiresDiscriminator
     var isRoot = e?.mongoNodeTableOptions?.singleTableRoot
     var supertype = e.supertype
+    var usesDiscriminator = !isRoot && e.supertype != null && !e.isAbstract
     '''
-      var mongoose = require('mongoose');
-      var util = require('util');
-      var path = require('path');
+      var mongoose = require('mongoose')
+      var path = require('path')
       «FOR en : e.allUsedEnums.sortBy[en|en.name] BEFORE "// Import all the enums\n"»
-        var «NodeJsExtensions.ENUM_QUALIFIER»«en.name» = require(path.resolve('src-gen','«en.modelPath»«en.name.
-        toFirstLower»')).legalValues;
+        var «NodeJsExtensions.ENUM_QUALIFIER»«en.name» = require(path.resolve('src-gen', '«en.modelPath»«en.name.
+        toFirstLower»')).legalValues
       «ENDFOR»
       «IF supertype != null»
-        var «supertype.name» = require(path.resolve('src-gen','«supertype.modelPath»«supertype.name.toFirstLower»')).«supertype.
-        name»; //to ensure registered
+        «IF usesDiscriminator»var «supertype.name» = «ENDIF»require(path.resolve('src-gen', '«supertype.modelPath»«supertype.name.toFirstLower»')).«supertype.
+        name» // to ensure registered
       «ENDIF»
       «FOR en : e.allReferencedEntities.sortBy[en|en.name] BEFORE "// Import all the entities\n"»
-        require(path.resolve('src-gen','«en.modelPath»«en.name.toFirstLower»')); //to ensure registered
+        require(path.resolve('src-gen', '«en.modelPath»«en.name.toFirstLower»')) // to ensure registered
       «ENDFOR»
-      «FOR en : e.allFields.filter(typeof(TypeField)).sortBy[en|en.name] BEFORE "// Import all the types\n"»
-        var __«en.isType?.name» = require(path.resolve('src-gen','«en.isType?.modelPath»«en.isType?.name?.toFirstLower»')); //to ensure registered
-        var «en.isType?.name» = __«en.isType?.name».schema;
+      «FOR isType : e.allFields.filter(typeof(TypeField)).map[en| en.isType].toSet.sortBy[isType|isType.name] BEFORE "// Import all the types\n"»
+        var __«isType?.name» = require(path.resolve('src-gen', '«isType?.modelPath»«isType?.name?.toFirstLower»')) // to ensure registered
       «ENDFOR»
-
+      
       // Create the schema
-      var Schema = mongoose.Schema;
-
+      var Schema = mongoose.Schema
+      
       // Definition of the schema
       «var key = e.findKey»
       «e.comments»
       var __schema = {
         «e.genAllField»
-      };
-      var schema = new Schema( __schema,{«IF e instanceof Type || (key != null && !(key instanceof IdField))»_id:false,«ENDIF»«IF (isRoot || supertype == null || e.isAbstract)»collection:"«e.
-        collectionName»s"«ENDIF»});
+      }
+      var schema = new Schema(__schema, { «IF e instanceof Type || (key != null && !(key instanceof IdField))»_id: false, «ENDIF»«IF (isRoot ||
+        supertype == null || e.isAbstract)»collection: '«e.collectionName»s', «ENDIF»versionKey: '__v' })
       «var constraints = new LinkedList<Constraint>»
       «{
         constraints.addAll(e.findIndexes(null))
@@ -148,59 +147,58 @@ class NodeJsGenerator {
         NodeModelUtils.getNode(uC1).text.compareTo(NodeModelUtils.getNode(uC2).text)]»
         schema.index({
           «var node = uC.crossRefChildren»
+          «IF requiresDiscriminator»
+            __t: 1,
+          «ENDIF»
           «FOR k : node SEPARATOR ','»
             «IF key?.name == k.text.trim»
-              _id : 1
+              _id: 1
             «ELSE»
-              "«k.text.trim»" : 1
+              '«k.text.trim»': 1
             «ENDIF»
           «ENDFOR»
-          «IF requiresDiscriminator»
-            ,__t:1
-          «ENDIF»
-        }«IF uC instanceof UniqueConstraint»,{ unique: true }«ENDIF»);
+        }«IF uC instanceof UniqueConstraint», { unique: true }«ENDIF»)
       «ENDFOR»
-
+      
       «IF key != null»
-        var id = schema.virtual('«key.name»');
+        var id = schema.virtual('«key.name»')
         id.get(function () {
-          return this._id;
-        });
+          return this._id
+        })
         id.set(function (_id) {
-          return (this._id = _id);
-        });
+          return (this._id = _id)
+        })
       «ENDIF»
       «IF e.mongoNodeTableOptions != null»
         «var options = e.mongoNodeTableOptions»
         «IF options.ttl != null»
-          schema.index({"«options.ttl.dateFieldText»":1},{expireAfterSeconds:«options.ttl.expireAfterSeconds»});
+          schema.index({ '«options.ttl.dateFieldText»': 1 }, { expireAfterSeconds: «options.ttl.expireAfterSeconds» })
         «ENDIF»
       «ENDIF»
-
       // Allow user schema customizations
-      var custom = path.resolve('models', 'schema', path.basename(__filename));
+      var custom = path.resolve('models', 'schema', path.basename(__filename))
       if (require('fs').existsSync(custom)) {
-        var fn = require(custom);
+        var fn = require(custom)
         if (typeof fn === 'function') {
-          fn(schema);
+          fn(schema)
         }
       }
-
+      
       // Compile the model
-      «IF !isRoot && e.supertype != null && !e.isAbstract»
-        var «e.name» = «e.supertype.name».discriminator('«e.name»', schema);
+      «IF usesDiscriminator»
+        var «e.name» = «e.supertype.name».discriminator('«e.name»', schema)
       «ELSE»
-        var «e.name» = mongoose.model('«e.name»', schema);
+        var «e.name» = mongoose.model('«e.name»', schema)
       «ENDIF»
-
+      
       // Make the schema available
-      exports.«e.name» = «e.name»;
-      exports.schema = schema;
-      exports.getNested = function(required){
+      exports.«e.name» = «e.name»
+      exports.schema = schema
+      exports.getNested = function (required) {
         return {
-          type:schema,
+          type: schema,
           required: required
-        };
+        }
       }
     '''
   }
@@ -227,9 +225,9 @@ class NodeJsGenerator {
     '''
       // This is a generated file, generated for the enum «et.name»
       var «NodeJsExtensions.ENUM_QUALIFIER»«et.name» = «et.getEnumValuesAsString()»
-
+      
       «et.comments»
-      exports.legalValues = «NodeJsExtensions.ENUM_QUALIFIER»«et.name»;
+      exports.legalValues = «NodeJsExtensions.ENUM_QUALIFIER»«et.name»
     '''
   }
 
@@ -238,36 +236,36 @@ class NodeJsGenerator {
 	 */
   def String genMany2ManyAssociation(Association a) {
     '''
-      var mongoose = require('mongoose');
-
+      var mongoose = require('mongoose')
+      
       // Create the schema
-      var Schema = mongoose.Schema;
+      var Schema = mongoose.Schema
       // Definition of the schema
-
+      
       «a.comments»
-      var «a.name.toFirstLower»Schema = new Schema( {
+      var «a.name.toFirstLower»Schema = new Schema({
         «var startKey = a.start.references.findKey»
         «var endKey = a.end.references.findKey»
         «a.start.name»: { type: «IF startKey != null»«startKey.doTypeName»«ELSE»Schema.Types.ObjectId«ENDIF», ref: '«a.
         start.references.name»' },
         «a.end.name»: { type: «IF endKey != null»«endKey.doTypeName»«ELSE»Schema.Types.ObjectId«ENDIF», ref: '«a.end.
         references.name»' }
-      });
-
+      })
+      
       // Allow user schema customizations
-      var custom = path.resolve('models', 'schema', path.basename(__filename));
+      var custom = path.resolve('models', 'schema', path.basename(__filename))
       if (require('fs').existsSync(custom)) {
-        var fn = require(custom);
+        var fn = require(custom)
         if (typeof fn === 'function') {
-          fn(schema);
+          fn(schema)
         }
       }
-
+      
       // Compile the model
-      var «a.name» = mongoose.model('«a.name»', «a.name.toFirstLower»Schema);
-
+      var «a.name» = mongoose.model('«a.name»', «a.name.toFirstLower»Schema)
+      
       // Make the schema available
-      exports.«a.name» = «a.name»;
+      exports.«a.name» = «a.name»
     '''
   }
 
@@ -323,15 +321,7 @@ class NodeJsGenerator {
 	 * Generate the enum values as a string array
 	 */
   def String getEnumValuesAsString(EnumType type) {
-    var retVal = "["
-    for (ev : type.values) {
-      retVal = retVal + '''"«ev.value»"'''
-      if (!(ev == type.values.last)) {
-        retVal = retVal + ", "
-      }
-    }
-    retVal = retVal + "];"
-    return retVal
+    '''[«FOR ev : type.values SEPARATOR ', ' »'«ev.value»'«ENDFOR»]'''
   }
 
   /**
@@ -342,11 +332,11 @@ class NodeJsGenerator {
   def CharSequence genDeclaration(Field f) {
     f.comments + switch f {
       //For many it needs to be a schema
-      TypeField case f.cardinality.many: '''«f.name»: [«f.isType.name»]'''
+      TypeField case f.cardinality.many: '''«f.name»: [__«f.isType.name».schema]'''
       //For singles it needs to be 'nested' so as to enforce required
       TypeField case !f.cardinality.many: '''«f.name»: «f.genTypeFieldTypeDef»'''
-      EntityReferenceField: '''«f.name»: «IF f.isMany»[«ENDIF»{ type: «f.doTypeName»«f.genDef»}«IF f.isMany»]«ENDIF»'''
-      default: '''«f.name»: { type: «f.typeName»«f.genDef»}'''
+      EntityReferenceField: '''«f.name»: «IF f.isMany»[«ENDIF»{ type: «f.doTypeName»«f.genDef» }«IF f.isMany»]«ENDIF»'''
+      default: '''«f.name»: { type: «f.typeName»«f.genDef» }'''
     }
   }
 
@@ -433,9 +423,9 @@ class NodeJsGenerator {
   def dispatch String genDef(ShortIdField f) {
     var Set<String> constraints = new HashSet<String>()
     if (f.pattern != null) {
-      constraints.add('''"alphabet": "«f.pattern»"''')
+      constraints.add('''alphabet: '«f.pattern»«"'"»''')
       constraints.add(
-        '''"len": «Math.ceil(
+        '''len: «Math.ceil(
           Math.log((f.maxValue ?: Integer.MAX_VALUE).doubleValue) / Math.log(f.pattern.length)).intValue»''')
     }
     return f.genConstraints(constraints)
@@ -447,10 +437,10 @@ class NodeJsGenerator {
   def dispatch genDef(IntegerField f) {
     var Set<String> constraints = new HashSet<String>()
     if (f.maxValue != null) {
-      constraints.add('''"max": «f.maxValue»''')
+      constraints.add('''max: «f.maxValue»''')
     }
     if (f.minValue != null) {
-      constraints.add('''"min": «f.minValue»''')
+      constraints.add('''min: «f.minValue»''')
     }
     return f.genConstraints(constraints)
   }
@@ -458,10 +448,10 @@ class NodeJsGenerator {
   def dispatch genDef(NumericField f) {
     var Set<String> constraints = new HashSet<String>()
     if (f.maxValue != null) {
-      constraints.add('''"max": «f.maxValue»''')
+      constraints.add('''max: «f.maxValue»''')
     }
     if (f.minValue != null) {
-      constraints.add('''"min": «f.minValue»''')
+      constraints.add('''min: «f.minValue»''')
     }
     return f.genConstraints(constraints)
   }
@@ -511,7 +501,7 @@ class NodeJsGenerator {
    */
   def dispatch String genDef(EntityReferenceField f) {
     var Set<String> constraints = new HashSet<String>()
-    constraints.add('''ref: '«f.refType.name»' ''')
+    constraints.add('''ref: '«f.refType.name»«"'"»''')
     return f.genConstraints(constraints)
   }
 
@@ -520,7 +510,7 @@ class NodeJsGenerator {
    */
   def String genRefTypeDef(TypeField f) {
     var Set<String> constraints = new HashSet<String>()
-    constraints.add('''ref: '«f.isType.name»' ''')
+    constraints.add('''ref: '«f.isType.name»«"'"»''')
     return f.genConstraints(constraints)
   }
 
@@ -529,7 +519,7 @@ class NodeJsGenerator {
    */
   def String genTypeFieldTypeDef(TypeField f) {
     return '''
-    __«f.isType.name».getNested(«f.required»)
+      __«f.isType.name».getNested(«f.required»)
     '''
   }
 
@@ -563,7 +553,7 @@ class NodeJsGenerator {
     if (constraints.empty) {
       return ""
     }
-    return ''', «FOR s : constraints.sort SEPARATOR ","»«s»«ENDFOR»'''
+    return ''', «FOR s : constraints.sort SEPARATOR ", "»«s»«ENDFOR»'''
 
   }
 
@@ -587,8 +577,6 @@ class NodeJsGenerator {
     for (f : e.allFields) {
       if (f instanceof EnumField) {
         enums.add(f.isType)
-      } else if (f instanceof TypeField) {
-        f.isType.recursiveCollectEnums(enums)
       }
     }
   }
@@ -601,9 +589,6 @@ class NodeJsGenerator {
       if (f instanceof EnumField) {
         enums.add(f.isType)
       }
-    }
-    for (subType : e.subTypes) {
-      recursiveCollectEnumsUsingSubType(subType, enums)
     }
   }
 
@@ -684,7 +669,7 @@ class NodeJsGenerator {
         }
         var key = e.findKey
         retVal.add(
-          '''«roleName»: «IF isMany»[«ENDIF»{ type: «IF key != null»«key.doTypeName»«ELSE»Schema.Types.ObjectId«ENDIF», ref: '«typeName»'}«IF isMany»]«ENDIF»''')
+          '''«roleName»: «IF isMany»[«ENDIF»{ type: «IF key != null»«key.doTypeName»«ELSE»Schema.Types.ObjectId«ENDIF», ref: '«typeName»' }«IF isMany»]«ENDIF»''')
       }
     }
 

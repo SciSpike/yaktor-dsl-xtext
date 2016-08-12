@@ -27,7 +27,7 @@ class NodeJsExtensions {
 	 * Used as a qualifier in both the generated JS file for
 	 * the enum as well as for the generated mongoose schema 
 	 */
-  var public static ENUM_QUALIFIER = "__enum__"
+  var public static ENUM_QUALIFIER = "$$enum$$"
 
   def static Field findKey(TableType type) {
     if (type.keys.head != null) {

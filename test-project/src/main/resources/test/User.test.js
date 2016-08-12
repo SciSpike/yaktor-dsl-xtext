@@ -1,17 +1,17 @@
 /* global describe, it, before, beforeEach, afterEach */
 var path = require('path')
 var assert = require('assert')
-var yaktor = require('yaktor')
-var converter = require('yaktor/services/conversionService')
 var async = require('async')
 
 var User = null
+var House = null
 
 describe(path.basename(__filename), function () {
   before(function (done) {
     require('./mongoCfg')(function () {
       var mongoose = require('mongoose')
       User = mongoose.model('User')
+      House = mongoose.model('House')
       done()
     })
   })
@@ -20,18 +20,12 @@ describe(path.basename(__filename), function () {
     beforeEach(function (done) {
       async.parallel([
         function (cb) {
-          var u = { 'name': 'abc', 'email': 'a@b.com' }
-          converter.fromDto('UserUnitTest.User', u, function (err, user) {
-            assert.ifError(err)
-            user.save(cb)
-          })
+          var u = { 'name': 'abc', '_id': 'a@b.com' }
+          new User(u).save(cb)
         },
         function (cb) {
           var h = { '_id': '000000000000000000000101', 'street': 'foo' }
-          converter.fromDto('UserUnitTest.House', h, function (err, house) {
-            assert.ifError(err)
-            house.save(cb)
-          })
+          new House(h).save(cb)
         }
       ], done)
     })
@@ -44,20 +38,12 @@ describe(path.basename(__filename), function () {
 
     it('find', function (done) {
       // This should work but there is a bug due to the 'email' field being a Mongoose virtual
-      var query = {'email': 'a@b.com'}
-      // The following "name" query works
-      // var query = {"name":"abc"}
+      var query = {'_id': 'a@b.com'}
       async.waterfall([
-        async.apply(converter.toQuery, 'UserUnitTest.User', query),
-        function (pQ, cb) {
+        function (cb) {
           var page = 1
           var pageSize = 10
-          User.find(pQ).paginate(page, pageSize, cb)
-        },
-        function (domains, total, cb) {
-          converter.to('UserUnitTest.User', domains, function (err, dtos) {
-            cb(err, dtos, total)
-          })
+          User.find(query).paginate(page, pageSize, cb)
         }
       ], function (err, result) {
         assert.ifError(err)
@@ -72,8 +58,7 @@ describe(path.basename(__filename), function () {
     it('read', function (done) {
       var id = 'a@b.com'
       async.waterfall([
-        async.apply(User.findOne.bind(User), {_id: id}),
-        async.apply(converter.to, 'UserUnitTest.User')
+        async.apply(User.findOne.bind(User), {_id: id}) //
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'a@b.com')
@@ -88,11 +73,9 @@ describe(path.basename(__filename), function () {
       var body = { 'name': 'bob' }
 
       async.waterfall([
-        async.apply(converter.from, 'UserUnitTest.User', body),
-        function (domain, cb) {
-          User.findOneAndUpdate({_id: id}, domain, {new: true}, cb)
-        },
-        async.apply(converter.to, 'UserUnitTest.User') //
+        function (cb) {
+          User.findOneAndUpdate({_id: id}, body, {new: true}, cb)
+        } //
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'a@b.com')
@@ -115,12 +98,10 @@ describe(path.basename(__filename), function () {
     })
 
     it('create', function (done) {
-      var body = { 'email': 'foo@bar.com', 'name': 'foobar' }
+      var body = { '_id': 'foo@bar.com', 'name': 'foobar' }
 
       async.waterfall([
-        async.apply(converter.from, 'UserUnitTest.User', body),
-        async.apply(User.create.bind(User)),
-        async.apply(converter.to, 'UserUnitTest.User')
+        async.apply(User.create.bind(User), body)
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'foo@bar.com')
@@ -138,16 +119,14 @@ describe(path.basename(__filename), function () {
       var body = { 'house': '000000000000000000000101' }
 
       async.waterfall([
-        async.apply(converter.from, 'UserUnitTest.User', body),
-        function (domain, cb) {
-          User.findOneAndUpdate({_id: id}, domain, {new: true}, cb)
-        },
-        async.apply(converter.to, 'UserUnitTest.User') //
+        function (cb) {
+          User.findOneAndUpdate({_id: id}, body, {new: true}, cb)
+        } //
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'a@b.com')
-        assert.equal(result.name, 'abc')
         assert.equal(result.email, 'a@b.com')
+        assert.equal(result.name, 'abc')
         assert.equal(result.house, '000000000000000000000101')
         done()
       })
@@ -158,16 +137,14 @@ describe(path.basename(__filename), function () {
       var body = { 'house': {'_id': '000000000000000000000101'} }
 
       async.waterfall([
-        async.apply(converter.from, 'UserUnitTest.User', body),
-        function (domain, cb) {
-          User.findOneAndUpdate({_id: id}, domain, {new: true}, cb)
-        },
-        async.apply(converter.to, 'UserUnitTest.User') //
+        function (cb) {
+          User.findOneAndUpdate({_id: id}, body, {new: true}, cb)
+        } //
       ], function (err, result) {
         assert.ifError(err)
         assert.equal(result._id, 'a@b.com')
-        assert.equal(result.name, 'abc')
         assert.equal(result.email, 'a@b.com')
+        assert.equal(result.name, 'abc')
         assert.equal(result.house, '000000000000000000000101')
         done()
       })

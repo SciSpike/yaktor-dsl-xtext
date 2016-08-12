@@ -5,6 +5,7 @@
 [![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)]()
 [![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)]()
 [![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)]()
+[![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
 
 ## Introduction
 
@@ -12,26 +13,47 @@ This is an Xtext-based project containing the Yaktor DSLs created by SciSpike, w
 * the Yaktor DSL eclipse jars,
 * the Yaktor DSL command line interface (CLI),
 * the Yaktor DSL eclipse Plugin, and
-* the Yaktor npm module.
+* the `yaktor-lang` npm module.
 
 ## Building
 
 Prerequisites:
+
+* `docker build -t yaktor-mvn-build docker`
+
+```
+./build.sh mvn clean install
+```
+
+FTW
+
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+Or, to build from your unsupported native environment:
+
 * Maven 3.2 (*exactly* 3.2, for now)
 * JDK 7 (JDK 8 has not yet been tested)
 * Node 4.4.x & its associated `npm`
 * A recent version of `git`
 * A Unix-like build environment
 
-> NOTE: This project needs a local copy of Yaktor source and an Internet connection in order to build.
-It's used when testing only.  If you don't want to `git clone git@github.com:SciSpike/yaktor.git`, then you can download a [tarball](https://github.com/SciSpike/yaktor/archive/v0.3.0.tar.gz) or [zipball](https://github.com/SciSpike/yaktor/archive/v0.3.0.zip) instead.
-
-Note the absolute path to your Yaktor source, then issue command
 ```
 MAVEN_OPTS='-Xms256m -XX:MaxPermSize=1024m -Xmx1024m' \
-  mvn clean install -V -Dyaktor.version=<pathToYaktorSource>
+  mvn clean install -V
 ```
-replacing `<pathToYaktorSource>` with the path to the Yaktor source on the local build machine.
+
+Oh, so sorry you have errors.
+
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[ERROR] Your Environment is to blame
+```
 
 ## Releasing the Yaktor DSL CLI
 
@@ -52,7 +74,7 @@ Then, you perform a minor release as described below.
 In order to perform a major or minor release (`z.0.0` or `x.y.0`, respectively), do the following.
 * Get the Yaktor source to your machine & note its absolute path; see section "Building" above.
 * `git checkout master`
-* `grunt release-minor --yaktor-home=<pathToYaktorSource>`
+* `grunt release-minor`
 
 Grunt task `release-minor`
 * builds & tests the multimodule Maven project,
@@ -68,7 +90,7 @@ Grunt task `release-minor`
 In order to perform a patch release (x.y.z), do the following.
 * Get the Yaktor source to your machine & note its absolute path; see section "Building" above.
 * `git checkout` the maintenance branch.  Maintenance branches take the form `vi.j.x`, where `i` & `j` are integers, like `v1.2.x`.
-* `grunt release-patch --yaktor-home=<pathToYaktorSource>`
+* `grunt release-patch`
 
 Grunt task `release-patch`
 * builds & tests the multimodule Maven project,

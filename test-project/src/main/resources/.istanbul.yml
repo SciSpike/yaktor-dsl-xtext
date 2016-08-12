@@ -1,0 +1,9 @@
+instrumentation:
+  excludes:
+reporting:
+  reports:
+    - lcov
+    - text
+  report-config:
+    text:
+     file: coverage.txt

@@ -27,19 +27,20 @@ class JsGenerator {
   }
   
   def genRoot(Conversation c,String subPath) {
+    var quote = "'"
     '''
-      var path = require("path");
+      var path = require('path')
       
-      var my = module.exports = {
-        name:"«c.name»",
-        agents : {
+      module.exports = {
+        «quote»name«quote»: «quote»«c.name»«quote»,
+        «quote»agents«quote»: {
           «var agents = c.reachableAgents.sortBy[agent|agent.name]»
           «FOR agent : agents SEPARATOR ','»
             «var cName = agent.parent.name»
-            "«cName».«agent.name»": require(path.resolve("«subPath»","«agent?.parent?.name»","«agent.name»"))
+            «quote»«cName».«agent.name»«quote»: require(path.resolve(«quote»«subPath»«quote», «quote»«agent?.parent?.name»«quote», «quote»«agent.name»«quote»))
           «ENDFOR»
         }
-      };
+      }
     '''
   }
 
@@ -54,38 +55,41 @@ class JsGenerator {
   }
 
   def genStates(Agent agent) {
+    var quote = "'"
     '''
       «var myConversation = agent.parent»
       var my = module.exports = {
         «FOR s : agent.stateMachine.allStates SEPARATOR ','»
-          «s.name» : {
-            name : "«s.name»",
-            transitions : {
+          «quote»«s.name»«quote»: {
+            «quote»name«quote»: «quote»«s.name»«quote»,
+            «quote»transitions«quote»: {
               «FOR t : s.transitions SEPARATOR ','»
                 «var causedBy = t.causedBy ?: t.exCausedBy»
                 «var triggers = t.triggers ?: t.exTriggers»
-                "«causedBy.getEventDescription(agent, myConversation)»" : {
-                  on : "«causedBy.getEventLabel»",
+                «quote»«causedBy.getEventDescription(agent, myConversation)»«quote»: {
+                  «quote»on«quote»: «quote»«causedBy.getEventLabel»«quote»,
                   «IF t.fieldMapping != null»
                     «var rootP = t.fieldMapping.rootProjection»
-                    mapping: function(meta, data) { 
+                   «quote»mapping«quote»: function(meta, data) { 
                       return «IF causedBy!= null && rootP == causedBy.refType»data«ELSE»meta.agentData«ENDIF».«t.fieldMapping.fullName»;
                     },
                   «ENDIF»
-                  handler:null,
-                  get to () { return my.«t.toState.name»;},
-                  causeName: "«t.causeDescription»",
+                  «quote»handler«quote»: null,
+                  get to () {
+                    return my.«t.toState.name»
+                  },
+                  «quote»causeName«quote»: «quote»«t.causeDescription»«quote»,
                   «IF triggers != null»
-                    triggers : "«triggers.getEventLabel»",
-                    triggerName : "«triggers.getEventDescription(agent,myConversation)»",
+                    «quote»triggers«quote»: «quote»«triggers.getEventLabel»«quote»,
+                    «quote»triggerName«quote»: «quote»«triggers.getEventDescription(agent,myConversation)»«quote»,
                   «ENDIF»
-                  description : "«t.description»"
+                  «quote»description«quote»: «quote»«t.description»«quote»
                 }
               «ENDFOR»
             }
           }
         «ENDFOR»
-      };
+      }
     '''
   }
 
@@ -108,15 +112,15 @@ class JsGenerator {
       <script src="/libs/resources/libs.js"></script>
       <script src="/libs/resources/viz.js"></script>
       <script>
-        require("jquery");
-        var token = require('qs').parse(location.hash.substr(1)).access_token;
-        var sessionId = "<%=sId%>";
-        var tokenFunction = function(cb){
-          cb(null,token);
-        };
-        var client;
-        var EventEmitter = require('emitter-component');
-        var emitter = new EventEmitter();
+        require('jquery')
+        var token = require('qs').parse(location.hash.substr(1)).access_token
+        var sessionId = '<%=sId%>'
+        var tokenFunction = function (cb) {
+          cb(null,token)
+        }
+        var client
+        var EventEmitter = require('emitter-component')
+        var emitter = new EventEmitter()
       </script>
       <table>
         <tr>
@@ -133,26 +137,26 @@ class JsGenerator {
         </script>
         <script>
         
-        (function(){
+        (function () {
           var agentApi = require('«agent.parent.name»/«agent.name»');
           var socketApi = require('socketApi');
           var inited=false;
           var doRender = function(state) {
             $('#«agent.parent.name»_«agent.name»_diag_target').html(Viz($('#«agent.parent.name»_«agent.name»_diag').html().replace('XXX'+state+'XXX=""',"style=filled, fontcolor=white"), 'svg'))
           }
-          var eventMatrix= agentApi.stateMatrix;
-          DoConnect = function(){
-            client= socketApi.connect(sessionId,tokenFunction,true,function(){});
+          var eventMatrix= agentApi.stateMatrix
+          DoConnect = function () {
+            client = socketApi.connect(sessionId, tokenFunction, true, function () {})
             client.on('message', function (topic, payload) {
-              var body = JSON.parse(payload.toString());
-              emitter.emit(topic, body);
-             });
-          };
-          DoDisconnect =function() {
-            socketApi.disconnect(sessionId);
-          };
-          DoInitAll = function() {
-            $("[name=\"init\"]").click();
+              var body = JSON.parse(payload.toString())
+              emitter.emit(topic, body)
+             })
+          }
+          DoDisconnect = function () {
+            socketApi.disconnect(sessionId)
+          }
+          DoInitAll = function () {
+            $('[name="init"]').click()
           }
           «agent.name»DoInit = function() {
             var json = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
@@ -160,25 +164,25 @@ class JsGenerator {
               inited=true;
               for(var onV in eventMatrix){
                 (function(on){
-                  emitter.on(on.replace(/:/g,"/")+"/"+json._id,function(body){
-                    var stateName =on.replace(/.*:state:/,"");
+                  emitter.on(on.replace(/:/g,'/')+'/'+json._id, function (body) {
+                    var stateName = on.replace(/.*:state:/, '');
                     doRender(stateName);
-                    $(".eventButton.«agent.parent.name»_«agent.name»").attr("disabled", "disabled");
-                    for(var e in eventMatrix[on]){
-                      $(".eventButton.«agent.parent.name»_«agent.name»." +e).removeAttr("disabled");
+                    $('.eventButton.«agent.parent.name»_«agent.name»').attr('disabled', 'disabled')
+                    for (var e in eventMatrix[on]) {
+                      $('.eventButton.«agent.parent.name»_«agent.name».' +e).removeAttr('disabled')
                     }
-                  });
-                })(onV);
+                  })
+                })(onV)
               }
             }
-            client.subscribe('«agent.parent.name».«agent.name»/state/+/'+json._id,{qos:2});
+            client.subscribe('«agent.parent.name».«agent.name»/state/+/'+json._id, { qos: 2 })
           }
           «agent.name»DoEvent = function(eventName){
             var initJson = JSON.parse($('#«agent.parent.name»_«agent.name»_init_input').val());
             var json = JSON.parse($('#«agent.parent.name»_«agent.name»_'+eventName+'_input').val());
-            client.publish('«agent.parent.name».«agent.name»/'+eventName,JSON.stringify({agentData:initJson,data:json}));
+            client.publish('«agent.parent.name».«agent.name»/'+eventName,JSON.stringify({ agentData: initJson, data: json}))
           }
-        })();
+        })()
         </script>
         <table class="agent" id="«agent.parent.name»_«agent.name»">
           <tr>
@@ -192,7 +196,7 @@ class JsGenerator {
                   «IF entity == null»
                     «agent.projection.entity =EMPTY_TYPE »
                   «ENDIF»
-«IF agent.projection != null»«agent.projection.genData»«ENDIF»</textArea></td>
+«IF agent.projection != null»«agent.projection.genData('"')»«ENDIF»</textArea></td>
                   «IF entity != agent.projection.entity»
                     «agent.projection.entity =entity»
                   «ENDIF»
@@ -202,7 +206,7 @@ class JsGenerator {
                   <tr>
                     <td>JSON:</td>
                     <td><textArea id="«agent.parent.name»_«agent.name»_«event.name»_input">
-«event.genData»</textArea></td>
+«event.genData('"')»</textArea></td>
                     <td><button class="eventButton «agent.parent.name»_«agent.name» «event.name»" onclick="«agent.
         name»DoEvent('«event.name»')">«event.name»</button>
                   </tr>
@@ -221,30 +225,29 @@ class JsGenerator {
   
   
 
-  def genTerminalStatesHash (Agent agent){
+  def genTerminalStatesHash (Agent agent, String quote){
     '''
       {
         «FOR s : agent.stateMachine.states.filter[state|state.transitions.empty] SEPARATOR ','»
-          "«s.eventName»":true
+          «quote»«s.eventName»«quote»: true
         «ENDFOR»
       }
     '''
   }
   @Deprecated
-  def genStateMatrix(Agent agent){
+  def genStateMatrix(Agent agent, String quote){
     '''
     «FOR s : agent.stateMachine.allStates SEPARATOR ','»
-      "«s.eventName»":{
-        
+      «quote»«s.eventName»«quote»: {
         «IF !s.requiresExecution»
           «FOR t : s.transitions.filter[t|t.causedBy != null && t.causedBy instanceof PublishableByMe] SEPARATOR ','»
-            "«t.causedBy.name»":{
+            «quote»«t.causedBy.name»«quote»: {
               «IF t.causedBy.refType != null»
-                "type":{
-                  «t.causedBy.refType.schematize»
+                «quote»type«quote»: {
+                  «t.causedBy.refType.schematize(quote)»
                 },
               «ENDIF»
-              "subPath":"/«t.causedBy.name»"
+              «quote»subPath«quote»: «quote»/«t.causedBy.name»«quote»
             }
           «ENDFOR»
         «ENDIF»
@@ -252,22 +255,22 @@ class JsGenerator {
     «ENDFOR»
     '''
   }
-  def genStateView(Agent agent){
+  def genStateView(Agent agent, String quote){
     '''
     «FOR s : agent.stateMachine.allStates.sortWith[s1,s2|(s1.name?:"null").compareTo(s2.name?:"null")] SEPARATOR ','»
       {
-        name:"«s.name»",
-        endpoint:"ws:///«s.eventName»",
-        actions:{
+        «quote»name«quote»: «quote»«s.name»«quote»,
+        «quote»endpoint«quote»: «quote»ws:///«s.eventName»«quote»,
+        «quote»actions«quote»: {
           «IF !s.requiresExecution»
             «FOR t : s.transitions.filter[t|t.causedBy != null && t.causedBy instanceof PublishableByMe].sortWith[t1,t2|t1.description.toString().compareTo(t2.description.toString())] SEPARATOR ','»
-              "«t.causedBy.name»":{
+              «quote»«t.causedBy.name»«quote»: {
                 «IF t.causedBy.refType != null»
-                  "type":{
-                    «t.causedBy.refType.schematize»
+                  «quote»type«quote»: {
+                    «t.causedBy.refType.schematize(quote)»
                   },
                 «ENDIF»
-                "subPath":"/«t.causedBy.name»"
+                «quote»subPath«quote»: «quote»/«t.causedBy.name»«quote»
               }
             «ENDFOR»
           «ENDIF»
@@ -294,26 +297,26 @@ class JsGenerator {
 //    '''
   }
   def genAllInOne(Agent agent){
+    var quote = "'"
     '''
-«««    var tv4 = require("tv4").tv4;
-    
-    module.exports={
-      stateMatrix:{
-        «agent.genStateMatrix»
+    module.exports = {
+      «quote»stateMatrix«quote»: {
+        «agent.genStateMatrix(quote)»
       },
-      terminalStates:«agent.genTerminalStatesHash»
-    };
+      «quote»terminalStates«quote»: «agent.genTerminalStatesHash(quote)»
+    }
     '''
   }
-  def genAgentList(Entity e, Conversation c) {
+  def genAgentList(Entity e, Conversation c, String quote) {
     '''
     «FOR a : c.reachableAgents.filter[agent| agent?.projection?.entity == e] SEPARATOR ',' »
-      "«c.name».«a.name»"
+      «quote»«c.name».«a.name»«quote»
     «ENDFOR»
     '''
   }
   
   def genSwagger(Conversation c,String server) {
+    var quote = '"'
     var s = new HashMap
     '''
     {
@@ -340,7 +343,7 @@ class JsGenerator {
           «IF r.server == server»
           «
           {
-            s.putAll(new JsSchema2(r.refType).docs)
+            s.putAll(new JsSchema2(r.refType,quote).docs)
             ''
           }»
           «val a = r.methods.fold(new HashMap<String,List<RestAccess>>,[ss,m|{
@@ -360,10 +363,10 @@ class JsGenerator {
                "tags": ["«c.name»"],
                 «var description = r.bareComments»
                 «IF description!=null && description.length>0»
-                  "description":"«description.join('\u2424').replace('"','\\"')»",
+                  "description": "«description.join('\u2424').replace('"','\\"')»",
                 «ENDIF»
                 "security":[
-                  {"implicit":["*"]}
+                  {"implicit": ["*"]}
                 ],
                 "produces": [
                   "application/json"
@@ -428,7 +431,7 @@ class JsGenerator {
                           «ENDIF»
                           «IF p.value.items != null»
                             "items": {
-                              «p.value.items.itemize» 
+                              «p.value.items.itemize(quote)» 
                             },
                           «ENDIF»
                           "in": "query",
@@ -491,7 +494,7 @@ class JsGenerator {
         } «IF !s.empty»,«ENDIF»
         «FOR entry : s.entrySet SEPARATOR ','»
           "«entry.key»": {
-            «entry.value.schematize»
+            «entry.value.schematize(quote)»
           }
         «ENDFOR»
       }
@@ -500,53 +503,54 @@ class JsGenerator {
   }
   
   def genViewJs(Conversation c){
+    var quote = "'"
     '''
-    module.exports={
-      "«c.name»":{
-        //the plural of crud is curd?
-        crud:[
+    module.exports = {
+      «quote»«c.name»«quote»: {
+        // the plural of crud is curd?
+        «quote»crud«quote»: [
           «FOR v : c.views SEPARATOR ','»
             {
-              name:"«v.url.replaceFirst("/","").replaceAll("/","_s_").replaceAll("\\.","_d_")»",
-              "endpoint":"http://«v.backedBy.url»",
-              "agents":[
-                «v?.backedBy?.refType?.entity?.genAgentList(c)»
+              «quote»name«quote»: «quote»«v.url.replaceFirst("/","").replaceAll("/","_s_").replaceAll("\\.","_d_")»«quote»,
+              «quote»endpoint«quote»: «quote»http://«v.backedBy.url»«quote»,
+              «quote»agents«quote»: [
+                «v?.backedBy?.refType?.entity?.genAgentList(c, quote)»
               ],
-              "actions":{
+              «quote»actions«quote»: {
                 «FOR m : v.backedBy.methods.sort SEPARATOR ','»
-                  "«m.name()»":{
-                    "type":{
-                      «v.backedBy.refType.schematize»
+                  «quote»«m.name()»«quote»: {
+                    «quote»type«quote»: {
+                      «v.backedBy.refType.schematize(quote)»
                     },
-                    "subPath":"«m.pathFragment»"
+                    «quote»subPath«quote»: «quote»«m.pathFragment»«quote»
                   }
                 «ENDFOR»
               }
             }
           «ENDFOR»
         ],
-        agents:[
+        «quote»agents«quote»: [
           «FOR agent:c.agents.sortWith[a1,a2|a1.name.compareTo(a2.name)] SEPARATOR ','»
             {
-              id:"«agent.parent.name».«agent.name»",
-              name:"«agent.name»_of_«agent.parent.name»",
-              "endpoint":"ws:///«agent.parent.name».«agent.name»",
-              "actions":{
-                "init":{
-                  type:{
-                    «agent.projection.schematize(true)»
+              «quote»id«quote»: «quote»«agent.parent.name».«agent.name»«quote»,
+              «quote»name«quote»: «quote»«agent.name»_of_«agent.parent.name»«quote»,
+              «quote»endpoint«quote»: «quote»ws:///«agent.parent.name».«agent.name»«quote»,
+              «quote»actions«quote»: {
+                «quote»init«quote»: {
+                  «quote»type«quote»: {
+                    «agent.projection.schematize(true,quote)»
                   },
-                  subPath:"/init"
+                  «quote»subPath«quote»: «quote»/init«quote»
                 }
               },
-              states:[
-                «agent.genStateView»
+              «quote»states«quote»: [
+                «agent.genStateView(quote)»
               ]
             }
           «ENDFOR»
         ]
       }
-    };
+    }
     '''
   }
   def getPathFragment(RestAccess a){
@@ -578,26 +582,26 @@ class JsGenerator {
   }
   def genJsIndex(Conversation c){
     '''
-      (function(global){
+      (function (global) {
         «FOR agent : c.reachableAgents.sortBy[agent|agent.name]»
-          global['«agent.parent.name»']=global['«agent.parent.name»']||{};
-          global['«agent.parent.name»'].agents=global['«agent.parent.name»'].agents||{};
-          global['«agent.parent.name»'].agents['«agent.name»']={
-            path:"«agent.parent.name»/«agent.name»"
-          };
+          global['«agent.parent.name»'] = global['«agent.parent.name»'] || {}
+          global['«agent.parent.name»'].agents = global['«agent.parent.name»'].agents || {}
+          global['«agent.parent.name»'].agents['«agent.name»'] = {
+            path: '«agent.parent.name»/«agent.name»'
+          }
 «««          «agent.genValidators»
         «ENDFOR»
 «««        «FOR type : c.definedTypes»
 «««          tv4.addSchema('«type.fullName»',«type.schemafy»);
 «««        «ENDFOR»
-      })((typeof module !== 'undefined' && module.exports) ? exports : this);
+      })((typeof module !== 'undefined' && module.exports) ? exports : this)
     '''
   }
   
   def genSecurity(Agent agent) {
     '''
-      module.exports={
-        accessRequirement:"«agent.accessRequirement»"
+      module.exports = {
+        accessRequirement: '«agent.accessRequirement»'
       }
     '''
   }

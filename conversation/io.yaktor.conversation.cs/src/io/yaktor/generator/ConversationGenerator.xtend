@@ -48,15 +48,15 @@ class ConversationGenerator implements IGenerator {
   
   def getIndex(){
     '''
-      var fs = require('fs');
-      var path = require('path');
-      var fileReg = /^(.*)\..+$/;
-      fs.readdirSync(__dirname).forEach(function(file) {
-        var filePath = path.join(__dirname,file);
-        if(__filename != filePath){
-          module.exports[file.replace(fileReg,"$1")] = require(filePath);
+      var fs = require('fs')
+      var path = require('path')
+      var fileReg = /^(.*)\..+$/
+      fs.readdirSync(__dirname).forEach(function (file) {
+        var filePath = path.join(__dirname, file)
+        if (__filename !== filePath) {
+          module.exports[file.replace(fileReg, '$1')] = require(filePath)
         }
-      });
+      })
     '''
   }
 
@@ -123,8 +123,8 @@ class ConversationGenerator implements IGenerator {
     fsa.generateFile('''ejs/«c.name»/test.ejs''', ConversationOutputConfigurationProvider.GEN, jsGen.genHtmlTest(c));
     
     fsa.generateFile('''routes/DEFAULT/___«c.name»_test.js''', ConversationOutputConfigurationProvider.GEN_ROOT, '''
-    module.exports = function(ctx) {
-       ctx.app.get('/«c.name»/test.html',  function(req,res,next){res.render('«c.name»/test.ejs', { sId: req.sessionID });});
+    module.exports = function (ctx) {
+      ctx.app.get('/«c.name»/test.html', function (req, res, next) { res.render('«c.name»/test.ejs', { sId: req.sessionID }) })
     }
     ''');
   }

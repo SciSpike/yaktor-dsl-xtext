@@ -4,6 +4,5 @@ RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt-get install -y nodejs
 RUN apt-get install -y awscli
 
-VOLUME /yaktor
 VOLUME /build
 WORKDIR /build

@@ -51,7 +51,7 @@ class ResourcesDocGenerator {
 				[source, js]
 				--------------------------------
 				{
-				  «rs.refType.schematize»
+				  «rs.refType.schematize('"')»
 				}
 				--------------------------------
 

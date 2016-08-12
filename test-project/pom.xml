@@ -6,39 +6,6 @@
 		<artifactId>dsl-xtext-parent</artifactId>
     <version>0.51.0-SNAPSHOT</version>
 	</parent>
-	<profiles>
-		<profile>
-			<id>default-yaktor</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<yaktor.version>4.0.0-pre.0 - 4.x</yaktor.version>
-			</properties>
-		</profile>
-		<profile>
-			<id>specific-yaktor-property</id>
-			<activation>
-				<property>
-					<name>yaktor.version</name>
-				</property>
-			</activation>
-			<properties>
-				<yaktor.version>${yaktor.version}</yaktor.version>
-			</properties>
-		</profile>
-		<profile>
-			<id>specific-yaktor-env</id>
-			<activation>
-				<property>
-					<name>env.YAKTOR_VERSION</name>
-				</property>
-			</activation>
-			<properties>
-				<yaktor.version>${env.YAKTOR_VERSION}</yaktor.version>
-			</properties>
-		</profile>
-	</profiles>
 	<groupId>io.yaktor</groupId>
 	<artifactId>dsl-xtext-test-project</artifactId>
 	<dependencies>
@@ -63,27 +30,6 @@
 	</properties>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>enforce-property</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireProperty>
-									<property>yaktor.version</property>
-									<message>"yaktor.version must be specified."</message>
-								</requireProperty>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		  <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
@@ -118,7 +64,7 @@
 						</goals>
 						<configuration>
 							<arguments>
-								<argument>install</argument>
+                <argument>install</argument>
 							</arguments>
 						</configuration>
 					</execution>
