@@ -27,9 +27,11 @@ branches:
     - /^v[0-9]+\.[0-9]+\.x$/
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
 install:
+  - env | grep TRAVIS > .env
   - docker build -t bobthebuilder:canwebuildit docker
   - docker run
     -d
+    --env-file .env
     --name bobthebuilder_yeswecan
     -v $PWD:/build
     -e MAVEN_OPTS="-Xms256m -XX:MaxPermSize=1024m -Xmx1024m"
@@ -48,5 +50,6 @@ install:
     tail -f /dev/null
 script:
   - docker exec -it bobthebuilder_yeswecan mvn clean install -B -V -P release
+  - docker exec -it bobthebuilder_yeswecan cli/travis-coveralls.sh
   - docker exec -it bobthebuilder_yeswecan cli/travis-before-deploy.sh
   - docker exec -it bobthebuilder_yeswecan cli/maven-deploy.sh

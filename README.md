@@ -5,6 +5,7 @@
 [![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)]()
 [![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)]()
 [![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)]()
+[![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
 
 ## Introduction
 
