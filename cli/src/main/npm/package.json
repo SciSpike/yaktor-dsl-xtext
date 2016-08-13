@@ -1,5 +1,6 @@
 {
   "name": "yaktor-lang",
+  "description": "Yaktor DSLs created by SciSpike creating data models and behavior for your Yaktor Application",
   "version": "${project.version}",
   "license": "Apache-2.0",
   "dependencies": {

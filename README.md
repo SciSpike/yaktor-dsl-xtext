@@ -1,11 +1,13 @@
-# Yaktor DSL
+[![Yakor Logo](yaktor.io/pics/yaktor-logo.png)](https://github.com/Scispike/yaktor) 
 
-[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)]()
-[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)]()
-[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)]()
-[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)]()
-[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)]()
-[![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
+Yaktor DSLs created by SciSpike creating data models and behavior for your Yaktor Application
+
+[![Travis status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)](https://travis-ci.org/SciSpike/yaktor-dsl-xtext/builds)
+[![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
+[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22io.yaktor%22%20AND%20a%3A%22xtext-dsl-cli%22)
+[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)](https://github.com/SciSpike/yaktor-dsl-xtext/blob/master/LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)](https://gitter.im/SciSpike/yaktor)
+[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)](https://www.npmjs.com/package/yaktor-lang)
 
 ## Introduction
 
