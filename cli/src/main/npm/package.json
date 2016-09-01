@@ -1,5 +1,6 @@
 {
   "name": "yaktor-lang",
+  "description": "Generates Node.js source for Yaktor applications",
   "version": "${project.version}",
   "license": "Apache-2.0",
   "dependencies": {
