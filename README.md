@@ -1,10 +1,10 @@
-# Yaktor DSL
+# Yaktor DSLs
 
-[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)]()
-[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)]()
-[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)]()
-[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)]()
-[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)]()
+[![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)](https://travis-ci.org/SciSpike/yaktor-dsl-xtext)
+[![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22xtext-dsl-cli%22)
+[![license](https://img.shields.io/github/license/SciSpike/yaktor-dsl-xtext.svg?maxAge=3600)](https://github.com/SciSpike/yaktor-dsl-xtext/blob/master/LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/SciSpike/yaktor.svg?maxAge=3600)](https://gitter.im/SciSpike/yaktor)
+[![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)](https://www.npmjs.com/package/yaktor-lang)
 [![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
 
 ## Introduction
@@ -35,7 +35,7 @@ FTW
 
 Or, to build from your unsupported native environment:
 
-* Maven 3.2 (*exactly* 3.2, for now)
+* Maven 3.2 (*only* 3.2.x, for now)
 * JDK 7 (JDK 8 has not yet been tested)
 * Node 4.4.x & its associated `npm`
 * A recent version of `git`
