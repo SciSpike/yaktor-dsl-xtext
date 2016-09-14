@@ -77,7 +77,7 @@ public class Main extends GeneratorComponent {
     for (Resource resource : set.getResources()) {
       System.out.println(resource.getURI());
       try {
-        if (resource.getURI().fileExtension().matches("dm")) {
+        if (resource.getURI().fileExtension().matches("ydm")) {
           domainGenerator.doGenerate(resource, fileAccess);
         } else {
           conversationGenerator.doGenerate(resource, fileAccess);
