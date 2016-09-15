@@ -145,9 +145,9 @@ class JsGgpGenerator {
                * While in «state.name».
                * «trans.description»
                */
-              my.«state.name».transitions['«cause.getEventDescription(agent, agent.parent)»'].handler = function(causedByEventName, meta, data, done){
+              my.«state.name».transitions['«cause.getEventDescription(agent, agent.parent)»'].handler = function(causedByEventName, meta, «cause.name», done){
                 util.deprecate(function () {}, 'XXX: Missing Business Logic at «trans.description»')()
-                done(null, data)
+                done(null, «cause.name»)
               }
             «ENDFOR»
           «ENDFOR»
