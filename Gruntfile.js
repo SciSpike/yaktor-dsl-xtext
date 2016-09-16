@@ -6,18 +6,6 @@ module.exports = function (grunt) {
     scope: 'devDependencies'
   })
 
-  var yaktorHome = grunt.option('yaktor-home')
-  if (yaktorHome === true) yaktorHome = null
-  if (!yaktorHome) {
-    var err = new Error('no target yaktor version given; argument --yaktor-home=<path> required')
-    grunt.log.error(err)
-    throw err
-  }
-  if (!yaktorHome.match(new RegExp('^/'))) {
-    var err = new Error('argument --yaktor-home must be an absolute path')
-    grunt.log.error(err)
-    throw err
-  }
   var skipBuild = grunt.option('skip-build') // helpful when testing the release process
   var dir = null
   var basePath = grunt.option('basePath') || './'
