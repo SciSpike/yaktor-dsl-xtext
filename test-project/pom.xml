@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.yaktor</groupId>
 		<artifactId>dsl-xtext-parent</artifactId>
-    <version>0.51.0</version>
+    <version>0.52.0-SNAPSHOT</version>
 	</parent>
 	<groupId>io.yaktor</groupId>
 	<artifactId>dsl-xtext-test-project</artifactId>
