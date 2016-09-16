@@ -1,7 +1,7 @@
 conversation Test {
-  type Test from Test.All {
+  message Test from Test.All {
   }
-  type TestRef from Test.Ref {
+  message TestRef from Test.Ref {
     a
     i {
       a
@@ -38,8 +38,8 @@ conversation Test {
     }
   }
 
-  type B from Test.B {}
-  type C from Test.C {
+  message B from Test.B {}
+  message C from Test.C {
     id
     a
     c
@@ -49,13 +49,13 @@ conversation Test {
 
   view /test.vw over /test
   resource /test for Test.Test offers ( create read update delete find) interchanges ( json form )
-  
-  
+
+
   view /c over /c
   resource /c for Test.C offers ( create read update delete ) interchanges ( json form )
   view /b over /b
   resource /b for Test.B offers ( create read update delete ) interchanges ( json form )
-  
+
   view /TestRef over /TestRef
   resource /TestRef for Test.TestRef offers ( create read update delete ) interchanges ( json form )
 
