@@ -24,7 +24,7 @@ There are two ways to build:  Docker (recommended) & natively.
 ### Building with Docker
 
 ```
-$ docker build -t yaktor-mvn-build docker`
+docker build -t yaktor-mvn-build docker
 ./build.sh mvn clean install
 ```
 
