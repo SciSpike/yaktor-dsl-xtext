@@ -16,18 +16,18 @@ class JsSimulator {
       process.on('uncaughtException', function (err) {
         console.log(err.stack)
       })
-      var mongo = require('../config/initializers/02_mongo.js"')
-      mongo.call({ settings: { env: process.env.NODE_ENV || 'development' } }, function () { })
-      require('../src-gen/modelAll')
+      var path = require('path')
+      var mongo = require(path.resolve('config','global','02_mongo.js'))
+      mongo({mongo:{host:'mongo'}}, function () {})
+      require(path.resolve('src-gen','modelAll'))
       «FOR dto : c.reachableAgents.filter[a|a.projection != null].map[a|a.projection.fullName].toSet»
-        var «dto.replace(".", "$")» = require('../conversations/types/«dto»')
+        var «dto.replace(".", "$")» = require(path.resolve('conversations','types','«dto»')
       «ENDFOR»
       var argv = require('commander')
       var async = require('async')
       var request = require('request')
       var cookie = require('cookie')
-      var path = require('path')
-      var mocker = require('conversation/test/mocker')
+      var mocker = require('yaktor/test/mocker')
       
       argv.option('-i, --iterations [n]', 'how many times to run a simulation', parseInt, 50)
       .option('-u, --urlPrefix [value]', 'override urlPrefix', String.valueOf(), 'http://localhost:3000')
