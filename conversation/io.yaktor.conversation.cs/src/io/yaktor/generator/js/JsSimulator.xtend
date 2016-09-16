@@ -17,11 +17,11 @@ class JsSimulator {
         console.log(err.stack)
       })
       var path = require('path')
-      var mongo = require(path.resolve('config','global','02_mongo.js'))
-      mongo({mongo:{host:'mongo'}}, function () {})
-      require(path.resolve('src-gen','modelAll'))
+      var mongo = require(path.resolve('config', 'global', '02_mongo.js'))
+      mongo({mongo: {host: 'mongo'}}, function () {})
+      require(path.resolve('src-gen', 'modelAll'))
       «FOR dto : c.reachableAgents.filter[a|a.projection != null].map[a|a.projection.fullName].toSet»
-        var «dto.replace(".", "$")» = require(path.resolve('conversations','types','«dto»')
+        var «dto.replace(".", "$")» = require(path.resolve('conversations', 'types', '«dto»'))
       «ENDFOR»
       var argv = require('commander')
       var async = require('async')
