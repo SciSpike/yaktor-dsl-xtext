@@ -1,6 +1,10 @@
 {
   "name": "yaktor-lang",
+<<<<<<< HEAD
   "description": "Yaktor DSLs created by SciSpike creating data models and behavior for your Yaktor Application",
+=======
+  "description": "Generates Node.js source for Yaktor applications",
+>>>>>>> fb9dafbf6cab6ffa3e95f34e9929a278c39cd695
   "version": "${project.version}",
   "license": "Apache-2.0",
   "dependencies": {
