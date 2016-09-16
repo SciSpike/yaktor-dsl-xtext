@@ -10,7 +10,7 @@
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             icon="icons/cdsl.png"
-            extensions="cl"
+            extensions="yc"
             id="io.yaktor.Conversation"
             name="Conversation Editor">
         </editor>
@@ -214,13 +214,13 @@
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
 			class="io.yaktor.ui.ConversationExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="cl">
+			type="yc">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
         <resourceServiceProvider
             class="io.yaktor.ui.ConversationExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-            uriExtension="cl">
+            uriExtension="yc">
         </resourceServiceProvider>
     </extension>
 
@@ -378,19 +378,19 @@
   <extension point="org.eclipse.compare.contentViewers">
     <viewer id="io.yaktor.Conversation.compare.contentViewers"
             class="io.yaktor.ui.ConversationExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="cl">
+            extensions="yc">
     </viewer>
   </extension>
   <extension point="org.eclipse.compare.contentMergeViewers">
     <viewer id="io.yaktor.Conversation.compare.contentMergeViewers"
             class="io.yaktor.ui.ConversationExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="cl" label="Conversation Compare">
+            extensions="yc" label="Conversation Compare">
      </viewer>
   </extension>
   <extension point="org.eclipse.ui.editors.documentProviders">
     <provider id="io.yaktor.Conversation.editors.documentProviders"
             class="io.yaktor.ui.ConversationExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
-            extensions="cl">
+            extensions="yc">
     </provider>
   </extension>
 

@@ -10,7 +10,7 @@
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             icon="icons/dm.png"
-            extensions="dm"
+            extensions="ydm"
             id="io.yaktor.Domain"
             name="Domain Editor">
         </editor>
@@ -214,13 +214,13 @@
 		point="org.eclipse.emf.ecore.extension_parser">
 		<parser
 			class="io.yaktor.ui.DomainExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
-			type="dm">
+			type="ydm">
 		</parser>
 	</extension>
 	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
         <resourceServiceProvider
             class="io.yaktor.ui.DomainExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
-            uriExtension="dm">
+            uriExtension="ydm">
         </resourceServiceProvider>
     </extension>
 
@@ -378,19 +378,19 @@
   <extension point="org.eclipse.compare.contentViewers">
     <viewer id="io.yaktor.Domain.compare.contentViewers"
             class="io.yaktor.ui.DomainExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="dm">
+            extensions="ydm">
     </viewer>
   </extension>
   <extension point="org.eclipse.compare.contentMergeViewers">
     <viewer id="io.yaktor.Domain.compare.contentMergeViewers"
             class="io.yaktor.ui.DomainExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
-            extensions="dm" label="Domain Compare">
+            extensions="ydm" label="Domain Compare">
      </viewer>
   </extension>
   <extension point="org.eclipse.ui.editors.documentProviders">
     <provider id="io.yaktor.Domain.editors.documentProviders"
             class="io.yaktor.ui.DomainExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
-            extensions="dm">
+            extensions="ydm">
     </provider>
   </extension>
 
