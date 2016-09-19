@@ -59,7 +59,7 @@ StateLike returns State:
   State | Decision | Join;
 Junction returns Junction:
   message=[SubscribableByOthers|QualifiedName]
-  ('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']')?
+  (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))?
 ;
 
 
