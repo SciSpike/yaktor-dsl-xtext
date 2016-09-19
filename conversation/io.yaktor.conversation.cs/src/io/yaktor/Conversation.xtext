@@ -64,7 +64,7 @@ Junction returns Junction:
 
 
 Join returns Join:
-  'while' ('in')?  (requiresExecution?="custom")? name=ID 'waits' 'for' joins+=Junction (','|'and' joins+=Junction)*
+  'while' 'in'?  (requiresExecution?="custom")? name=ID 'waits' 'for' joins+=Junction (','|'and' joins+=Junction)*
   '{'
   (transitions+=Transition)*
   '}';
@@ -76,7 +76,7 @@ Decision returns Decision:
   '}';
 
 State returns State:
-  ('while' ('in')?)? (requiresExecution?="custom")? name=ID
+  ('while' 'in'?)? (requiresExecution?="custom")? name=ID
   '{'
   (transitions+=Transition)*
   '}';
