@@ -7,7 +7,7 @@ conversation Test {
       a
     }
   }
-  agent Test concerns Test {
+  agent Test : Test {
     receives finished
     sends started: Test
     privately receives ^start: Test
