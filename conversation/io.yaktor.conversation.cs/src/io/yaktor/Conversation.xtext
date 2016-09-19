@@ -35,7 +35,7 @@ PossiblyQualifiedName:
   ID ('.' ID)*;
 
 Agent returns Agent:
-  (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID (('concerning' | 'concerns')
+  (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
   events+=Event*
   stateMachine=StateMachine
