@@ -2,7 +2,7 @@
 set -ex
 
 # build the update site
-VERSION=$(cd $(dirname $0)/conversation/update.all.tmpl && npm install && node build-update-site.js)
+VERSION=$(cd $(dirname $0)/conversation/update.all.tmpl && npm install &> /dev/null && node build-update-site.js)
 
 # config & auth
 AWS_CONFIG_SECTION=${AWS_CONFIG_SECTION:-default}
@@ -34,7 +34,7 @@ EOF
 fi
 
 # get versions of all previously released update sites
-AWS_S3_PATH=${AWS_S3_PATH:-yaktor.io/eclipse/} # trailing slash is necessary
+AWS_S3_PATH=${AWS_S3_PATH:-eclipse.yaktor.io/} # trailing slash is necessary
 EXISTING_VERSIONS=$(aws s3 ls $AWS_S3_PATH | egrep '/\s{0,}$' | awk '{print $2}' | sed 's,/$,,g' | tr '\n' ',' | sed 's/,$//g')
 VERSIONS=$VERSION
 if [ -n "$EXISTING_VERSIONS" ]; then
