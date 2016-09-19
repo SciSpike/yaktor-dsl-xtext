@@ -2,9 +2,9 @@ conversation UserUnitTest {
   imports {
     agent Test.Test as f
   }
-  type User from User.User {
+  message User from User.User {
   }
-  type House from User.House {
+  message House from User.House {
   }
 
   agent Reach concerns House {

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash -ex
 
 CURRENT=$(mvn help:evaluate -Dexpression=project.version -N | egrep -v '(^\[.*)' | xargs)
 if [[ ! $CURRENT =~ \-SNAPSHOT$ ]]; then

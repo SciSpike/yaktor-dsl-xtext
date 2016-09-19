@@ -1,4 +1,6 @@
-# Yaktor DSLs
+[![Yakor Logo](yaktor.io/pics/yaktor-logo.png)](https://github.com/Scispike/yaktor)
+
+Yaktor DSLs created by SciSpike creating data models and behavior for your Yaktor Application
 
 [![master status](https://img.shields.io/travis/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=3600)](https://travis-ci.org/SciSpike/yaktor-dsl-xtext)
 [![Maven Central](https://img.shields.io/maven-central/v/io.yaktor/xtext-dsl-cli.svg?maxAge=3600)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22xtext-dsl-cli%22)
@@ -22,7 +24,7 @@ There are two ways to build:  Docker (recommended) & natively.
 ### Building with Docker
 
 ```
-$ docker build -t yaktor-mvn-build docker`
+docker build -t yaktor-mvn-build docker
 ./build.sh mvn clean install
 ```
 

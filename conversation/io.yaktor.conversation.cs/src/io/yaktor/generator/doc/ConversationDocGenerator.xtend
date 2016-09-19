@@ -147,7 +147,7 @@ class ConversationDocGenerator {
   	None of the agents fire events containing information.
   	«ELSE»
   	The following data type«IF ets.size>1»s are«ELSE» is«ENDIF» used to carry information along with the events.
-  	In this section we'll simply list them with the documentation provided in the +cl+ files.
+  	In this section we'll simply list them with the documentation provided in the +yc+ files.
   	For further details (that is, for full schema and documenation of the individual fields), see the implementation documentation.
 
   	«FOR et : ets»
