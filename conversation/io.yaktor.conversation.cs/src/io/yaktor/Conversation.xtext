@@ -86,7 +86,7 @@ Transition returns Transition:
    ('receives')? (requiresExecution?='custom')?
     ((causedBy=[SubscribableByMe|ID] | 
      exCausedBy=[SubscribableByOthers|QualifiedName])
-       ('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']')? )
+       (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))? )
   
   ('->'|'becomes') toState=[State|ID]
   (('>'|'sends') (triggers=[PublishableByMe|ID] |
