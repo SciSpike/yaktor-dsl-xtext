@@ -11,7 +11,7 @@ Generate Node.js code from Yaktor Domain and Conversation DSL files.
 
 ## Description
 
-`yaktor-lang` generates the default Node.js implementation for a [Yaktor](http://yaktor.io) project based on your Yaktor Conversation (`*.yc`) and Domain Model (`*.ydm`) files.
+`yaktor-lang` generates the default Node.js implementation for a [Yaktor](http://yaktor.io) project based on your Yaktor Conversation Language (`*.cl`) and Domain Model (`*.dm`) files.
 The generated code can easily be extended and enhanced *without losing your changes*. Additionally, you can maintain documentation which adds tremendous value to your project.
 
 > NOTE: this npm module requires `java` >= 1.7.0 (JRE, not the JDK).
@@ -25,14 +25,14 @@ Because this npm module is a thin wrapper around a Java command line executable 
 ```bash
 yaktor-lang files ...
 ```
-where `files` is a whitespace-delimited list of Yaktor Conversation (`*.yc`) and Domain Model (`*.ydm`) files.
+where `files` is a whitespace-delimited list of Yaktor Conversation (`*.cl`) and Domain Model (`*.dm`) files.
 
 > NOTE: Run the above command from the root of your Yaktor project.
 
 A common invocation is
 
 ```bash
-find . -name '*.ydm' -o -name '*.yc'| xargs yaktor-lang
+find . -name '*.dm' -o -name '*.cl'| xargs yaktor-lang
 ```
 
 ## For Yaktor Developers
