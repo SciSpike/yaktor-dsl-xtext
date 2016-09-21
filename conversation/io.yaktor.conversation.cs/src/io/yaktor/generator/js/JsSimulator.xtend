@@ -132,29 +132,28 @@ class JsSimulator {
           cb()
         }, processData.args.verbose)
       
-        for (var state in agentApi.stateMatrix) {
-          (function (state) {
-            client.on('message', function (topic, payload) {
-              // var body = JSON.parse(payload.toString())
-              var state = topic.replace(/«a.parent.name»\/«a.name»\/state\/([^\/]*)\/.*/, '$1')
-              if (agentApi.terminalStates[state]) {
-                // inform parent that we are done
-                process.send(processData)
-                socketApi.disconnect(processData.args.urlPrefix)
-                if (processData.args.verbose) {
-                  console.log('disconnect %s/state/%s/ seq:%s', '«a.name»', state, processData.n)
-                }
-                process.exit(0)
-              } else {
-                var myEventsToFire = Object.keys(agentApi.stateMatrix[state])
-                if (myEventsToFire.length) {
-                  var event = script[state] || myEventsToFire[parseInt(Math.random() * myEventsToFire.length)]
-                  client.publish('«a.parent.name».«a.name»/' + event, JSON.stringify({ agentData: dto, data: dataSet[event] }))
-                }
-              }
-            })
-          })(state)
-        }
+        client.on('message', function (topic, payload) {
+          // var body = JSON.parse(payload.toString())
+          var state = topic.replace(/«a.parent.name»\/«a.name»\/state\/([^\/]*)\/.*/, '$1')
+          if (agentApi.terminalStates[state]) {
+            // inform parent that we are done
+            process.send(processData)
+            socketApi.disconnect(processData.args.urlPrefix)
+            if (processData.args.verbose) {
+              console.log('disconnect %s/state/%s/ seq:%s', '«a.name»', state, processData.n)
+            }
+            process.exit(0)
+          } else {
+            if (processData.args.verbose) {
+              console.log('%s:%s in state:%s', '«a.name»', processData.n, state)
+            }
+            var myEventsToFire = Object.keys(agentApi.stateMatrix[state])
+            if (myEventsToFire.length) {
+              var event = script[state] || myEventsToFire[parseInt(Math.random() * myEventsToFire.length)]
+              client.publish('«a.parent.name».«a.name»/' + event, JSON.stringify({ agentData: dto, data: dataSet[event] }))
+            }
+          }
+        })
       
         client.on('connect', function (socket, data) {
           processData.args.verbose && console.log('«a.name» connected %s', processData.n)
