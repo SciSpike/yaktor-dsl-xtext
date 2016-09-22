@@ -15,11 +15,12 @@ conversation Test {
       done {
       }
       working {
-        finished -> done
+        TestDepend.finished -> done
       }
     }
   }
   agent TestDepend concerns Test {
+    sends finished
 
     initially receives Test.started -> thinking
     {
@@ -28,8 +29,8 @@ conversation Test {
       done {
       }
       decision thinking {
-        done -> done > Test.finished
-        error -> broken
+        done -> done > finished
+        error -> broken > finished
       }
     }
   }

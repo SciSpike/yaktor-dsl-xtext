@@ -8,7 +8,8 @@ conversation UserUnitTest {
   }
 
   agent Reach concerns House {
-    initially receives Test.Test.started becomes reached sends Test.Test.finished {
+    sends finished
+    initially receives Test.Test.started becomes reached sends finished {
       reached {
       }
     }

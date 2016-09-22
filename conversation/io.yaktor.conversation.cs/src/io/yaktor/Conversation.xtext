@@ -97,7 +97,7 @@ Transition returns Transition:
 InternalTransition returns Transition:
   {Transition}
   (requiresExecution?='custom')?
-  causedBy=PrivatePubSub
+  (causedBy=PrivatePubSub | exCausedBy=[SubscribableByOthers|QualifiedName])
   ('->' | 'becomes') toState=[State|ID]
   (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;
 
