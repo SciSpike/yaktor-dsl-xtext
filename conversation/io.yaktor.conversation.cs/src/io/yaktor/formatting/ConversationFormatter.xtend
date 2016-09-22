@@ -54,7 +54,7 @@ public class ConversationFormatter extends AbstractDeclarativeFormatter {
     c.setLinewrap(0, 1, 1).after(SL_COMMENTRule)
     c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
     
-    c.setLinewrap(1, 1, 2).before(eventRule);
+    c.setLinewrap(1, 1, 2).before(publiclySubscribableRule);
     c.setLinewrap(1, 1, 2).before(internalTransitionRule);
     c.setLinewrap(1, 1, 2).before(transitionRule);
     c.setLinewrap(0, 1, 2).before(fieldRule);

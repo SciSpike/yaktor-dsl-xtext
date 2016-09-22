@@ -1,7 +1,6 @@
 package io.yaktor.ui.quickfix
 
 import io.yaktor.conversation.ConversationFactory
-import io.yaktor.conversation.Event
 import io.yaktor.conversation.State
 import io.yaktor.conversation.StateMachine
 import io.yaktor.validation.IssueCodes
@@ -61,22 +60,7 @@ class ConversationQuickfixProvider extends DefaultQuickfixProvider {
       null,
       [ element, context |
         var agent = element.findAgent;
-        var Event event = ConversationFactory.eINSTANCE.createPubliclySubscribable;
-        event.setName(issue.data.get(0));
-        agent.events.add(event);
-      ])
-  }
-
-  @Fix(IssueCodes.MISSING_SUB)
-  def void createSub(Issue issue, IssueResolutionAcceptor acceptor) {
-    acceptor.accept(issue, "Create " + issue.data.get(1) + " " + issue.data.get(0),
-      "Create a new Event that is " + issue.data.get(1),
-      // providing null for the icon name makes Eclipse use the
-      // standard quick fix icon
-      null,
-      [ element, context |
-        var agent = element.findAgent;
-        var Event event = ConversationFactory.eINSTANCE.createPubliclyPublishable;
+        var event = ConversationFactory.eINSTANCE.createPubliclySubscribable;
         event.setName(issue.data.get(0));
         agent.events.add(event);
       ])

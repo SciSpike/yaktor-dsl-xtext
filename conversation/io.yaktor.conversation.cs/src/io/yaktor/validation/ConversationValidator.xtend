@@ -33,14 +33,11 @@ class ConversationValidator extends AbstractConversationValidator {
 
   @Check
   def checkValidEvent(Transition t) {
-    if (t.causedByName == null && t.exCausedByName == null) {
+    if (t.causedBy == null && t.exCausedBy == null) {
       error("Cause is required.", t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.MISSING_CAUSE)
     }
-    if ((t.causedByName ?: t.exCausedByName) == (t.triggersName ?: t.exTriggersName)) {
-      error("The cause cannot match the trigger (infinite loop).", t,
-        ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.EVENT_LOOP)
-    }
+    // TODO: disallow t.causedBy.name == t.triggers.name
   }
 
   @Check

@@ -30,25 +30,13 @@ TypeImport:
 QualifiedName:
   ID ('.' ID)+;
   
-PublishableByMeName:
-  ID;
-  
-PublishableByOthersName:
-  QualifiedName;
-  
-SubscribableByMeName:
-  ID;
-  
-SubscribableByOthersName:
-  QualifiedName;
-
 PossiblyQualifiedName:
   ID ('.' ID)*;
 
 Agent returns Agent:
   (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
-  events+=Event*
+  (events+=PubliclySubscribable)*
   stateMachine=StateMachine
   '}';
 
@@ -57,10 +45,10 @@ StateMachine returns StateMachine:
   'initially' ( (  'becomes' initialState=[State])
   | ( initialTransition=Transition))
   '{'
-  states+=StateLike*
+  (states+=StateLike)*
   '}';
 
-Event:
+PubliclySubscribable:
   ('sends' {PubliclySubscribable} | 'pubsub' {PublicPubSub})
   name=ID
   (':' refType=[Projection|PossiblyQualifiedName])?;
@@ -91,25 +79,27 @@ State returns State:
   (transitions+=Transition)*
   '}';
 
+PrivatePubSub returns PrivatePubSub:
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+  
 Transition returns Transition:
   {Transition}
   'receives'?
   (requiresExecution?='custom')?
   (
-  (causedByName=SubscribableByMeName | exCausedByName=SubscribableByOthersName)
-  (':' refType=[Projection|PossiblyQualifiedName])?
+  (causedBy=PrivatePubSub | exCausedBy=[SubscribableByOthers|QualifiedName])
   (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))?
   )
   ('->' | 'becomes') toState=[State|ID]
-  (('>' | 'sends') (triggersName=PublishableByMeName | exTriggersName=PublishableByOthersName))?;
+  (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;
 
 InternalTransition returns Transition:
   {Transition}
   (requiresExecution?='custom')?
-  causedByName=SubscribableByMeName
-  (':' refType=[Projection|PossiblyQualifiedName])?
+  causedBy=PrivatePubSub
   ('->' | 'becomes') toState=[State|ID]
-  (('>' | 'sends') (triggersName=PublishableByMeName | exTriggersName=PublishableByOthersName))?;
+  (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;
 
 ProjectionField:
   MappedField | NewField | ProjectionContainmentField | TypeContainmentField;

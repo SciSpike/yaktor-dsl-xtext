@@ -17,6 +17,8 @@ import java.util.Map
 import static io.yaktor.generator.dot.DotGenerator.*
 
 import static extension io.yaktor.generator.util.CommentExtractorExtensions.*
+import static extension io.yaktor.generator.js.JsExtensions.*
+
 import io.yaktor.types.Projection
 import io.yaktor.generator.umldoc.PlantUMLGenerator
 

@@ -15,13 +15,22 @@ import org.eclipse.emf.common.util.EList
 import java.lang.reflect.InvocationTargetException
 import org.eclipse.emf.common.notify.Notification
 import org.eclipse.emf.common.util.BasicEList
+import io.yaktor.conversation.PrivatePubSub
+import io.yaktor.conversation.PubliclySubscribable
 
 class JsExtensions {
   
+  static def getParent(Event event) {
+    switch event {
+      PrivatePubSub: event.transition.toState.parent.parent
+      PubliclySubscribable: event.parent
+    }
+  }
   static def getEventLabel(Event event) {
+    var tAgent = event.parent
+    
+    var tConversation = tAgent.parent
     '''
-    «var tAgent = event.parent»
-    «var tConversation = tAgent.parent»
     «tConversation.name».«tAgent.name»::«event.name»'''
   }
   

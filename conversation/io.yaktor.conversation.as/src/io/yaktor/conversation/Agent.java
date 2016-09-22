@@ -106,8 +106,8 @@ public interface Agent extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Events</b></em>' containment reference list.
-	 * The list contents are of type {@link io.yaktor.conversation.Event}.
-	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.Event#getParent <em>Parent</em>}'.
+	 * The list contents are of type {@link io.yaktor.conversation.PubliclySubscribable}.
+	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.PubliclySubscribable#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Events</em>' containment reference list isn't clear,
@@ -116,11 +116,11 @@ public interface Agent extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Events</em>' containment reference list.
 	 * @see io.yaktor.conversation.ConversationPackage#getAgent_Events()
-	 * @see io.yaktor.conversation.Event#getParent
+	 * @see io.yaktor.conversation.PubliclySubscribable#getParent
 	 * @model opposite="parent" containment="true"
 	 * @generated
 	 */
-	EList<Event> getEvents();
+	EList<PubliclySubscribable> getEvents();
 
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.

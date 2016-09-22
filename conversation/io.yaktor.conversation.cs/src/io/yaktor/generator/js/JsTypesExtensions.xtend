@@ -26,6 +26,8 @@ import org.eclipse.xtext.resource.XtextResource
 import static java.util.Collections.*
 
 import static extension io.yaktor.generator.nodejs.NodeJsExtensions.*
+import static extension io.yaktor.generator.js.JsExtensions.*
+
 import io.yaktor.domain.SimpleField
 import io.yaktor.access.RestService
 import io.yaktor.access.RestAccess

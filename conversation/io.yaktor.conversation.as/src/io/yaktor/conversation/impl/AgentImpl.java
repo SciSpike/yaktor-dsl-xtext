@@ -7,13 +7,11 @@ import io.yaktor.conversation.Agent;
 import io.yaktor.conversation.ConnectionType;
 import io.yaktor.conversation.Conversation;
 import io.yaktor.conversation.ConversationPackage;
-import io.yaktor.conversation.Event;
+import io.yaktor.conversation.PubliclySubscribable;
 import io.yaktor.conversation.StateMachine;
 import io.yaktor.conversation.StateMachineType;
 import io.yaktor.types.Projection;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -96,7 +94,7 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Event> events;
+	protected EList<PubliclySubscribable> events;
 
 	/**
 	 * The default value of the '{@link #getStateMachineType() <em>State Machine Type</em>}' attribute.
@@ -268,9 +266,9 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Event> getEvents() {
+	public EList<PubliclySubscribable> getEvents() {
 		if (events == null) {
-			events = new EObjectContainmentWithInverseEList<Event>(Event.class, this, ConversationPackage.AGENT__EVENTS, ConversationPackage.EVENT__PARENT);
+			events = new EObjectContainmentWithInverseEList<PubliclySubscribable>(PubliclySubscribable.class, this, ConversationPackage.AGENT__EVENTS, ConversationPackage.PUBLICLY_SUBSCRIBABLE__PARENT);
 		}
 		return events;
 	}
@@ -526,7 +524,7 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 				return;
 			case ConversationPackage.AGENT__EVENTS:
 				getEvents().clear();
-				getEvents().addAll((Collection<? extends Event>)newValue);
+				getEvents().addAll((Collection<? extends PubliclySubscribable>)newValue);
 				return;
 			case ConversationPackage.AGENT__PARENT:
 				setParent((Conversation)newValue);

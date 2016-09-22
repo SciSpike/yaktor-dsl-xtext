@@ -3,16 +3,15 @@
 package io.yaktor.conversation.impl;
 
 import io.yaktor.conversation.ConversationPackage;
+import io.yaktor.conversation.PrivatePubSub;
 import io.yaktor.conversation.PublishableByMe;
 import io.yaktor.conversation.PublishableByOthers;
 import io.yaktor.conversation.State;
-import io.yaktor.conversation.SubscribableByMe;
 import io.yaktor.conversation.SubscribableByOthers;
 import io.yaktor.conversation.Transition;
-import io.yaktor.types.Projection;
 import io.yaktor.types.ProjectionField;
-
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -33,11 +32,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getExTriggers <em>Ex Triggers</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getFieldMapping <em>Field Mapping</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getRefType <em>Ref Type</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getCausedByName <em>Caused By Name</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getTriggersName <em>Triggers Name</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getExCausedByName <em>Ex Caused By Name</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getExTriggersName <em>Ex Triggers Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,14 +99,14 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	protected SubscribableByOthers exCausedBy;
 
 	/**
-	 * The cached value of the '{@link #getCausedBy() <em>Caused By</em>}' reference.
+	 * The cached value of the '{@link #getCausedBy() <em>Caused By</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getCausedBy()
 	 * @generated
 	 * @ordered
 	 */
-	protected SubscribableByMe causedBy;
+	protected PrivatePubSub causedBy;
 
 	/**
 	 * The cached value of the '{@link #getExTriggers() <em>Ex Triggers</em>}' reference.
@@ -143,96 +137,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * @ordered
 	 */
 	protected ProjectionField fieldMapping;
-
-	/**
-	 * The cached value of the '{@link #getRefType() <em>Ref Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefType()
-	 * @generated
-	 * @ordered
-	 */
-	protected Projection refType;
-
-	/**
-	 * The default value of the '{@link #getCausedByName() <em>Caused By Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCausedByName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String CAUSED_BY_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getCausedByName() <em>Caused By Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCausedByName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String causedByName = CAUSED_BY_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTriggersName() <em>Triggers Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTriggersName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TRIGGERS_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTriggersName() <em>Triggers Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTriggersName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String triggersName = TRIGGERS_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getExCausedByName() <em>Ex Caused By Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExCausedByName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EX_CAUSED_BY_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExCausedByName() <em>Ex Caused By Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExCausedByName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String exCausedByName = EX_CAUSED_BY_NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getExTriggersName() <em>Ex Triggers Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExTriggersName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EX_TRIGGERS_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExTriggersName() <em>Ex Triggers Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExTriggersName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String exTriggersName = EX_TRIGGERS_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -376,15 +280,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SubscribableByMe getCausedBy() {
-		if (causedBy != null && causedBy.eIsProxy()) {
-			InternalEObject oldCausedBy = (InternalEObject)causedBy;
-			causedBy = (SubscribableByMe)eResolveProxy(oldCausedBy);
-			if (causedBy != oldCausedBy) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, causedBy));
-			}
-		}
+	public PrivatePubSub getCausedBy() {
 		return causedBy;
 	}
 
@@ -393,20 +289,33 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SubscribableByMe basicGetCausedBy() {
-		return causedBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCausedBy(SubscribableByMe newCausedBy) {
-		SubscribableByMe oldCausedBy = causedBy;
+	public NotificationChain basicSetCausedBy(PrivatePubSub newCausedBy, NotificationChain msgs) {
+		PrivatePubSub oldCausedBy = causedBy;
 		causedBy = newCausedBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, causedBy));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, newCausedBy);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCausedBy(PrivatePubSub newCausedBy) {
+		if (newCausedBy != causedBy) {
+			NotificationChain msgs = null;
+			if (causedBy != null)
+				msgs = ((InternalEObject)causedBy).eInverseRemove(this, ConversationPackage.PRIVATE_PUB_SUB__TRANSITION, PrivatePubSub.class, msgs);
+			if (newCausedBy != null)
+				msgs = ((InternalEObject)newCausedBy).eInverseAdd(this, ConversationPackage.PRIVATE_PUB_SUB__TRANSITION, PrivatePubSub.class, msgs);
+			msgs = basicSetCausedBy(newCausedBy, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, newCausedBy, newCausedBy));
 	}
 
 	/**
@@ -528,16 +437,15 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Projection getRefType() {
-		if (refType != null && refType.eIsProxy()) {
-			InternalEObject oldRefType = (InternalEObject)refType;
-			refType = (Projection)eResolveProxy(oldRefType);
-			if (refType != oldRefType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ConversationPackage.TRANSITION__REF_TYPE, oldRefType, refType));
-			}
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ConversationPackage.TRANSITION__CAUSED_BY:
+				if (causedBy != null)
+					msgs = ((InternalEObject)causedBy).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConversationPackage.TRANSITION__CAUSED_BY, null, msgs);
+				return basicSetCausedBy((PrivatePubSub)otherEnd, msgs);
 		}
-		return refType;
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -545,104 +453,13 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Projection basicGetRefType() {
-		return refType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefType(Projection newRefType) {
-		Projection oldRefType = refType;
-		refType = newRefType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__REF_TYPE, oldRefType, refType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getCausedByName() {
-		return causedByName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCausedByName(String newCausedByName) {
-		String oldCausedByName = causedByName;
-		causedByName = newCausedByName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY_NAME, oldCausedByName, causedByName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTriggersName() {
-		return triggersName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTriggersName(String newTriggersName) {
-		String oldTriggersName = triggersName;
-		triggersName = newTriggersName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__TRIGGERS_NAME, oldTriggersName, triggersName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getExCausedByName() {
-		return exCausedByName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExCausedByName(String newExCausedByName) {
-		String oldExCausedByName = exCausedByName;
-		exCausedByName = newExCausedByName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__EX_CAUSED_BY_NAME, oldExCausedByName, exCausedByName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getExTriggersName() {
-		return exTriggersName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExTriggersName(String newExTriggersName) {
-		String oldExTriggersName = exTriggersName;
-		exTriggersName = newExTriggersName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__EX_TRIGGERS_NAME, oldExTriggersName, exTriggersName));
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ConversationPackage.TRANSITION__CAUSED_BY:
+				return basicSetCausedBy(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -664,8 +481,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				if (resolve) return getExCausedBy();
 				return basicGetExCausedBy();
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				if (resolve) return getCausedBy();
-				return basicGetCausedBy();
+				return getCausedBy();
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				if (resolve) return getExTriggers();
 				return basicGetExTriggers();
@@ -675,17 +491,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case ConversationPackage.TRANSITION__FIELD_MAPPING:
 				if (resolve) return getFieldMapping();
 				return basicGetFieldMapping();
-			case ConversationPackage.TRANSITION__REF_TYPE:
-				if (resolve) return getRefType();
-				return basicGetRefType();
-			case ConversationPackage.TRANSITION__CAUSED_BY_NAME:
-				return getCausedByName();
-			case ConversationPackage.TRANSITION__TRIGGERS_NAME:
-				return getTriggersName();
-			case ConversationPackage.TRANSITION__EX_CAUSED_BY_NAME:
-				return getExCausedByName();
-			case ConversationPackage.TRANSITION__EX_TRIGGERS_NAME:
-				return getExTriggersName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -711,7 +516,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				setExCausedBy((SubscribableByOthers)newValue);
 				return;
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				setCausedBy((SubscribableByMe)newValue);
+				setCausedBy((PrivatePubSub)newValue);
 				return;
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				setExTriggers((PublishableByOthers)newValue);
@@ -721,21 +526,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				return;
 			case ConversationPackage.TRANSITION__FIELD_MAPPING:
 				setFieldMapping((ProjectionField)newValue);
-				return;
-			case ConversationPackage.TRANSITION__REF_TYPE:
-				setRefType((Projection)newValue);
-				return;
-			case ConversationPackage.TRANSITION__CAUSED_BY_NAME:
-				setCausedByName((String)newValue);
-				return;
-			case ConversationPackage.TRANSITION__TRIGGERS_NAME:
-				setTriggersName((String)newValue);
-				return;
-			case ConversationPackage.TRANSITION__EX_CAUSED_BY_NAME:
-				setExCausedByName((String)newValue);
-				return;
-			case ConversationPackage.TRANSITION__EX_TRIGGERS_NAME:
-				setExTriggersName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -762,7 +552,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				setExCausedBy((SubscribableByOthers)null);
 				return;
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				setCausedBy((SubscribableByMe)null);
+				setCausedBy((PrivatePubSub)null);
 				return;
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				setExTriggers((PublishableByOthers)null);
@@ -772,21 +562,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				return;
 			case ConversationPackage.TRANSITION__FIELD_MAPPING:
 				setFieldMapping((ProjectionField)null);
-				return;
-			case ConversationPackage.TRANSITION__REF_TYPE:
-				setRefType((Projection)null);
-				return;
-			case ConversationPackage.TRANSITION__CAUSED_BY_NAME:
-				setCausedByName(CAUSED_BY_NAME_EDEFAULT);
-				return;
-			case ConversationPackage.TRANSITION__TRIGGERS_NAME:
-				setTriggersName(TRIGGERS_NAME_EDEFAULT);
-				return;
-			case ConversationPackage.TRANSITION__EX_CAUSED_BY_NAME:
-				setExCausedByName(EX_CAUSED_BY_NAME_EDEFAULT);
-				return;
-			case ConversationPackage.TRANSITION__EX_TRIGGERS_NAME:
-				setExTriggersName(EX_TRIGGERS_NAME_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -816,16 +591,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				return triggers != null;
 			case ConversationPackage.TRANSITION__FIELD_MAPPING:
 				return fieldMapping != null;
-			case ConversationPackage.TRANSITION__REF_TYPE:
-				return refType != null;
-			case ConversationPackage.TRANSITION__CAUSED_BY_NAME:
-				return CAUSED_BY_NAME_EDEFAULT == null ? causedByName != null : !CAUSED_BY_NAME_EDEFAULT.equals(causedByName);
-			case ConversationPackage.TRANSITION__TRIGGERS_NAME:
-				return TRIGGERS_NAME_EDEFAULT == null ? triggersName != null : !TRIGGERS_NAME_EDEFAULT.equals(triggersName);
-			case ConversationPackage.TRANSITION__EX_CAUSED_BY_NAME:
-				return EX_CAUSED_BY_NAME_EDEFAULT == null ? exCausedByName != null : !EX_CAUSED_BY_NAME_EDEFAULT.equals(exCausedByName);
-			case ConversationPackage.TRANSITION__EX_TRIGGERS_NAME:
-				return EX_TRIGGERS_NAME_EDEFAULT == null ? exTriggersName != null : !EX_TRIGGERS_NAME_EDEFAULT.equals(exTriggersName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -844,14 +609,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 		result.append(mapping);
 		result.append(", requiresExecution: ");
 		result.append(requiresExecution);
-		result.append(", causedByName: ");
-		result.append(causedByName);
-		result.append(", triggersName: ");
-		result.append(triggersName);
-		result.append(", exCausedByName: ");
-		result.append(exCausedByName);
-		result.append(", exTriggersName: ");
-		result.append(exTriggersName);
 		result.append(')');
 		return result.toString();
 	}
