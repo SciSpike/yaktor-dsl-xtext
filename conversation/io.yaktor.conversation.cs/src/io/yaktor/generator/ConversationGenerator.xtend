@@ -17,6 +17,13 @@ import org.eclipse.xtext.generator.IGenerator
 import io.yaktor.generator.doc.ConversationDocGenerator
 import io.yaktor.generator.doc.ResourcesDocGenerator
 import java.util.HashSet
+import io.yaktor.conversation.Agent
+import io.yaktor.conversation.Transition
+import io.yaktor.conversation.impl.PublishableByMeImpl
+import io.yaktor.conversation.impl.PublishableByOthersImpl
+import io.yaktor.conversation.Event
+import io.yaktor.conversation.impl.SubscribableByOthersImpl
+import io.yaktor.conversation.impl.SubscribableByMeImpl
 
 /**
  * Generates code from your model files on save.
@@ -35,6 +42,8 @@ class ConversationGenerator implements IGenerator {
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     var c = resource.contents.get(0) as Conversation
+    c.preProcessBeforeGeneration()
+
     c.doGenerateDotFSMs(fsa)
     c.doGenerateJSs(fsa);
     c.doGenerateJSs(fsa);
@@ -44,6 +53,96 @@ class ConversationGenerator implements IGenerator {
       fsa.generateFile('''types/«c.name».«type.name».js''', ConversationOutputConfigurationProvider.GEN, jsDto.genType(type))
     }
     fsa.generateFile("types/index.js", ConversationOutputConfigurationProvider.GEN, index)
+  }
+  
+  def preProcessBeforeGeneration(Conversation c) {
+    c.inferEvents()
+  }
+  
+  def void inferEvents(Conversation c) {
+    println('''Inferring events for imported agents of conversation "«c.name»"''')
+    c.importedAgents.forEach[agent.inferEvents]
+    println('''Inferring events for agents of conversation "«c.name»"''')
+    c.agents.forEach[inferEvents]
+  }
+  
+  def inferEvents(Agent a) {
+    if (a.stateMachine.initialTransition != null) {
+      println('''Inferring causing subscribable for initialTransition of stateMachine of agent "«a.name»"''')
+      val itsub = createCausingSubscribable(a, a.stateMachine.initialTransition)
+      if (itsub != null) {
+        println('''Inferred causing subscribable: "«itsub.name»"; adding to events of agent "«a.name»"''')
+        a.events.add(itsub)
+      }
+      println('''Inferring triggered publishable for initialTransition of stateMachine of agent "«a.name»"''')
+      val itpub = createTriggeredPublishable(a, a.stateMachine.initialTransition)
+      if (itpub != null) {
+        println('''Inferred triggered publishable: "«itpub.name»"; adding to events of agent "«a.name»"''')
+        a.events.add(itpub)
+      }
+      else println('''No triggered publishable for initialTransition of stateMachine of agent "«a.name»"''')
+    }
+    a.stateMachine.states.forEach[state|
+      state.transitions.forEach[t|
+        println('''Inferring causing subscribable for state "«state.name»" of stateMachine of agent "«a.name»"''')
+        val tsub = createCausingSubscribable(a, t)
+        if (tsub != null) {
+          println('''Inferred causing subscribable: "«tsub.name»"; adding to events of agent "«a.name»"''')
+          a.events.add(tsub)
+        }
+        println('''Inferring triggered publishable for state "«state.name»" of stateMachine of agent "«a.name»"''')
+        val tpub = createTriggeredPublishable(a, t)
+        if (tpub != null) {
+          println('''Inferred triggered publishable: "«tpub.name»"; adding to events of agent "«a.name»"''')
+          a.events.add(tpub)
+        }
+        else println('''No triggered publishable for state "«state.name»" of stateMachine of agent "«a.name»"''')
+      ]
+    ]
+  }
+  
+  def createCausingSubscribable(Agent a, Transition t) {
+    if (t == null) return null
+    
+    var Event ev = null
+    if (t.exCausedByName != null && t.exCausedBy == null) {
+        val e = new SubscribableByOthersImpl() {}
+        e.name = t.exCausedByName
+        t.exCausedBy = e
+        ev = e
+    }
+    else if (t.causedByName != null && t.causedBy == null) {
+      val e = new SubscribableByMeImpl() {}
+      e.name = t.causedByName
+      t.causedBy = e
+      ev = e
+    }
+    if (ev != null) {
+      ev.parent = a
+    }
+    ev
+  }
+  
+  def createTriggeredPublishable(Agent a, Transition t) {
+    if (t == null) return null
+    
+    var Event ev = null
+    if (t.exTriggersName != null && t.exTriggers == null) {
+        val e = new PublishableByOthersImpl() {}
+        e.name = t.exTriggersName
+        t.exTriggers = e
+        ev = e
+    }
+    else if (t.triggersName != null && t.triggers == null) {
+      val e = new PublishableByMeImpl() {}
+      e.name = t.triggersName
+      t.triggers = e
+      ev = e
+    }
+    if (ev != null) {
+      ev.parent = a
+    }
+    ev
   }
   
   def getIndex(){

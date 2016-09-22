@@ -95,7 +95,7 @@ public interface RestService extends EObject {
 	 * @return the value of the '<em>Supported Document Types</em>' attribute list.
 	 * @see io.yaktor.access.RestDocumentType
 	 * @see io.yaktor.access.AccessPackage#getRestService_SupportedDocumentTypes()
-	 * @model
+	 * @model default="application/json"
 	 * @generated
 	 */
 	EList<RestDocumentType> getSupportedDocumentTypes();

@@ -2,15 +2,30 @@
  */
 package io.yaktor.conversation.impl;
 
-import io.yaktor.conversation.*;
-
+import io.yaktor.conversation.Agent;
+import io.yaktor.conversation.AgentImport;
+import io.yaktor.conversation.ConnectionType;
+import io.yaktor.conversation.Conversation;
+import io.yaktor.conversation.ConversationFactory;
+import io.yaktor.conversation.ConversationPackage;
+import io.yaktor.conversation.Decision;
+import io.yaktor.conversation.Import;
+import io.yaktor.conversation.Join;
+import io.yaktor.conversation.Junction;
+import io.yaktor.conversation.PrivatePubSub;
+import io.yaktor.conversation.PublicPubSub;
+import io.yaktor.conversation.PubliclyPublishable;
+import io.yaktor.conversation.PubliclySubscribable;
+import io.yaktor.conversation.State;
+import io.yaktor.conversation.StateMachine;
+import io.yaktor.conversation.StateMachineType;
+import io.yaktor.conversation.Transition;
+import io.yaktor.conversation.TypeImport;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**

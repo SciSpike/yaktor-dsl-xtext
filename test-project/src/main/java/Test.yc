@@ -8,11 +8,9 @@ conversation Test {
     }
   }
   agent Test : Test {
-    receives finished
     sends started: Test
-    privately receives ^start: Test
 
-    initially receives ^start -> working > started
+    initially receives ^start:Test -> working > started
     {
       done {
       }
@@ -22,8 +20,6 @@ conversation Test {
     }
   }
   agent TestDepend concerns Test {
-    privately receives error
-    privately receives done
 
     initially receives Test.started -> thinking
     {

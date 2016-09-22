@@ -734,13 +734,58 @@ public interface ConversationPackage extends EPackage {
 	int TRANSITION__FIELD_MAPPING = 7;
 
 	/**
+	 * The feature id for the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__REF_TYPE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Caused By Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__CAUSED_BY_NAME = 9;
+
+	/**
+	 * The feature id for the '<em><b>Triggers Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__TRIGGERS_NAME = 10;
+
+	/**
+	 * The feature id for the '<em><b>Ex Caused By Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__EX_CAUSED_BY_NAME = 11;
+
+	/**
+	 * The feature id for the '<em><b>Ex Triggers Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRANSITION__EX_TRIGGERS_NAME = 12;
+
+	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_FEATURE_COUNT = 8;
+	int TRANSITION_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>Transition</em>' class.
@@ -1871,6 +1916,61 @@ public interface ConversationPackage extends EPackage {
 	EReference getTransition_FieldMapping();
 
 	/**
+	 * Returns the meta object for the reference '{@link io.yaktor.conversation.Transition#getRefType <em>Ref Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ref Type</em>'.
+	 * @see io.yaktor.conversation.Transition#getRefType()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EReference getTransition_RefType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#getCausedByName <em>Caused By Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Caused By Name</em>'.
+	 * @see io.yaktor.conversation.Transition#getCausedByName()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_CausedByName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#getTriggersName <em>Triggers Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Triggers Name</em>'.
+	 * @see io.yaktor.conversation.Transition#getTriggersName()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_TriggersName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#getExCausedByName <em>Ex Caused By Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ex Caused By Name</em>'.
+	 * @see io.yaktor.conversation.Transition#getExCausedByName()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_ExCausedByName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#getExTriggersName <em>Ex Triggers Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ex Triggers Name</em>'.
+	 * @see io.yaktor.conversation.Transition#getExTriggersName()
+	 * @see #getTransition()
+	 * @generated
+	 */
+	EAttribute getTransition_ExTriggersName();
+
+	/**
 	 * Returns the meta object for class '{@link io.yaktor.conversation.SubscribableByOthers <em>Subscribable By Others</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2484,6 +2584,46 @@ public interface ConversationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRANSITION__FIELD_MAPPING = eINSTANCE.getTransition_FieldMapping();
+
+		/**
+		 * The meta object literal for the '<em><b>Ref Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TRANSITION__REF_TYPE = eINSTANCE.getTransition_RefType();
+
+		/**
+		 * The meta object literal for the '<em><b>Caused By Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__CAUSED_BY_NAME = eINSTANCE.getTransition_CausedByName();
+
+		/**
+		 * The meta object literal for the '<em><b>Triggers Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__TRIGGERS_NAME = eINSTANCE.getTransition_TriggersName();
+
+		/**
+		 * The meta object literal for the '<em><b>Ex Caused By Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__EX_CAUSED_BY_NAME = eINSTANCE.getTransition_ExCausedByName();
+
+		/**
+		 * The meta object literal for the '<em><b>Ex Triggers Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRANSITION__EX_TRIGGERS_NAME = eINSTANCE.getTransition_ExTriggersName();
 
 		/**
 		 * The meta object literal for the '{@link io.yaktor.conversation.impl.SubscribableByOthersImpl <em>Subscribable By Others</em>}' class.

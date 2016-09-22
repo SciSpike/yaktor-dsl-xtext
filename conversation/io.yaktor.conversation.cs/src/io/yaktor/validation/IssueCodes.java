@@ -12,5 +12,5 @@ public interface IssueCodes {
 	String INVALID_STATE_MODEL = PREFIX + "InvalidStateModel";
 	String MISSING_END = PREFIX + "MissingEnd";
 	String MISSING_PROJECTION = PREFIX + "MissingProjection";
-
+	String MISSING_CAUSE = PREFIX + "MissingCausedBy";
 }

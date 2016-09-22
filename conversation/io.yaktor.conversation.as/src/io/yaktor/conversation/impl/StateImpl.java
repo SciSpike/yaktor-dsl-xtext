@@ -6,7 +6,9 @@ import io.yaktor.conversation.ConversationPackage;
 import io.yaktor.conversation.State;
 import io.yaktor.conversation.StateMachine;
 import io.yaktor.conversation.Transition;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;

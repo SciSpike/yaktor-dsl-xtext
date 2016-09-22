@@ -5,7 +5,9 @@ package io.yaktor.conversation.impl;
 import io.yaktor.conversation.ConversationPackage;
 import io.yaktor.conversation.Join;
 import io.yaktor.conversation.Junction;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;

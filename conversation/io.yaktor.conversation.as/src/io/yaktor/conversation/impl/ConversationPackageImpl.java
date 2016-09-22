@@ -33,6 +33,7 @@ import io.yaktor.domain.DomainPackage;
 import io.yaktor.mongoNode.MongoNodePackage;
 import io.yaktor.types.TypesPackage;
 import io.yaktor.types.impl.TypesPackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -673,6 +674,51 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTransition_RefType() {
+		return (EReference)transitionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTransition_CausedByName() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTransition_TriggersName() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTransition_ExCausedByName() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTransition_ExTriggersName() {
+		return (EAttribute)transitionEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSubscribableByOthers() {
 		return subscribableByOthersEClass;
 	}
@@ -953,6 +999,11 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 		createEReference(transitionEClass, TRANSITION__EX_TRIGGERS);
 		createEReference(transitionEClass, TRANSITION__TRIGGERS);
 		createEReference(transitionEClass, TRANSITION__FIELD_MAPPING);
+		createEReference(transitionEClass, TRANSITION__REF_TYPE);
+		createEAttribute(transitionEClass, TRANSITION__CAUSED_BY_NAME);
+		createEAttribute(transitionEClass, TRANSITION__TRIGGERS_NAME);
+		createEAttribute(transitionEClass, TRANSITION__EX_CAUSED_BY_NAME);
+		createEAttribute(transitionEClass, TRANSITION__EX_TRIGGERS_NAME);
 
 		subscribableByOthersEClass = createEClass(SUBSCRIBABLE_BY_OTHERS);
 
@@ -1096,6 +1147,11 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 		initEReference(getTransition_ExTriggers(), this.getPublishableByOthers(), null, "exTriggers", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_Triggers(), this.getPublishableByMe(), null, "triggers", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_FieldMapping(), theTypesPackage.getProjectionField(), null, "fieldMapping", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTransition_RefType(), theTypesPackage.getProjection(), null, "refType", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_CausedByName(), ecorePackage.getEString(), "causedByName", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_TriggersName(), ecorePackage.getEString(), "triggersName", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_ExCausedByName(), ecorePackage.getEString(), "exCausedByName", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTransition_ExTriggersName(), ecorePackage.getEString(), "exTriggersName", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(subscribableByOthersEClass, SubscribableByOthers.class, "SubscribableByOthers", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

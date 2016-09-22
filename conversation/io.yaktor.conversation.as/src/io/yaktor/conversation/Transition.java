@@ -2,6 +2,7 @@
  */
 package io.yaktor.conversation;
 
+import io.yaktor.types.Projection;
 import io.yaktor.types.ProjectionField;
 
 import org.eclipse.emf.ecore.EObject;
@@ -22,6 +23,11 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link io.yaktor.conversation.Transition#getExTriggers <em>Ex Triggers</em>}</li>
  *   <li>{@link io.yaktor.conversation.Transition#getTriggers <em>Triggers</em>}</li>
  *   <li>{@link io.yaktor.conversation.Transition#getFieldMapping <em>Field Mapping</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Transition#getRefType <em>Ref Type</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Transition#getCausedByName <em>Caused By Name</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Transition#getTriggersName <em>Triggers Name</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Transition#getExCausedByName <em>Ex Caused By Name</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Transition#getExTriggersName <em>Ex Triggers Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -238,5 +244,135 @@ public interface Transition extends EObject {
 	 * @generated
 	 */
 	void setFieldMapping(ProjectionField value);
+
+	/**
+	 * Returns the value of the '<em><b>Ref Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ref Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ref Type</em>' reference.
+	 * @see #setRefType(Projection)
+	 * @see io.yaktor.conversation.ConversationPackage#getTransition_RefType()
+	 * @model
+	 * @generated
+	 */
+	Projection getRefType();
+
+	/**
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getRefType <em>Ref Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ref Type</em>' reference.
+	 * @see #getRefType()
+	 * @generated
+	 */
+	void setRefType(Projection value);
+
+	/**
+	 * Returns the value of the '<em><b>Caused By Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Caused By Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Caused By Name</em>' attribute.
+	 * @see #setCausedByName(String)
+	 * @see io.yaktor.conversation.ConversationPackage#getTransition_CausedByName()
+	 * @model
+	 * @generated
+	 */
+	String getCausedByName();
+
+	/**
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getCausedByName <em>Caused By Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Caused By Name</em>' attribute.
+	 * @see #getCausedByName()
+	 * @generated
+	 */
+	void setCausedByName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Triggers Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Triggers Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Triggers Name</em>' attribute.
+	 * @see #setTriggersName(String)
+	 * @see io.yaktor.conversation.ConversationPackage#getTransition_TriggersName()
+	 * @model
+	 * @generated
+	 */
+	String getTriggersName();
+
+	/**
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getTriggersName <em>Triggers Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Triggers Name</em>' attribute.
+	 * @see #getTriggersName()
+	 * @generated
+	 */
+	void setTriggersName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Ex Caused By Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ex Caused By Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ex Caused By Name</em>' attribute.
+	 * @see #setExCausedByName(String)
+	 * @see io.yaktor.conversation.ConversationPackage#getTransition_ExCausedByName()
+	 * @model
+	 * @generated
+	 */
+	String getExCausedByName();
+
+	/**
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getExCausedByName <em>Ex Caused By Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ex Caused By Name</em>' attribute.
+	 * @see #getExCausedByName()
+	 * @generated
+	 */
+	void setExCausedByName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Ex Triggers Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ex Triggers Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ex Triggers Name</em>' attribute.
+	 * @see #setExTriggersName(String)
+	 * @see io.yaktor.conversation.ConversationPackage#getTransition_ExTriggersName()
+	 * @model
+	 * @generated
+	 */
+	String getExTriggersName();
+
+	/**
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getExTriggersName <em>Ex Triggers Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ex Triggers Name</em>' attribute.
+	 * @see #getExTriggersName()
+	 * @generated
+	 */
+	void setExTriggersName(String value);
 
 } // Transition
