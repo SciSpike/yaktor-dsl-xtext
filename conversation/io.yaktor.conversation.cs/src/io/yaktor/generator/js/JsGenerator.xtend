@@ -202,13 +202,13 @@ class JsGenerator {
                   «ENDIF»
                   <td><button name="init" onclick="«agent.name»DoInit()">init</button>
                 </tr>
-                «FOR event : agent.events.filter(PrivatePubSub)»
+                «FOR action : agent.uniqueStateTransitionActionsByName.values»
                   <tr>
                     <td>JSON:</td>
-                    <td><textArea id="«agent.parent.name»_«agent.name»_«event.name»_input">
-«event.genData('"')»</textArea></td>
-                    <td><button class="eventButton «agent.parent.name»_«agent.name» «event.name»" onclick="«agent.
-        name»DoEvent('«event.name»')">«event.name»</button>
+                    <td><textArea id="«agent.parent.name»_«agent.name»_«action.name»_input">
+«action.genData('"')»</textArea></td>
+                    <td><button class="eventButton «agent.parent.name»_«agent.name» «action.name»" onclick="«agent.
+        name»DoEvent('«action.name»')">«action.name»</button>
                   </tr>
                 «ENDFOR»
               </table>
@@ -507,7 +507,6 @@ class JsGenerator {
     '''
     module.exports = {
       «quote»«c.name»«quote»: {
-        // the plural of crud is curd?
         «quote»crud«quote»: [
           «FOR v : c.views SEPARATOR ','»
             {
@@ -535,6 +534,7 @@ class JsGenerator {
               «quote»id«quote»: «quote»«agent.parent.name».«agent.name»«quote»,
               «quote»name«quote»: «quote»«agent.name»_of_«agent.parent.name»«quote»,
               «quote»endpoint«quote»: «quote»ws:///«agent.parent.name».«agent.name»«quote»,
+              «val actions = agent.allStateTransitionActions»
               «quote»actions«quote»: {
                 «quote»init«quote»: {
                   «quote»type«quote»: {

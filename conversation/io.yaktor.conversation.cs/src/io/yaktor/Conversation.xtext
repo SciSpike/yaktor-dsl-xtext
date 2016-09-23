@@ -88,8 +88,8 @@ Transition returns Transition:
   'receives'?
   (requiresExecution?='custom')?
   (
-  (causedBy=PrivatePubSub | exCausedBy=[SubscribableByOthers|QualifiedName])
-  (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))?
+  causedBy=PrivatePubSub |
+  (exCausedBy=[SubscribableByOthers|QualifiedName] (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))?)
   )
   ('->' | 'becomes') toState=[State|ID]
   (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;

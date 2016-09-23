@@ -3,22 +3,43 @@ package io.yaktor.generator.js
 import io.yaktor.conversation.Agent
 import io.yaktor.conversation.Conversation
 import io.yaktor.conversation.Event
+import io.yaktor.conversation.PrivatePubSub
+import io.yaktor.conversation.PubliclySubscribable
 import io.yaktor.conversation.State
 import io.yaktor.conversation.StateMachine
+import io.yaktor.conversation.SubscribableByMe
 import io.yaktor.conversation.Transition
+import java.lang.reflect.InvocationTargetException
+import java.util.ArrayList
+import java.util.HashMap
 import java.util.HashSet
 import java.util.LinkedList
 import java.util.Set
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.common.util.EList
-import java.lang.reflect.InvocationTargetException
 import org.eclipse.emf.common.notify.Notification
 import org.eclipse.emf.common.util.BasicEList
-import io.yaktor.conversation.PrivatePubSub
-import io.yaktor.conversation.PubliclySubscribable
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EStructuralFeature
 
 class JsExtensions {
+  
+  static def getUniqueStateTransitionActionsByName(Agent agent) {
+    agent.stateMachine.states.fold(new HashMap<String,SubscribableByMe>)[actions,state|
+      state.transitions.forEach[t|
+        if (t.causedBy != null) actions.put(t.causedBy.name, t.causedBy)
+      ]
+      actions
+    ]
+  }
+  
+  static def getAllStateTransitionActions(Agent agent) {
+    agent.stateMachine.states.sortBy[name].fold(new ArrayList<SubscribableByMe>)[actions,state|
+      state.transitions.sortBy[causedBy?.name].forEach[t|
+        if (t.causedBy != null) actions.add(t.causedBy)
+      ]
+      actions
+    ]
+  }
   
   static def getParent(Event event) {
     switch event {
