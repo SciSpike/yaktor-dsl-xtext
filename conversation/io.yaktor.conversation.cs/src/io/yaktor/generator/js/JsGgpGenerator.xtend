@@ -73,19 +73,19 @@ class JsGgpGenerator {
          */
         «quote»messageAuth«quote»: null,
         «quote»internalEvents«quote»: [
-          «FOR e : agent.events.filter(PrivatePubSub) SEPARATOR ','»
+          «FOR e : agent.allStateTransitionSubscribablesByMe SEPARATOR ','»
             «quote»«e.eventLabel»«quote»
           «ENDFOR»
         ],
         «quote»transitionEvents«quote»: {
           «var daMap = agent.stateMachine.allStates.fold(new HashMap<Event,List<State>>,[map,state|state.transitions.forEach[tran|
             var cause = tran.causedBy?:tran.exCausedBy;
-            var set = map.get(cause);
-            if(set == null){
-              set = new LinkedList<State>
-              map.put(cause,set)
+            var list = map.get(cause);
+            if(list == null){
+              list = new LinkedList<State>
+              map.put(cause,list)
             }
-            set.add(state)
+            list.add(state)
           ];map;])»
           «FOR entry: daMap.entrySet.sortWith[e1,e2|e1.key.eventLabel.toString().compareTo(e2.key.eventLabel.toString())] SEPARATOR ','»
             «var e = entry.key»

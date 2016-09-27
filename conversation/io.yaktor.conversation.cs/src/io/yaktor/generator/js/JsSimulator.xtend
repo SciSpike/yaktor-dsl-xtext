@@ -142,7 +142,7 @@ class JsSimulator {
       process.on('message', function (processData) {
         var dto = processData.dto || {}
         var dataSet = {
-          «FOR event : a.events.filter(PrivatePubSub) SEPARATOR ','»
+          «FOR event : a.allStateTransitionSubscribablesByMe SEPARATOR ','»
             '«event.name»': «event.genData("'")»
           «ENDFOR»
         }

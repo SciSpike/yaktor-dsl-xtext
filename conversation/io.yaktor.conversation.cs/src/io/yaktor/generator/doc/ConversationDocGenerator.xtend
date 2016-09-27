@@ -324,6 +324,11 @@ class ConversationDocGenerator {
   				retVal.add(e.refType)
   			}
   		}
+  		for (e : a.allStateTransitionPublishablesByMe) {
+  		  if (e.refType != null) {
+  		    retVal.add(e.refType)
+  		  }
+  		}
   	}
   	return retVal
   }

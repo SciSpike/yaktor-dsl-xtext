@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EStructuralFeature
+import io.yaktor.conversation.PublishableByMe
 
 class JsExtensions {
   
@@ -32,11 +33,18 @@ class JsExtensions {
     ]
   }
   
-  static def getAllStateTransitionActions(Agent agent) {
+  static def getAllStateTransitionSubscribablesByMe(Agent agent) {
     agent.stateMachine.states.sortBy[name].fold(new ArrayList<SubscribableByMe>)[actions,state|
       state.transitions.sortBy[causedBy?.name].forEach[t|
         if (t.causedBy != null) actions.add(t.causedBy)
       ]
+      actions
+    ]
+  }
+  
+  static def getAllStateTransitionPublishablesByMe(Agent agent) {
+    agent.stateMachine.states.sortBy[name].fold(new ArrayList<PublishableByMe>)[actions,state|
+      state.transitions.forEach[if (it.triggers != null) actions.add(it.triggers)]
       actions
     ]
   }

@@ -30,6 +30,7 @@ import org.eclipse.xtext.scoping.impl.SimpleLocalScopeProvider
 
 import static org.eclipse.xtext.scoping.Scopes.*
 
+import static extension io.yaktor.generator.js.JsExtensions.*
 import static extension io.yaktor.generator.js.JsTypesExtensions.*
 import io.yaktor.conversation.Decision
 import io.yaktor.conversation.PrivatePubSub
@@ -151,13 +152,13 @@ class ConversationScopeProvider extends AbstractDeclarativeScopeProvider {
   def scope_Transition_causedBy(State state, EReference reference) {
     var fsm = state.parent;
     var agent = fsm.parent;
-    scopeFor(agent.events.filter(SubscribableByMe))
+    scopeFor(agent.allStateTransitionSubscribablesByMe)
   }
 
   def scope_Transition_causedBy(Decision state, EReference reference) {
     var fsm = state.parent;
     var agent = fsm.parent;
-    scopeFor(agent.events.filter(PrivatePubSub))
+    scopeFor(agent.allStateTransitionSubscribablesByMe)
   }
 
   def scope_Transition_exCausedBy(State context, EReference reference) {

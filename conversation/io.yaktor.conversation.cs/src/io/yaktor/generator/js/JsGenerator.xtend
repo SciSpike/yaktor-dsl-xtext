@@ -534,7 +534,7 @@ class JsGenerator {
               «quote»id«quote»: «quote»«agent.parent.name».«agent.name»«quote»,
               «quote»name«quote»: «quote»«agent.name»_of_«agent.parent.name»«quote»,
               «quote»endpoint«quote»: «quote»ws:///«agent.parent.name».«agent.name»«quote»,
-              «val actions = agent.allStateTransitionActions»
+              «val actions = agent.allStateTransitionSubscribablesByMe»
               «quote»actions«quote»: {
                 «quote»init«quote»: {
                   «quote»type«quote»: {

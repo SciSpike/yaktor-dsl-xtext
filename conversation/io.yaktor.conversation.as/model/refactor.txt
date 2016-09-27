@@ -1,6 +1,7 @@
 Receivable{name,[type:Projection]}
+
 PrivatelyReceivable extends Receivable
-// Sendable
+
 PubliclyReceivable{parent:Agent} extends Receivable
 Sendable extends PubliclyReceivable
 
