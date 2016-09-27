@@ -4,14 +4,11 @@ package io.yaktor.conversation.impl;
 
 import io.yaktor.conversation.ConversationPackage;
 import io.yaktor.conversation.TypeImport;
-
 import io.yaktor.types.Projection;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**

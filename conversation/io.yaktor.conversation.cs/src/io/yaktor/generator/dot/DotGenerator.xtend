@@ -120,7 +120,7 @@ class DotGenerator {
   }
 
   static def pubSubGraph(Agent agent) {
-    var events = agent.events.filter(PublicEvent);
+    var events = agent.sendables;
     '''
       «IF events.size > 0»
         subgraph "cluster_«agent.label»_e" {

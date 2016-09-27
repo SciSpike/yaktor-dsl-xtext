@@ -17,6 +17,8 @@ import java.util.Map
 import static io.yaktor.generator.dot.DotGenerator.*
 
 import static extension io.yaktor.generator.util.CommentExtractorExtensions.*
+import static extension io.yaktor.generator.js.JsExtensions.*
+
 import io.yaktor.types.Projection
 import io.yaktor.generator.umldoc.PlantUMLGenerator
 
@@ -179,7 +181,7 @@ class ConversationDocGenerator {
 	|===================================================
 	|Kind|Name|Datatype|Description
 	«var events = a.events.sortBy[e|e.name]»
-	«FOR e : events»
+	«FOR Event e : events»
 		|«e.kind»|«e.name»|«IF e.refType != null»«e.refType.name»«ENDIF»|«e.bareComments.join('\n')»
 	«ENDFOR»
 	|===================================================

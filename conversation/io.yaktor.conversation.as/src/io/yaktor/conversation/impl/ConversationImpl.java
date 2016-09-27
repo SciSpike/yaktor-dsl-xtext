@@ -11,7 +11,9 @@ import io.yaktor.conversation.Conversation;
 import io.yaktor.conversation.ConversationPackage;
 import io.yaktor.conversation.TypeImport;
 import io.yaktor.types.Projection;
+
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;

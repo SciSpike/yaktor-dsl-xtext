@@ -25,8 +25,8 @@
         eType="ecore:EClass types.ecore#//Projection" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" lowerBound="1"
         eType="#//StateMachine" containment="true" eOpposite="#//StateMachine/parent"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
-        eType="#//Event" containment="true" eOpposite="#//Event/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendables" upperBound="-1"
+        eType="#//PubliclySubscribable" containment="true" eOpposite="#//PubliclySubscribable/parent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Conversation"
         eOpposite="#//Conversation/agents"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateMachineType" eType="#//StateMachineType"
@@ -49,8 +49,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refType" eType="ecore:EClass types.ecore#//Projection"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Agent"
-        eOpposite="#//Agent/events"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -71,7 +69,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresExecution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exCausedBy" eType="#//SubscribableByOthers"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="causedBy" eType="#//SubscribableByMe"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="causedBy" eType="#//PrivatePubSub"
+        containment="true" eOpposite="#//PrivatePubSub/transition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exTriggers" eType="#//PublishableByOthers"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="triggers" eType="#//PublishableByMe"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fieldMapping" eType="ecore:EClass types.ecore#//ProjectionField"/>
@@ -84,8 +83,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="PublishableByMe" abstract="true" eSuperTypes="#//Event"/>
   <eClassifiers xsi:type="ecore:EClass" name="PublicEvent" abstract="true" eSuperTypes="#//Event"/>
   <eClassifiers xsi:type="ecore:EClass" name="PubliclyPublishable" eSuperTypes="#//SubscribableByMe #//PublishableByOthers #//PublicEvent"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PubliclySubscribable" eSuperTypes="#//PublishableByMe #//SubscribableByOthers #//PublicEvent"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PrivatePubSub" eSuperTypes="#//PublishableByMe #//SubscribableByMe"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PubliclySubscribable" eSuperTypes="#//PublishableByMe #//SubscribableByOthers #//PublicEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Agent"
+        eOpposite="#//Agent/sendables"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrivatePubSub" eSuperTypes="#//PublishableByMe #//SubscribableByMe">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transition" eType="#//Transition"
+        eOpposite="#//Transition/causedBy"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PublicPubSub" eSuperTypes="#//PubliclyPublishable #//PubliclySubscribable"/>
   <eClassifiers xsi:type="ecore:EClass" name="AgentImport" eSuperTypes="#//Import">
     <eStructuralFeatures xsi:type="ecore:EReference" name="agent" eType="#//Agent"/>

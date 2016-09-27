@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link io.yaktor.conversation.Event#getName <em>Name</em>}</li>
  *   <li>{@link io.yaktor.conversation.Event#getRefType <em>Ref Type</em>}</li>
- *   <li>{@link io.yaktor.conversation.Event#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,33 +75,5 @@ public interface Event extends EObject {
 	 * @generated
 	 */
 	void setRefType(Projection value);
-
-	/**
-	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.Agent#getEvents <em>Events</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parent</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parent</em>' container reference.
-	 * @see #setParent(Agent)
-	 * @see io.yaktor.conversation.ConversationPackage#getEvent_Parent()
-	 * @see io.yaktor.conversation.Agent#getEvents
-	 * @model opposite="events" transient="false"
-	 * @generated
-	 */
-	Agent getParent();
-
-	/**
-	 * Sets the value of the '{@link io.yaktor.conversation.Event#getParent <em>Parent</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent</em>' container reference.
-	 * @see #getParent()
-	 * @generated
-	 */
-	void setParent(Agent value);
 
 } // Event

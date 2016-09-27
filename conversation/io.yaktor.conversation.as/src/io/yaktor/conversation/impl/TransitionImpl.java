@@ -3,14 +3,15 @@
 package io.yaktor.conversation.impl;
 
 import io.yaktor.conversation.ConversationPackage;
+import io.yaktor.conversation.PrivatePubSub;
 import io.yaktor.conversation.PublishableByMe;
 import io.yaktor.conversation.PublishableByOthers;
 import io.yaktor.conversation.State;
-import io.yaktor.conversation.SubscribableByMe;
 import io.yaktor.conversation.SubscribableByOthers;
 import io.yaktor.conversation.Transition;
 import io.yaktor.types.ProjectionField;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -98,14 +99,14 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	protected SubscribableByOthers exCausedBy;
 
 	/**
-	 * The cached value of the '{@link #getCausedBy() <em>Caused By</em>}' reference.
+	 * The cached value of the '{@link #getCausedBy() <em>Caused By</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getCausedBy()
 	 * @generated
 	 * @ordered
 	 */
-	protected SubscribableByMe causedBy;
+	protected PrivatePubSub causedBy;
 
 	/**
 	 * The cached value of the '{@link #getExTriggers() <em>Ex Triggers</em>}' reference.
@@ -279,15 +280,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SubscribableByMe getCausedBy() {
-		if (causedBy != null && causedBy.eIsProxy()) {
-			InternalEObject oldCausedBy = (InternalEObject)causedBy;
-			causedBy = (SubscribableByMe)eResolveProxy(oldCausedBy);
-			if (causedBy != oldCausedBy) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, causedBy));
-			}
-		}
+	public PrivatePubSub getCausedBy() {
 		return causedBy;
 	}
 
@@ -296,20 +289,33 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SubscribableByMe basicGetCausedBy() {
-		return causedBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCausedBy(SubscribableByMe newCausedBy) {
-		SubscribableByMe oldCausedBy = causedBy;
+	public NotificationChain basicSetCausedBy(PrivatePubSub newCausedBy, NotificationChain msgs) {
+		PrivatePubSub oldCausedBy = causedBy;
 		causedBy = newCausedBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, causedBy));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, oldCausedBy, newCausedBy);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCausedBy(PrivatePubSub newCausedBy) {
+		if (newCausedBy != causedBy) {
+			NotificationChain msgs = null;
+			if (causedBy != null)
+				msgs = ((InternalEObject)causedBy).eInverseRemove(this, ConversationPackage.PRIVATE_PUB_SUB__TRANSITION, PrivatePubSub.class, msgs);
+			if (newCausedBy != null)
+				msgs = ((InternalEObject)newCausedBy).eInverseAdd(this, ConversationPackage.PRIVATE_PUB_SUB__TRANSITION, PrivatePubSub.class, msgs);
+			msgs = basicSetCausedBy(newCausedBy, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__CAUSED_BY, newCausedBy, newCausedBy));
 	}
 
 	/**
@@ -432,6 +438,36 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ConversationPackage.TRANSITION__CAUSED_BY:
+				if (causedBy != null)
+					msgs = ((InternalEObject)causedBy).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConversationPackage.TRANSITION__CAUSED_BY, null, msgs);
+				return basicSetCausedBy((PrivatePubSub)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ConversationPackage.TRANSITION__CAUSED_BY:
+				return basicSetCausedBy(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ConversationPackage.TRANSITION__TO_STATE:
@@ -445,8 +481,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				if (resolve) return getExCausedBy();
 				return basicGetExCausedBy();
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				if (resolve) return getCausedBy();
-				return basicGetCausedBy();
+				return getCausedBy();
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				if (resolve) return getExTriggers();
 				return basicGetExTriggers();
@@ -481,7 +516,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				setExCausedBy((SubscribableByOthers)newValue);
 				return;
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				setCausedBy((SubscribableByMe)newValue);
+				setCausedBy((PrivatePubSub)newValue);
 				return;
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				setExTriggers((PublishableByOthers)newValue);
@@ -517,7 +552,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 				setExCausedBy((SubscribableByOthers)null);
 				return;
 			case ConversationPackage.TRANSITION__CAUSED_BY:
-				setCausedBy((SubscribableByMe)null);
+				setCausedBy((PrivatePubSub)null);
 				return;
 			case ConversationPackage.TRANSITION__EX_TRIGGERS:
 				setExTriggers((PublishableByOthers)null);

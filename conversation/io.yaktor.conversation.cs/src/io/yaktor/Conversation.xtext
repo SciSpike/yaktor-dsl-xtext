@@ -30,14 +30,13 @@ TypeImport:
 QualifiedName:
   ID ('.' ID)+;
   
-
 PossiblyQualifiedName:
   ID ('.' ID)*;
 
 Agent returns Agent:
   (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
-  events+=Event*
+  (sendables+=PubliclySubscribable)*
   stateMachine=StateMachine
   '}';
 
@@ -46,12 +45,11 @@ StateMachine returns StateMachine:
   'initially' ( (  'becomes' initialState=[State])
   | ( initialTransition=Transition))
   '{'
-  states+=StateLike*
+  (states+=StateLike)*
   '}';
 
-Event:
-  ('privately' 'receives' {PrivatePubSub} | 'sends'
-  {PubliclySubscribable} | 'receives' {PubliclyPublishable} | 'pubsub' {PublicPubSub})
+PubliclySubscribable:
+  ('sends' {PubliclySubscribable} | 'pubsub' {PublicPubSub})
   name=ID
   (':' refType=[Projection|PossiblyQualifiedName])?;
 
@@ -81,23 +79,27 @@ State returns State:
   (transitions+=Transition)*
   '}';
 
+PrivatePubSub returns PrivatePubSub:
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+  
 Transition returns Transition:
   {Transition}
-   ('receives')? (requiresExecution?='custom')?
-    ((causedBy=[SubscribableByMe|ID] | 
-     exCausedBy=[SubscribableByOthers|QualifiedName])
-       (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))? )
-  
-  ('->'|'becomes') toState=[State|ID]
-  (('>'|'sends') (triggers=[PublishableByMe|ID] |
-  exTriggers=[PublishableByOthers|QualifiedName]))?;
+  'receives'?
+  (requiresExecution?='custom')?
+  (
+  causedBy=PrivatePubSub |
+  (exCausedBy=[SubscribableByOthers|QualifiedName] (('[' fieldMapping=[ProjectionField|PossiblyQualifiedName] ']') | ('if' fieldMapping=[ProjectionField|PossiblyQualifiedName] 'matches'))?)
+  )
+  ('->' | 'becomes') toState=[State|ID]
+  (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;
 
 InternalTransition returns Transition:
   {Transition}
-   (requiresExecution?='custom')? causedBy=[PrivatePubSub|ID]
-  ('->'|'becomes') toState=[State|ID]
-  (('>'|'sends') (triggers=[PublishableByMe|ID] |
-  exTriggers=[PublishableByOthers|QualifiedName]))?;
+  (requiresExecution?='custom')?
+  (causedBy=PrivatePubSub | exCausedBy=[SubscribableByOthers|QualifiedName])
+  ('->' | 'becomes') toState=[State|ID]
+  (('>' | 'sends') (triggers=[PublishableByMe|ID]))?;
 
 ProjectionField:
   MappedField | NewField | ProjectionContainmentField | TypeContainmentField;

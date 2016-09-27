@@ -35,6 +35,7 @@ class ConversationGenerator implements IGenerator {
 
   override void doGenerate(Resource resource, IFileSystemAccess fsa) {
     var c = resource.contents.get(0) as Conversation
+
     c.doGenerateDotFSMs(fsa)
     c.doGenerateJSs(fsa);
     c.doGenerateJSs(fsa);

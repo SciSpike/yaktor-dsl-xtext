@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link io.yaktor.conversation.Agent#getName <em>Name</em>}</li>
  *   <li>{@link io.yaktor.conversation.Agent#getDefinedTypes <em>Defined Types</em>}</li>
  *   <li>{@link io.yaktor.conversation.Agent#getStateMachine <em>State Machine</em>}</li>
- *   <li>{@link io.yaktor.conversation.Agent#getEvents <em>Events</em>}</li>
+ *   <li>{@link io.yaktor.conversation.Agent#getSendables <em>Sendables</em>}</li>
  *   <li>{@link io.yaktor.conversation.Agent#getParent <em>Parent</em>}</li>
  *   <li>{@link io.yaktor.conversation.Agent#getStateMachineType <em>State Machine Type</em>}</li>
  *   <li>{@link io.yaktor.conversation.Agent#getConnectionType <em>Connection Type</em>}</li>
@@ -105,22 +105,22 @@ public interface Agent extends EObject {
 	void setStateMachine(StateMachine value);
 
 	/**
-	 * Returns the value of the '<em><b>Events</b></em>' containment reference list.
-	 * The list contents are of type {@link io.yaktor.conversation.Event}.
-	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.Event#getParent <em>Parent</em>}'.
+	 * Returns the value of the '<em><b>Sendables</b></em>' containment reference list.
+	 * The list contents are of type {@link io.yaktor.conversation.PubliclySubscribable}.
+	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.PubliclySubscribable#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Events</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Sendables</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Events</em>' containment reference list.
-	 * @see io.yaktor.conversation.ConversationPackage#getAgent_Events()
-	 * @see io.yaktor.conversation.Event#getParent
+	 * @return the value of the '<em>Sendables</em>' containment reference list.
+	 * @see io.yaktor.conversation.ConversationPackage#getAgent_Sendables()
+	 * @see io.yaktor.conversation.PubliclySubscribable#getParent
 	 * @model opposite="parent" containment="true"
 	 * @generated
 	 */
-	EList<Event> getEvents();
+	EList<PubliclySubscribable> getSendables();
 
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.

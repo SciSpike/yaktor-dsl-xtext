@@ -195,13 +195,13 @@ public interface ConversationPackage extends EPackage {
 	int AGENT__STATE_MACHINE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Events</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Sendables</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AGENT__EVENTS = 3;
+	int AGENT__SENDABLES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -359,22 +359,13 @@ public interface ConversationPackage extends EPackage {
 	int EVENT__REF_TYPE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EVENT__PARENT = 2;
-
-	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 3;
+	int EVENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Event</em>' class.
@@ -698,7 +689,7 @@ public interface ConversationPackage extends EPackage {
 	int TRANSITION__EX_CAUSED_BY = 3;
 
 	/**
-	 * The feature id for the '<em><b>Caused By</b></em>' reference.
+	 * The feature id for the '<em><b>Caused By</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -770,15 +761,6 @@ public interface ConversationPackage extends EPackage {
 	int SUBSCRIBABLE_BY_OTHERS__REF_TYPE = EVENT__REF_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SUBSCRIBABLE_BY_OTHERS__PARENT = EVENT__PARENT;
-
-	/**
 	 * The number of structural features of the '<em>Subscribable By Others</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -813,15 +795,6 @@ public interface ConversationPackage extends EPackage {
 	 * @ordered
 	 */
 	int PUBLISHABLE_BY_OTHERS__REF_TYPE = EVENT__REF_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PUBLISHABLE_BY_OTHERS__PARENT = EVENT__PARENT;
 
 	/**
 	 * The number of structural features of the '<em>Publishable By Others</em>' class.
@@ -860,15 +833,6 @@ public interface ConversationPackage extends EPackage {
 	int SUBSCRIBABLE_BY_ME__REF_TYPE = EVENT__REF_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SUBSCRIBABLE_BY_ME__PARENT = EVENT__PARENT;
-
-	/**
 	 * The number of structural features of the '<em>Subscribable By Me</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -903,15 +867,6 @@ public interface ConversationPackage extends EPackage {
 	 * @ordered
 	 */
 	int PUBLISHABLE_BY_ME__REF_TYPE = EVENT__REF_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PUBLISHABLE_BY_ME__PARENT = EVENT__PARENT;
 
 	/**
 	 * The number of structural features of the '<em>Publishable By Me</em>' class.
@@ -950,15 +905,6 @@ public interface ConversationPackage extends EPackage {
 	int PUBLIC_EVENT__REF_TYPE = EVENT__REF_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PUBLIC_EVENT__PARENT = EVENT__PARENT;
-
-	/**
 	 * The number of structural features of the '<em>Public Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -993,15 +939,6 @@ public interface ConversationPackage extends EPackage {
 	 * @ordered
 	 */
 	int PUBLICLY_PUBLISHABLE__REF_TYPE = SUBSCRIBABLE_BY_ME__REF_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PUBLICLY_PUBLISHABLE__PARENT = SUBSCRIBABLE_BY_ME__PARENT;
 
 	/**
 	 * The number of structural features of the '<em>Publicly Publishable</em>' class.
@@ -1046,7 +983,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PUBLICLY_SUBSCRIBABLE__PARENT = PUBLISHABLE_BY_ME__PARENT;
+	int PUBLICLY_SUBSCRIBABLE__PARENT = PUBLISHABLE_BY_ME_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Publicly Subscribable</em>' class.
@@ -1055,7 +992,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PUBLICLY_SUBSCRIBABLE_FEATURE_COUNT = PUBLISHABLE_BY_ME_FEATURE_COUNT + 0;
+	int PUBLICLY_SUBSCRIBABLE_FEATURE_COUNT = PUBLISHABLE_BY_ME_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Publicly Subscribable</em>' class.
@@ -1085,13 +1022,13 @@ public interface ConversationPackage extends EPackage {
 	int PRIVATE_PUB_SUB__REF_TYPE = PUBLISHABLE_BY_ME__REF_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * The feature id for the '<em><b>Transition</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIVATE_PUB_SUB__PARENT = PUBLISHABLE_BY_ME__PARENT;
+	int PRIVATE_PUB_SUB__TRANSITION = PUBLISHABLE_BY_ME_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Private Pub Sub</em>' class.
@@ -1100,7 +1037,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PRIVATE_PUB_SUB_FEATURE_COUNT = PUBLISHABLE_BY_ME_FEATURE_COUNT + 0;
+	int PRIVATE_PUB_SUB_FEATURE_COUNT = PUBLISHABLE_BY_ME_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Private Pub Sub</em>' class.
@@ -1136,7 +1073,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PUBLIC_PUB_SUB__PARENT = PUBLICLY_PUBLISHABLE__PARENT;
+	int PUBLIC_PUB_SUB__PARENT = PUBLICLY_PUBLISHABLE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Public Pub Sub</em>' class.
@@ -1145,7 +1082,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PUBLIC_PUB_SUB_FEATURE_COUNT = PUBLICLY_PUBLISHABLE_FEATURE_COUNT + 0;
+	int PUBLIC_PUB_SUB_FEATURE_COUNT = PUBLICLY_PUBLISHABLE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Public Pub Sub</em>' class.
@@ -1545,15 +1482,15 @@ public interface ConversationPackage extends EPackage {
 	EReference getAgent_StateMachine();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link io.yaktor.conversation.Agent#getEvents <em>Events</em>}'.
+	 * Returns the meta object for the containment reference list '{@link io.yaktor.conversation.Agent#getSendables <em>Sendables</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Events</em>'.
-	 * @see io.yaktor.conversation.Agent#getEvents()
+	 * @return the meta object for the containment reference list '<em>Sendables</em>'.
+	 * @see io.yaktor.conversation.Agent#getSendables()
 	 * @see #getAgent()
 	 * @generated
 	 */
-	EReference getAgent_Events();
+	EReference getAgent_Sendables();
 
 	/**
 	 * Returns the meta object for the container reference '{@link io.yaktor.conversation.Agent#getParent <em>Parent</em>}'.
@@ -1697,17 +1634,6 @@ public interface ConversationPackage extends EPackage {
 	EReference getEvent_RefType();
 
 	/**
-	 * Returns the meta object for the container reference '{@link io.yaktor.conversation.Event#getParent <em>Parent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Parent</em>'.
-	 * @see io.yaktor.conversation.Event#getParent()
-	 * @see #getEvent()
-	 * @generated
-	 */
-	EReference getEvent_Parent();
-
-	/**
 	 * Returns the meta object for class '{@link io.yaktor.conversation.State <em>State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1827,10 +1753,10 @@ public interface ConversationPackage extends EPackage {
 	EReference getTransition_ExCausedBy();
 
 	/**
-	 * Returns the meta object for the reference '{@link io.yaktor.conversation.Transition#getCausedBy <em>Caused By</em>}'.
+	 * Returns the meta object for the containment reference '{@link io.yaktor.conversation.Transition#getCausedBy <em>Caused By</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Caused By</em>'.
+	 * @return the meta object for the containment reference '<em>Caused By</em>'.
 	 * @see io.yaktor.conversation.Transition#getCausedBy()
 	 * @see #getTransition()
 	 * @generated
@@ -1941,6 +1867,17 @@ public interface ConversationPackage extends EPackage {
 	EClass getPubliclySubscribable();
 
 	/**
+	 * Returns the meta object for the container reference '{@link io.yaktor.conversation.PubliclySubscribable#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Parent</em>'.
+	 * @see io.yaktor.conversation.PubliclySubscribable#getParent()
+	 * @see #getPubliclySubscribable()
+	 * @generated
+	 */
+	EReference getPubliclySubscribable_Parent();
+
+	/**
 	 * Returns the meta object for class '{@link io.yaktor.conversation.PrivatePubSub <em>Private Pub Sub</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1949,6 +1886,17 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getPrivatePubSub();
+
+	/**
+	 * Returns the meta object for the container reference '{@link io.yaktor.conversation.PrivatePubSub#getTransition <em>Transition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Transition</em>'.
+	 * @see io.yaktor.conversation.PrivatePubSub#getTransition()
+	 * @see #getPrivatePubSub()
+	 * @generated
+	 */
+	EReference getPrivatePubSub_Transition();
 
 	/**
 	 * Returns the meta object for class '{@link io.yaktor.conversation.PublicPubSub <em>Public Pub Sub</em>}'.
@@ -2238,12 +2186,12 @@ public interface ConversationPackage extends EPackage {
 		EReference AGENT__STATE_MACHINE = eINSTANCE.getAgent_StateMachine();
 
 		/**
-		 * The meta object literal for the '<em><b>Events</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Sendables</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AGENT__EVENTS = eINSTANCE.getAgent_Events();
+		EReference AGENT__SENDABLES = eINSTANCE.getAgent_Sendables();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
@@ -2354,14 +2302,6 @@ public interface ConversationPackage extends EPackage {
 		EReference EVENT__REF_TYPE = eINSTANCE.getEvent_RefType();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EVENT__PARENT = eINSTANCE.getEvent_Parent();
-
-		/**
 		 * The meta object literal for the '{@link io.yaktor.conversation.impl.StateImpl <em>State</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2454,7 +2394,7 @@ public interface ConversationPackage extends EPackage {
 		EReference TRANSITION__EX_CAUSED_BY = eINSTANCE.getTransition_ExCausedBy();
 
 		/**
-		 * The meta object literal for the '<em><b>Caused By</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Caused By</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2556,6 +2496,14 @@ public interface ConversationPackage extends EPackage {
 		EClass PUBLICLY_SUBSCRIBABLE = eINSTANCE.getPubliclySubscribable();
 
 		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PUBLICLY_SUBSCRIBABLE__PARENT = eINSTANCE.getPubliclySubscribable_Parent();
+
+		/**
 		 * The meta object literal for the '{@link io.yaktor.conversation.impl.PrivatePubSubImpl <em>Private Pub Sub</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2564,6 +2512,14 @@ public interface ConversationPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PRIVATE_PUB_SUB = eINSTANCE.getPrivatePubSub();
+
+		/**
+		 * The meta object literal for the '<em><b>Transition</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PRIVATE_PUB_SUB__TRANSITION = eINSTANCE.getPrivatePubSub_Transition();
 
 		/**
 		 * The meta object literal for the '{@link io.yaktor.conversation.impl.PublicPubSubImpl <em>Public Pub Sub</em>}' class.

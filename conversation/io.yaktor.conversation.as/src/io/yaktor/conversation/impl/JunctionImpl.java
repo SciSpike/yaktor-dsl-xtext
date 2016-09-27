@@ -6,6 +6,7 @@ import io.yaktor.conversation.ConversationPackage;
 import io.yaktor.conversation.Junction;
 import io.yaktor.conversation.SubscribableByOthers;
 import io.yaktor.types.ProjectionField;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;

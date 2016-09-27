@@ -3,7 +3,6 @@
 package io.yaktor.conversation;
 
 import io.yaktor.types.ProjectionField;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -136,30 +135,32 @@ public interface Transition extends EObject {
 	void setExCausedBy(SubscribableByOthers value);
 
 	/**
-	 * Returns the value of the '<em><b>Caused By</b></em>' reference.
+	 * Returns the value of the '<em><b>Caused By</b></em>' containment reference.
+	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.PrivatePubSub#getTransition <em>Transition</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Caused By</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Caused By</em>' reference.
-	 * @see #setCausedBy(SubscribableByMe)
+	 * @return the value of the '<em>Caused By</em>' containment reference.
+	 * @see #setCausedBy(PrivatePubSub)
 	 * @see io.yaktor.conversation.ConversationPackage#getTransition_CausedBy()
-	 * @model
+	 * @see io.yaktor.conversation.PrivatePubSub#getTransition
+	 * @model opposite="transition" containment="true"
 	 * @generated
 	 */
-	SubscribableByMe getCausedBy();
+	PrivatePubSub getCausedBy();
 
 	/**
-	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getCausedBy <em>Caused By</em>}' reference.
+	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getCausedBy <em>Caused By</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Caused By</em>' reference.
+	 * @param value the new value of the '<em>Caused By</em>' containment reference.
 	 * @see #getCausedBy()
 	 * @generated
 	 */
-	void setCausedBy(SubscribableByMe value);
+	void setCausedBy(PrivatePubSub value);
 
 	/**
 	 * Returns the value of the '<em><b>Ex Triggers</b></em>' reference.

@@ -7,7 +7,7 @@ import io.yaktor.conversation.Agent;
 import io.yaktor.conversation.ConnectionType;
 import io.yaktor.conversation.Conversation;
 import io.yaktor.conversation.ConversationPackage;
-import io.yaktor.conversation.Event;
+import io.yaktor.conversation.PubliclySubscribable;
 import io.yaktor.conversation.StateMachine;
 import io.yaktor.conversation.StateMachineType;
 import io.yaktor.types.Projection;
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getName <em>Name</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getDefinedTypes <em>Defined Types</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getStateMachine <em>State Machine</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getEvents <em>Events</em>}</li>
+ *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getSendables <em>Sendables</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getStateMachineType <em>State Machine Type</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.AgentImpl#getConnectionType <em>Connection Type</em>}</li>
@@ -87,14 +87,14 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 	protected StateMachine stateMachine;
 
 	/**
-	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
+	 * The cached value of the '{@link #getSendables() <em>Sendables</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEvents()
+	 * @see #getSendables()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Event> events;
+	protected EList<PubliclySubscribable> sendables;
 
 	/**
 	 * The default value of the '{@link #getStateMachineType() <em>State Machine Type</em>}' attribute.
@@ -266,11 +266,11 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Event> getEvents() {
-		if (events == null) {
-			events = new EObjectContainmentWithInverseEList<Event>(Event.class, this, ConversationPackage.AGENT__EVENTS, ConversationPackage.EVENT__PARENT);
+	public EList<PubliclySubscribable> getSendables() {
+		if (sendables == null) {
+			sendables = new EObjectContainmentWithInverseEList<PubliclySubscribable>(PubliclySubscribable.class, this, ConversationPackage.AGENT__SENDABLES, ConversationPackage.PUBLICLY_SUBSCRIBABLE__PARENT);
 		}
-		return events;
+		return sendables;
 	}
 
 	/**
@@ -428,8 +428,8 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 				if (stateMachine != null)
 					msgs = ((InternalEObject)stateMachine).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ConversationPackage.AGENT__STATE_MACHINE, null, msgs);
 				return basicSetStateMachine((StateMachine)otherEnd, msgs);
-			case ConversationPackage.AGENT__EVENTS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEvents()).basicAdd(otherEnd, msgs);
+			case ConversationPackage.AGENT__SENDABLES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getSendables()).basicAdd(otherEnd, msgs);
 			case ConversationPackage.AGENT__PARENT:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -450,8 +450,8 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 				return ((InternalEList<?>)getDefinedTypes()).basicRemove(otherEnd, msgs);
 			case ConversationPackage.AGENT__STATE_MACHINE:
 				return basicSetStateMachine(null, msgs);
-			case ConversationPackage.AGENT__EVENTS:
-				return ((InternalEList<?>)getEvents()).basicRemove(otherEnd, msgs);
+			case ConversationPackage.AGENT__SENDABLES:
+				return ((InternalEList<?>)getSendables()).basicRemove(otherEnd, msgs);
 			case ConversationPackage.AGENT__PARENT:
 				return basicSetParent(null, msgs);
 		}
@@ -486,8 +486,8 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 				return getDefinedTypes();
 			case ConversationPackage.AGENT__STATE_MACHINE:
 				return getStateMachine();
-			case ConversationPackage.AGENT__EVENTS:
-				return getEvents();
+			case ConversationPackage.AGENT__SENDABLES:
+				return getSendables();
 			case ConversationPackage.AGENT__PARENT:
 				return getParent();
 			case ConversationPackage.AGENT__STATE_MACHINE_TYPE:
@@ -522,9 +522,9 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 			case ConversationPackage.AGENT__STATE_MACHINE:
 				setStateMachine((StateMachine)newValue);
 				return;
-			case ConversationPackage.AGENT__EVENTS:
-				getEvents().clear();
-				getEvents().addAll((Collection<? extends Event>)newValue);
+			case ConversationPackage.AGENT__SENDABLES:
+				getSendables().clear();
+				getSendables().addAll((Collection<? extends PubliclySubscribable>)newValue);
 				return;
 			case ConversationPackage.AGENT__PARENT:
 				setParent((Conversation)newValue);
@@ -562,8 +562,8 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 			case ConversationPackage.AGENT__STATE_MACHINE:
 				setStateMachine((StateMachine)null);
 				return;
-			case ConversationPackage.AGENT__EVENTS:
-				getEvents().clear();
+			case ConversationPackage.AGENT__SENDABLES:
+				getSendables().clear();
 				return;
 			case ConversationPackage.AGENT__PARENT:
 				setParent((Conversation)null);
@@ -598,8 +598,8 @@ public class AgentImpl extends MinimalEObjectImpl.Container implements Agent {
 				return definedTypes != null && !definedTypes.isEmpty();
 			case ConversationPackage.AGENT__STATE_MACHINE:
 				return stateMachine != null;
-			case ConversationPackage.AGENT__EVENTS:
-				return events != null && !events.isEmpty();
+			case ConversationPackage.AGENT__SENDABLES:
+				return sendables != null && !sendables.isEmpty();
 			case ConversationPackage.AGENT__PARENT:
 				return getParent() != null;
 			case ConversationPackage.AGENT__STATE_MACHINE_TYPE:

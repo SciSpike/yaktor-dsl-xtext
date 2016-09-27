@@ -3,26 +3,54 @@ package io.yaktor.generator.js
 import io.yaktor.conversation.Agent
 import io.yaktor.conversation.Conversation
 import io.yaktor.conversation.Event
+import io.yaktor.conversation.PrivatePubSub
+import io.yaktor.conversation.PubliclySubscribable
 import io.yaktor.conversation.State
 import io.yaktor.conversation.StateMachine
+import io.yaktor.conversation.SubscribableByMe
 import io.yaktor.conversation.Transition
+import java.lang.reflect.InvocationTargetException
+import java.util.HashMap
 import java.util.HashSet
 import java.util.LinkedList
 import java.util.Set
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.emf.ecore.EOperation
-import org.eclipse.emf.common.util.EList
-import java.lang.reflect.InvocationTargetException
 import org.eclipse.emf.common.notify.Notification
 import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EOperation
+import org.eclipse.emf.ecore.EStructuralFeature
 
 class JsExtensions {
   
+  static def getAgentPrivatelyReceivables(Agent agent) {
+    val retVal = agent.stateMachine.states.fold(new HashMap<String,SubscribableByMe>)[actions,state|
+      state.transitions.forEach[if (causedBy != null) actions.put(causedBy.name, causedBy)
+      ]
+      actions
+    ]
+    val it = agent.stateMachine.initialTransition
+    if (it?.causedBy != null) retVal.put(it.causedBy.name, it.causedBy)
+    retVal.values
+  }
+  
+  static def getEvents(Agent agent) {
+    val events = new HashSet<Event>
+    events.addAll(agent.sendables)
+    events.addAll(agent.agentPrivatelyReceivables)
+    events
+  }
+  
+  static def getParent(Event event) {
+    switch event {
+      PrivatePubSub: event.transition.toState.parent.parent
+      PubliclySubscribable: event.parent
+    }
+  }
   static def getEventLabel(Event event) {
-    '''
-    «var tAgent = event.parent»
-    «var tConversation = tAgent.parent»
-    «tConversation.name».«tAgent.name»::«event.name»'''
+    var tAgent = event.parent
+    
+    var tConversation = tAgent.parent
+    '''«tConversation.name».«tAgent.name»::«event.name»'''
   }
   
   static def allStates (StateMachine sm){
@@ -43,8 +71,7 @@ class JsExtensions {
   static def getEventDescription(Event event, Agent agent, Conversation myConversation) {
     var eAgent = event.parent
     var eConversation = eAgent.parent
-    '''«IF eAgent != agent»«IF eConversation != myConversation»«eConversation.name».«ENDIF»«eAgent.name».«ENDIF»«event.
-      name»'''
+    '''«IF eAgent != agent»«IF eConversation != myConversation»«eConversation.name».«ENDIF»«eAgent.name».«ENDIF»«event.name»'''
   }
 
   static def getDescription(Transition t) {
