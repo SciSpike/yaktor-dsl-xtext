@@ -1,3 +1,5 @@
+Still TODO after #14 is done:
+
 Receivable{name,[type:Projection]}
 
 PrivatelyReceivable extends Receivable
