@@ -5,7 +5,6 @@ PrivatelyReceivable extends Receivable
 PubliclyReceivable{parent:Agent} extends Receivable
 Sendable extends PubliclyReceivable
 
-Agent.events -> Agent.sendables, then evaluate usages for correctness
 Transition.causedBy -> Transition.privatelyReceives
 Transition.triggers -> Transition.sends
 
