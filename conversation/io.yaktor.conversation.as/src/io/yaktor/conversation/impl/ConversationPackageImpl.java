@@ -404,7 +404,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAgent_Events() {
+	public EReference getAgent_Sendables() {
 		return (EReference)agentEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -927,7 +927,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 		createEAttribute(agentEClass, AGENT__NAME);
 		createEReference(agentEClass, AGENT__DEFINED_TYPES);
 		createEReference(agentEClass, AGENT__STATE_MACHINE);
-		createEReference(agentEClass, AGENT__EVENTS);
+		createEReference(agentEClass, AGENT__SENDABLES);
 		createEReference(agentEClass, AGENT__PARENT);
 		createEAttribute(agentEClass, AGENT__STATE_MACHINE_TYPE);
 		createEAttribute(agentEClass, AGENT__CONNECTION_TYPE);
@@ -1071,7 +1071,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 		initEAttribute(getAgent_Name(), ecorePackage.getEString(), "name", null, 0, 1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAgent_DefinedTypes(), theTypesPackage.getProjection(), null, "definedTypes", null, 0, -1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAgent_StateMachine(), this.getStateMachine(), this.getStateMachine_Parent(), "stateMachine", null, 1, 1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAgent_Events(), this.getPubliclySubscribable(), this.getPubliclySubscribable_Parent(), "events", null, 0, -1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAgent_Sendables(), this.getPubliclySubscribable(), this.getPubliclySubscribable_Parent(), "sendables", null, 0, -1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAgent_Parent(), this.getConversation(), this.getConversation_Agents(), "parent", null, 0, 1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAgent_StateMachineType(), this.getStateMachineType(), "stateMachineType", "finite", 0, 1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAgent_ConnectionType(), this.getConnectionType(), "connectionType", "independent", 0, 1, Agent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1120,7 +1120,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 		initEClass(publiclyPublishableEClass, PubliclyPublishable.class, "PubliclyPublishable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(publiclySubscribableEClass, PubliclySubscribable.class, "PubliclySubscribable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPubliclySubscribable_Parent(), this.getAgent(), this.getAgent_Events(), "parent", null, 0, 1, PubliclySubscribable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPubliclySubscribable_Parent(), this.getAgent(), this.getAgent_Sendables(), "parent", null, 0, 1, PubliclySubscribable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(privatePubSubEClass, PrivatePubSub.class, "PrivatePubSub", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPrivatePubSub_Transition(), this.getTransition(), this.getTransition_CausedBy(), "transition", null, 0, 1, PrivatePubSub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

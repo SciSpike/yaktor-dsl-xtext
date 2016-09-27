@@ -149,18 +149,6 @@ class ConversationScopeProvider extends AbstractDeclarativeScopeProvider {
     globalScopeProvider.getScope(context.eResource, reference, null);
   }
 
-  def scope_Transition_causedBy(State state, EReference reference) {
-    var fsm = state.parent;
-    var agent = fsm.parent;
-    scopeFor(agent.allStateTransitionSubscribablesByMe)
-  }
-
-  def scope_Transition_causedBy(Decision state, EReference reference) {
-    var fsm = state.parent;
-    var agent = fsm.parent;
-    scopeFor(agent.allStateTransitionSubscribablesByMe)
-  }
-
   def scope_Transition_exCausedBy(State context, EReference reference) {
     if (!(context instanceof Decision)) {
       doStateEvent(context, SubscribableByOthers)
@@ -178,7 +166,7 @@ class ConversationScopeProvider extends AbstractDeclarativeScopeProvider {
   def scope_Transition_triggers(State state, EReference reference) {
     var fsm = state.parent;
     var agent = fsm.parent;
-    scopeFor(agent.events.filter(PublishableByMe))
+    scopeFor(agent.sendables.filter(PublishableByMe))
   }
 
   def scope_Transition_exTriggers(State context, EReference reference) {
@@ -205,7 +193,7 @@ class ConversationScopeProvider extends AbstractDeclarativeScopeProvider {
   }
 
   def scopeForAgent(Agent agent, String alias, IScope parent, Class<? extends Event> filterClass) {
-    scopeFor(agent.events.filter(filterClass),
+    scopeFor(agent.sendables.filter(filterClass),
       [ EObject eObj |
         var event = eObj as Event;
         return QualifiedName.create(alias ?: agent.name?: "").append(event.name);

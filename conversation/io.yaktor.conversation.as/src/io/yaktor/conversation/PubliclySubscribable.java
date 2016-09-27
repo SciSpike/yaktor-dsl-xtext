@@ -23,7 +23,7 @@ public interface PubliclySubscribable extends PublishableByMe, SubscribableByOth
 
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.Agent#getEvents <em>Events</em>}'.
+	 * It is bidirectional and its opposite is '{@link io.yaktor.conversation.Agent#getSendables <em>Sendables</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent</em>' container reference isn't clear,
@@ -33,8 +33,8 @@ public interface PubliclySubscribable extends PublishableByMe, SubscribableByOth
 	 * @return the value of the '<em>Parent</em>' container reference.
 	 * @see #setParent(Agent)
 	 * @see io.yaktor.conversation.ConversationPackage#getPubliclySubscribable_Parent()
-	 * @see io.yaktor.conversation.Agent#getEvents
-	 * @model opposite="events" transient="false"
+	 * @see io.yaktor.conversation.Agent#getSendables
+	 * @model opposite="sendables" transient="false"
 	 * @generated
 	 */
 	Agent getParent();

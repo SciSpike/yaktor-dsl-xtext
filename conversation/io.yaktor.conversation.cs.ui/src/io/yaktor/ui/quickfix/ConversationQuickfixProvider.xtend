@@ -62,7 +62,7 @@ class ConversationQuickfixProvider extends DefaultQuickfixProvider {
         var agent = element.findAgent;
         var event = ConversationFactory.eINSTANCE.createPubliclySubscribable;
         event.setName(issue.data.get(0));
-        agent.events.add(event);
+        agent.sendables.add(event);
       ])
   }
 

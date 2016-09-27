@@ -79,7 +79,7 @@ public class PubliclySubscribableImpl extends PublishableByMeImpl implements Pub
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, ConversationPackage.AGENT__EVENTS, Agent.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, ConversationPackage.AGENT__SENDABLES, Agent.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -126,7 +126,7 @@ public class PubliclySubscribableImpl extends PublishableByMeImpl implements Pub
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case ConversationPackage.PUBLICLY_SUBSCRIBABLE__PARENT:
-				return eInternalContainer().eInverseRemove(this, ConversationPackage.AGENT__EVENTS, Agent.class, msgs);
+				return eInternalContainer().eInverseRemove(this, ConversationPackage.AGENT__SENDABLES, Agent.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}

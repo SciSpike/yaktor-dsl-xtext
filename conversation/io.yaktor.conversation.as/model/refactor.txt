@@ -11,4 +11,6 @@ Transition.triggers -> Transition.sends
 
 Validations to add:
 1. Warning if Transition.sends.refType != Transition.privatelyReceives.refType && Transition.requiresExecution == false
-2. Warning if Transition.sends.refType != Agent.type && Transition.mapping == null
+2. Warning if Transition.sends.refType != Agent.type && Transition.mapping == null "Why aren't you specifying a mapping???"
+3. Error if Transition t => t.publiclyReceives.refType == null && t.agent.projection != t.publiclyReceives.agent.projection "There is no incoming type to base a mapping on"
+    ...change code so that scope provider for a Transition's mapping only provides list of t.publiclyReceives.refType's fields

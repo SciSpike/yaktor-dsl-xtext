@@ -25,7 +25,7 @@
         eType="ecore:EClass types.ecore#//Projection" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stateMachine" lowerBound="1"
         eType="#//StateMachine" containment="true" eOpposite="#//StateMachine/parent"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sendables" upperBound="-1"
         eType="#//PubliclySubscribable" containment="true" eOpposite="#//PubliclySubscribable/parent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Conversation"
         eOpposite="#//Conversation/agents"/>
@@ -85,7 +85,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PubliclyPublishable" eSuperTypes="#//SubscribableByMe #//PublishableByOthers #//PublicEvent"/>
   <eClassifiers xsi:type="ecore:EClass" name="PubliclySubscribable" eSuperTypes="#//PublishableByMe #//SubscribableByOthers #//PublicEvent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Agent"
-        eOpposite="#//Agent/events"/>
+        eOpposite="#//Agent/sendables"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrivatePubSub" eSuperTypes="#//PublishableByMe #//SubscribableByMe">
     <eStructuralFeatures xsi:type="ecore:EReference" name="transition" eType="#//Transition"

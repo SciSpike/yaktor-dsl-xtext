@@ -181,7 +181,7 @@ class ConversationDocGenerator {
 	|===================================================
 	|Kind|Name|Datatype|Description
 	«var events = a.events.sortBy[e|e.name]»
-	«FOR e : events»
+	«FOR Event e : events»
 		|«e.kind»|«e.name»|«IF e.refType != null»«e.refType.name»«ENDIF»|«e.bareComments.join('\n')»
 	«ENDFOR»
 	|===================================================
@@ -323,11 +323,6 @@ class ConversationDocGenerator {
   			if (e.refType != null) {
   				retVal.add(e.refType)
   			}
-  		}
-  		for (e : a.allStateTransitionPublishablesByMe) {
-  		  if (e.refType != null) {
-  		    retVal.add(e.refType)
-  		  }
   		}
   	}
   	return retVal

@@ -10,7 +10,6 @@ import io.yaktor.conversation.StateMachine
 import io.yaktor.conversation.SubscribableByMe
 import io.yaktor.conversation.Transition
 import java.lang.reflect.InvocationTargetException
-import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
 import java.util.LinkedList
@@ -20,33 +19,25 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EOperation
 import org.eclipse.emf.ecore.EStructuralFeature
-import io.yaktor.conversation.PublishableByMe
 
 class JsExtensions {
   
-  static def getUniqueStateTransitionActionsByName(Agent agent) {
-    agent.stateMachine.states.fold(new HashMap<String,SubscribableByMe>)[actions,state|
-      state.transitions.forEach[t|
-        if (t.causedBy != null) actions.put(t.causedBy.name, t.causedBy)
+  static def getAgentPrivatelyReceivables(Agent agent) {
+    val retVal = agent.stateMachine.states.fold(new HashMap<String,SubscribableByMe>)[actions,state|
+      state.transitions.forEach[if (causedBy != null) actions.put(causedBy.name, causedBy)
       ]
       actions
     ]
+    val it = agent.stateMachine.initialTransition
+    if (it?.causedBy != null) retVal.put(it.causedBy.name, it.causedBy)
+    retVal.values
   }
   
-  static def getAllStateTransitionSubscribablesByMe(Agent agent) {
-    agent.stateMachine.states.sortBy[name].fold(new ArrayList<SubscribableByMe>)[actions,state|
-      state.transitions.sortBy[causedBy?.name].forEach[t|
-        if (t.causedBy != null) actions.add(t.causedBy)
-      ]
-      actions
-    ]
-  }
-  
-  static def getAllStateTransitionPublishablesByMe(Agent agent) {
-    agent.stateMachine.states.sortBy[name].fold(new ArrayList<PublishableByMe>)[actions,state|
-      state.transitions.forEach[if (it.triggers != null) actions.add(it.triggers)]
-      actions
-    ]
+  static def getEvents(Agent agent) {
+    val events = new HashSet<Event>
+    events.addAll(agent.sendables)
+    events.addAll(agent.agentPrivatelyReceivables)
+    events
   }
   
   static def getParent(Event event) {
@@ -59,8 +50,7 @@ class JsExtensions {
     var tAgent = event.parent
     
     var tConversation = tAgent.parent
-    '''
-    «tConversation.name».«tAgent.name»::«event.name»'''
+    '''«tConversation.name».«tAgent.name»::«event.name»'''
   }
   
   static def allStates (StateMachine sm){
@@ -81,8 +71,7 @@ class JsExtensions {
   static def getEventDescription(Event event, Agent agent, Conversation myConversation) {
     var eAgent = event.parent
     var eConversation = eAgent.parent
-    '''«IF eAgent != agent»«IF eConversation != myConversation»«eConversation.name».«ENDIF»«eAgent.name».«ENDIF»«event.
-      name»'''
+    '''«IF eAgent != agent»«IF eConversation != myConversation»«eConversation.name».«ENDIF»«eAgent.name».«ENDIF»«event.name»'''
   }
 
   static def getDescription(Transition t) {

@@ -13,6 +13,7 @@ import java.util.List
 import static extension io.yaktor.generator.js.JsExtensions.*
 import static extension io.yaktor.generator.js.JsTypesExtensions.*
 import static extension io.yaktor.generator.util.CommentExtractorExtensions.*
+import io.yaktor.generator.js.JsGgpGenerator.EventWrapper
 
 class JsGgpGenerator {
   /*
@@ -27,6 +28,26 @@ class JsGgpGenerator {
     '''
   }
 
+  static class EventWrapper implements Comparable<EventWrapper> {
+    public Event event
+    
+    new(Event event) {
+      this.event = event
+    }
+    
+    override hashCode() {
+      event.eventLabel.toString().hashCode()
+    }
+    
+    override equals(Object that) {
+      (that as EventWrapper).event.eventLabel.toString() == this.event.eventLabel.toString()
+    }
+    
+    override compareTo(EventWrapper that) {
+      this.event.eventLabel.toString().compareTo(that.event.eventLabel.toString())
+    }
+  }
+  
   def genAgentIndex(Agent agent) {
     var c = agent.parent;
     var cName = c?.name;
@@ -73,24 +94,24 @@ class JsGgpGenerator {
          */
         «quote»messageAuth«quote»: null,
         «quote»internalEvents«quote»: [
-          «FOR e : agent.allStateTransitionSubscribablesByMe SEPARATOR ','»
+          «FOR e : agent.agentPrivatelyReceivables SEPARATOR ','»
             «quote»«e.eventLabel»«quote»
           «ENDFOR»
         ],
         «quote»transitionEvents«quote»: {
-          «var daMap = agent.stateMachine.allStates.fold(new HashMap<Event,List<State>>,[map,state|state.transitions.forEach[tran|
+          «var daMap = agent.stateMachine.allStates.fold(new HashMap<EventWrapper,List<State>>,[map,state|state.transitions.forEach[tran|
             var cause = tran.causedBy?:tran.exCausedBy;
-            var list = map.get(cause);
+            var list = map.get(new EventWrapper(cause));
             if(list == null){
               list = new LinkedList<State>
-              map.put(cause,list)
+              map.put(new EventWrapper(cause),list)
             }
             list.add(state)
           ];map;])»
-          «FOR entry: daMap.entrySet.sortWith[e1,e2|e1.key.eventLabel.toString().compareTo(e2.key.eventLabel.toString())] SEPARATOR ','»
-            «var e = entry.key»
-            «quote»«e.getEventDescription(agent, c)»«quote»: {
-              «quote»label«quote»: «quote»«e.eventLabel»«quote»,
+          «FOR entry: daMap.entrySet.sortWith[e1,e2|e1.key.compareTo(e2.key)] SEPARATOR ','»
+            «var ew = entry.key»
+            «quote»«ew.event.getEventDescription(agent, c)»«quote»: {
+              «quote»label«quote»: «quote»«ew.event.eventLabel»«quote»,
               «quote»states«quote»: [
                 «FOR state:entry.value SEPARATOR ','»
                   «quote»«state.name»«quote»

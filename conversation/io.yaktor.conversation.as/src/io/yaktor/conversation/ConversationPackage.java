@@ -195,13 +195,13 @@ public interface ConversationPackage extends EPackage {
 	int AGENT__STATE_MACHINE = 2;
 
 	/**
-	 * The feature id for the '<em><b>Events</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Sendables</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AGENT__EVENTS = 3;
+	int AGENT__SENDABLES = 3;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -1482,15 +1482,15 @@ public interface ConversationPackage extends EPackage {
 	EReference getAgent_StateMachine();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link io.yaktor.conversation.Agent#getEvents <em>Events</em>}'.
+	 * Returns the meta object for the containment reference list '{@link io.yaktor.conversation.Agent#getSendables <em>Sendables</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Events</em>'.
-	 * @see io.yaktor.conversation.Agent#getEvents()
+	 * @return the meta object for the containment reference list '<em>Sendables</em>'.
+	 * @see io.yaktor.conversation.Agent#getSendables()
 	 * @see #getAgent()
 	 * @generated
 	 */
-	EReference getAgent_Events();
+	EReference getAgent_Sendables();
 
 	/**
 	 * Returns the meta object for the container reference '{@link io.yaktor.conversation.Agent#getParent <em>Parent</em>}'.
@@ -2186,12 +2186,12 @@ public interface ConversationPackage extends EPackage {
 		EReference AGENT__STATE_MACHINE = eINSTANCE.getAgent_StateMachine();
 
 		/**
-		 * The meta object literal for the '<em><b>Events</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Sendables</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference AGENT__EVENTS = eINSTANCE.getAgent_Events();
+		EReference AGENT__SENDABLES = eINSTANCE.getAgent_Sendables();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.

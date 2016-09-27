@@ -16,6 +16,10 @@ conversation Test {
       }
       working {
         TestDepend.finished -> done
+        toggle -> suspended
+      }
+      suspended {
+        toggle -> working
       }
     }
   }

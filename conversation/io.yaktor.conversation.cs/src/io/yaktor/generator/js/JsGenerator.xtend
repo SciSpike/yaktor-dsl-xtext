@@ -202,7 +202,7 @@ class JsGenerator {
                   «ENDIF»
                   <td><button name="init" onclick="«agent.name»DoInit()">init</button>
                 </tr>
-                «FOR action : agent.uniqueStateTransitionActionsByName.values»
+                «FOR action : agent.agentPrivatelyReceivables»
                   <tr>
                     <td>JSON:</td>
                     <td><textArea id="«agent.parent.name»_«agent.name»_«action.name»_input">
@@ -534,7 +534,6 @@ class JsGenerator {
               «quote»id«quote»: «quote»«agent.parent.name».«agent.name»«quote»,
               «quote»name«quote»: «quote»«agent.name»_of_«agent.parent.name»«quote»,
               «quote»endpoint«quote»: «quote»ws:///«agent.parent.name».«agent.name»«quote»,
-              «val actions = agent.allStateTransitionSubscribablesByMe»
               «quote»actions«quote»: {
                 «quote»init«quote»: {
                   «quote»type«quote»: {

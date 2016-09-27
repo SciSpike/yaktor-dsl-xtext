@@ -36,7 +36,7 @@ PossiblyQualifiedName:
 Agent returns Agent:
   (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
-  (events+=PubliclySubscribable)*
+  (sendables+=PubliclySubscribable)*
   stateMachine=StateMachine
   '}';
 
