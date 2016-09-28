@@ -8,7 +8,9 @@ conversation Test {
     }
   }
   agent Test : Test {
-    sends started: Test
+    sends
+      started: Test
+      something
 
     initially receives ^start:Test -> working > started
     {

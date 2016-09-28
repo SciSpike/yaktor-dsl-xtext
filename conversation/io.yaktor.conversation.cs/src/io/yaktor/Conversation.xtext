@@ -36,7 +36,8 @@ PossiblyQualifiedName:
 Agent returns Agent:
   (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
-  (sendables+=PubliclySubscribable)*
+  (sendables+=InitialPubliclySubscribable (sendables+=SubsequentPubliclySubscribable)*)?
+  (sendables+=InitialPublicPubSub (sendables+=SubsequentPublicPubSub)*)?
   stateMachine=StateMachine
   '}';
 
@@ -48,8 +49,23 @@ StateMachine returns StateMachine:
   (states+=StateLike)*
   '}';
 
-PubliclySubscribable:
-  ('sends' {PubliclySubscribable} | 'pubsub' {PublicPubSub})
+InitialPubliclySubscribable returns PubliclySubscribable:
+  ('sends' {PubliclySubscribable})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+SubsequentPubliclySubscribable returns PubliclySubscribable:
+  ('sends'? {PubliclySubscribable})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+InitialPublicPubSub returns PublicPubSub:
+  ('pubsub' {PublicPubSub})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+SubsequentPublicPubSub returns PublicPubSub:
+  ('pubsub'? {PublicPubSub})
   name=ID
   (':' refType=[Projection|PossiblyQualifiedName])?;
 
