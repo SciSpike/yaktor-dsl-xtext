@@ -44,7 +44,7 @@ conversation Test {
   infinite agent Terse : TerseMessage {
     > opened
     > closed
-    initially -> open {
+    -> open {
       open {
         close -> closed > closed
         consider -> considering
@@ -84,7 +84,7 @@ conversation Test {
   infinite agent TerseInitiallyReceives : TerseMessage {
     > opened
     > closed
-    initially Test.started -> open {
+    Test.started -> open {
       open {
         close -> closed > closed
       }
