@@ -38,6 +38,61 @@ conversation Test {
       }
     }
   }
+  message TerseMessage {
+    String value
+  }
+  infinite agent Terse : TerseMessage {
+    > opened
+    > closed
+    initially -> open {
+      open {
+        close -> closed > closed
+        consider -> considering
+      }
+      closed {
+        open -> open > opened
+        consider -> considering
+      }
+      decision considering {
+        ok -> open > opened
+        nok -> closed > closed
+      }
+    }
+  }
+  message VerboseMessage {
+    String value
+  }
+  infinite agent Verbose concerns VerboseMessage {
+    sends opened
+    sends closed
+    initially becomes open {
+      open {
+        close becomes closed sends closed
+        consider becomes considering
+      }
+      closed {
+        open becomes open sends opened
+        consider becomes considering
+      }
+      decision considering {
+        ok becomes open sends opened
+        nok becomes closed sends closed
+      }
+    }
+  }
+
+  infinite agent TerseInitiallyReceives : TerseMessage {
+    > opened
+    > closed
+    initially Test.started -> open {
+      open {
+        close -> closed > closed
+      }
+      closed {
+        open -> open > opened
+      }
+    }
+  }
 
   message B from Test.B {}
   message C from Test.C {
@@ -51,13 +106,18 @@ conversation Test {
   view /test.vw over /test
   resource /test for Test.Test offers ( create read update delete find) interchanges ( json form )
 
+  resource /terse : Test.TerseMessage anonymous (read find) authenticated (update post) authorized (create delete) <=> (json)
+  view /terse : /terse
+  resource /verbose for Test.VerboseMessage offers anonymous (read find) authenticated (update post) authorized (create delete) interchanges (json)
+  view /verbose over /verbose
+  resource /tir : Test.TerseMessage anonymous (read find) authenticated (update) authorized (create delete) <=> (json) API
+  view /tir : /tir
 
-  view /c over /c
-  resource /c for Test.C offers ( create read update delete ) interchanges ( json form )
+  view /c : /c
+  resource /c : Test.C ( create read update delete ) <=> ( json form )
   view /b over /b
   resource /b for Test.B offers ( create read update delete ) interchanges ( json form )
 
   view /TestRef over /TestRef
   resource /TestRef for Test.TestRef offers ( create read update delete ) interchanges ( json form )
-
 }

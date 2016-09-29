@@ -42,14 +42,14 @@ Agent returns Agent:
 
 StateMachine returns StateMachine:
   {StateMachine}
-  'initially' ( (  'becomes' initialState=[State])
+  'initially'? ( ( ('->' | 'becomes') initialState=[State])
   | ( initialTransition=Transition))
   '{'
   (states+=StateLike)*
   '}';
 
 PubliclySubscribable:
-  ('sends' {PubliclySubscribable} | 'pubsub' {PublicPubSub})
+  (('>' | 'sends') {PubliclySubscribable} | 'pubsub' {PublicPubSub})
   name=ID
   (':' refType=[Projection|PossiblyQualifiedName])?;
 
@@ -62,7 +62,7 @@ Junction returns Junction:
 
 
 Join returns Join:
-  'while' 'in'?  (requiresExecution?="custom")? name=ID 'waits' 'for' joins+=Junction (','|'and' joins+=Junction)*
+  'while' 'in'?  (requiresExecution?="custom")? name=ID ('waits' 'for' | 'awaits') joins+=Junction ((',' | 'and')? joins+=Junction)*
   '{'
   (transitions+=Transition)*
   '}';
@@ -124,7 +124,7 @@ MappedField:
   (oldField=[domain::Field|ID] ('as' alias=ID)? (projection=NestedProjection)?);
 
 TopLevelProjection returns Projection:
-  ('type' | 'message') name=ID ('from' entity=[domain::Entity|PossiblyQualifiedName])?
+  ('type' | 'message') name=ID ((':' | 'from') entity=[domain::Entity|PossiblyQualifiedName])?
   '{'
   (fields+=ProjectionField)*
   '}';
@@ -140,19 +140,17 @@ enum AccessRequirement returns access::AccessRequirement:
 
 RestService returns access::RestService:
   'resource' url=Path
-  'for' refType=[Projection|PossiblyQualifiedName]
-  'offers' accessGroups+=AccessGroup+
-  ('interchanges' '(' supportedDocumentTypes+=RestDocumentType+ ')')?
-  ('at' (server=ID | 'default') )?;
+  (':' | 'for') refType=[Projection|PossiblyQualifiedName]
+  'offers'? accessGroups+=AccessGroup+
+  (('<=>' | 'interchanges') '(' supportedDocumentTypes+=RestDocumentType+ ')')?
+  ('at'? (server=ID | 'default') )?;
 
 AccessGroup returns access::AccessGroup:
-  (accessRequirement=AccessRequirement)?  '(' accessMethods+= RestAccess+ ')'
-  
-;
+  (accessRequirement=AccessRequirement)?  '(' accessMethods+= RestAccess+ ')';
 
 View returns access::View:
   'view' url=Path
-  'over' backedBy=[access::RestService|Path];
+  ('over' | ':') backedBy=[access::RestService|Path];
 
 Service returns access::Service:
   'service' name=ID '{'
@@ -160,10 +158,10 @@ Service returns access::Service:
   '}';
 
 ServiceMethod returns access::ServiceMethod:
-  name=ID '('
+  name=ID 'accepts'? '('
   (inputParams+=[Projection|PossiblyQualifiedName] (',' inputParams+=[Projection|PossiblyQualifiedName])*)?
   ')'
-  (':' (outputParams+=[Projection|PossiblyQualifiedName] (',' outputParams+=[Projection|PossiblyQualifiedName])*))?;
+  ((':' | 'returns') (outputParams+=[Projection|PossiblyQualifiedName] (',' outputParams+=[Projection|PossiblyQualifiedName])*))?;
 
 enum RestDocumentType returns access::RestDocumentType:
   json="json" | xml="xml" | yaml="yaml" | form="form" | upload="multi-part" | xhtml="text";
@@ -173,5 +171,3 @@ enum RestAccess returns access::RestAccess:
 
 Path:
   ('/' PossiblyQualifiedName)+;
-
-
