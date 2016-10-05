@@ -26,10 +26,41 @@ var proxy = {
   'mongoose': Global(mongoose)
 }
 require(path.resolve('src-gen', 'modelAll'))
-
-mongoose.model('AgentConversation', new mongoose.Schema({agent: String, state: String, agentDataId: String}))
-
+var agentConvoSchema = new mongoose.Schema({agent: String, state: String, agentDataId: String})
+agentConvoSchema.index({
+  'agent': 1,
+  'agentDataId': 1,
+  'disposition': 1
+}, { unique: true })
+mongoose.model('AgentConversation', agentConvoSchema)
 describe('Agent', function () {
+  describe('Test', function () {
+    it('should walk the graph successfully', function (done) {
+      var cache = new WeakSet()
+      var test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
+      JSON.stringify(test, function (key, value) {
+        if (typeof value === 'object' && value !== null) {
+          if (cache.has(value)) {
+            return '[Circular]'
+          }
+          cache.add(value)
+        }
+        return value
+      }, 2)
+      Promise.each(Object.keys(test.agents), function (agent) {
+        return new Promise(function (resolve) {
+          test.agents[agent].init({ agentDataId: agent + 'initTest' }, resolve)
+        })
+      }).then(function () {
+        // do it a gain for errors
+        return Promise.each(Object.keys(test.agents), function (agent) {
+          return new Promise(function (resolve) {
+            test.agents[agent].init({ agentDataId: agent + 'initTest' }, resolve)
+          })
+        })
+      }).asCallback(done)
+    })
+  })
   describe('Test.Test', function () {
     it('should be loaded', function () {
       var Test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
