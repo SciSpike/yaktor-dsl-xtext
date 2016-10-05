@@ -13,6 +13,7 @@ import io.yaktor.types.TypesPackage
 import java.util.HashSet
 import java.util.Set
 import org.eclipse.xtext.validation.Check
+import io.yaktor.conversation.PubliclySubscribable
 
 //import org.eclipse.xtext.validation.Check
 /**
@@ -38,6 +39,32 @@ class ConversationValidator extends AbstractConversationValidator {
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.MISSING_CAUSE)
     }
     // TODO: disallow t.causedBy.name == t.triggers.name
+  }
+  
+  @Check
+  def checkValidEventTypeContinuity(Transition t) {
+    var cause = t?.causedBy
+    var trigger =t?.triggers ?: t?.exTriggers
+    if (!t.requiresExecution && cause != null && cause?.refType !=  trigger.refType) {
+      warning("Input doesn't match output.", t,
+        ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
+    }
+  }
+  
+  @Check
+  def checkValidEventMapping(Transition t) {
+    if (t.mapping == null && t.exCausedBy?.refType != t?.toState?.parent?.parent?.projection) {
+      warning("Cause implies mapping.", t,
+        ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
+    }
+  }
+  
+  @Check
+  def checkValidEventType(Transition t) {
+    if (t.mapping == null && t?.exCausedBy?.refType == null && t?.toState?.parent?.parent?.projection != (t?.exCausedBy as PubliclySubscribable)?.parent?.projection) {
+      warning("Agent mapping impossible.", t,
+        ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
+    }
   }
 
   @Check

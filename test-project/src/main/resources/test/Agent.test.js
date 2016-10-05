@@ -35,7 +35,7 @@ agentConvoSchema.index({
 mongoose.model('AgentConversation', agentConvoSchema)
 describe('Agent', function () {
   describe('Test', function () {
-    it('should walk the graph successfully', function (done) {
+    it('should walk the graph successfully', function () {
       var cache = new WeakSet()
       var test = proxyquire(path.resolve('conversations', 'js', 'Test'), proxy)
       JSON.stringify(test, function (key, value) {
@@ -47,7 +47,7 @@ describe('Agent', function () {
         }
         return value
       }, 2)
-      Promise.each(Object.keys(test.agents), function (agent) {
+      return Promise.each(Object.keys(test.agents), function (agent) {
         return new Promise(function (resolve) {
           test.agents[agent].init({ agentDataId: agent + 'initTest' }, resolve)
         })
@@ -58,7 +58,7 @@ describe('Agent', function () {
             test.agents[agent].init({ agentDataId: agent + 'initTest' }, resolve)
           })
         })
-      }).asCallback(done)
+      })
     })
   })
   describe('Test.Test', function () {
