@@ -8,7 +8,9 @@ conversation Test {
     }
   }
   agent Test : Test {
-    sends started: Test
+    sends
+      started: Test
+      something
 
     initially receives ^start:Test -> working > started
     {
@@ -43,8 +45,8 @@ conversation Test {
   }
   infinite agent Terse : TerseMessage {
     > opened
-    > closed
-    -> open {
+      closed
+    ~ -> open {
       open {
         close -> closed > closed
         consider -> considering
@@ -83,8 +85,8 @@ conversation Test {
 
   infinite agent TerseInitiallyReceives : TerseMessage {
     > opened
-    > closed
-    Test.started -> open {
+      closed
+    ~ Test.started -> open {
       open {
         close -> closed > closed
       }
@@ -110,7 +112,7 @@ conversation Test {
   view /terse : /terse
   resource /verbose for Test.VerboseMessage offers anonymous (read find) authenticated (update post) authorized (create delete) interchanges (json)
   view /verbose over /verbose
-  resource /tir : Test.TerseMessage anonymous (read find) authenticated (update) authorized (create delete) <=> (json) API
+  resource /tir : Test.TerseMessage anonymous (read find) authenticated (update) authorized (create delete) <=> (json) @ API
   view /tir : /tir
 
   view /c : /c

@@ -36,20 +36,36 @@ PossiblyQualifiedName:
 Agent returns Agent:
   (stateMachineType=StateMachineType)? (accessRequirement=AccessRequirement)? 'agent' name=ID ((':' | 'concerning' | 'concerns')
   projection=[Projection|PossiblyQualifiedName]) '{'
-  (sendables+=PubliclySubscribable)*
+  (sendables+=InitialPubliclySubscribable (sendables+=SubsequentPubliclySubscribable)*)?
+  (sendables+=InitialPublicPubSub (sendables+=SubsequentPublicPubSub)*)?
   stateMachine=StateMachine
   '}';
 
 StateMachine returns StateMachine:
   {StateMachine}
-  'initially'? ( ( ('->' | 'becomes') initialState=[State])
+  ('initially' | '~') ( ( ('->' | 'becomes') initialState=[State])
   | ( initialTransition=Transition))
   '{'
   (states+=StateLike)*
   '}';
 
-PubliclySubscribable:
-  (('>' | 'sends') {PubliclySubscribable} | 'pubsub' {PublicPubSub})
+InitialPubliclySubscribable returns PubliclySubscribable:
+  (('>' | 'sends') {PubliclySubscribable})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+SubsequentPubliclySubscribable returns PubliclySubscribable:
+  (('>' | 'sends')? {PubliclySubscribable})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+InitialPublicPubSub returns PublicPubSub:
+  ('pubsub' {PublicPubSub})
+  name=ID
+  (':' refType=[Projection|PossiblyQualifiedName])?;
+
+SubsequentPublicPubSub returns PublicPubSub:
+  ('pubsub'? {PublicPubSub})
   name=ID
   (':' refType=[Projection|PossiblyQualifiedName])?;
 
@@ -143,7 +159,7 @@ RestService returns access::RestService:
   (':' | 'for') refType=[Projection|PossiblyQualifiedName]
   'offers'? accessGroups+=AccessGroup+
   (('<=>' | 'interchanges') '(' supportedDocumentTypes+=RestDocumentType+ ')')?
-  ('at'? (server=ID | 'default') )?;
+  (('@' | 'at') (server=ID | 'default') )?;
 
 AccessGroup returns access::AccessGroup:
   (accessRequirement=AccessRequirement)?  '(' accessMethods+= RestAccess+ ')';

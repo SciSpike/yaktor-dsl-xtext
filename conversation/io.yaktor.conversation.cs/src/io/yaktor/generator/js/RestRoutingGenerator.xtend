@@ -169,10 +169,12 @@ class RestRoutingGenerator {
 
   def genRestServices(Conversation c, RestService rs) {
     '''
-        «IF rs.refType.entity != null»var «rs.refType.entity.name» = require('mongoose').model('«rs.refType.entity.name»')«ENDIF»
-        var converter = require('yaktor/services/conversionService')
+        «IF rs.refType.entity != null»
+          var «rs.refType.entity.name» = require('mongoose').model('«rs.refType.entity.name»')
+          var converter = require('yaktor/services/conversionService')
+          var async = require('async')
+        «ENDIF»
         var Response = require('yaktor/services/Response')
-        var async = require('async')
         «rs.comments»
         «FOR method : rs.methods.sort»
           «method.restService(rs)»

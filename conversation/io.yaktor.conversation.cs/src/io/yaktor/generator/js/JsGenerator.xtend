@@ -70,8 +70,12 @@ class JsGenerator {
                   «quote»on«quote»: «quote»«causedBy.getEventLabel»«quote»,
                   «IF t.fieldMapping != null»
                     «var rootP = t.fieldMapping.rootProjection»
-                   «quote»mapping«quote»: function(meta, data) { 
-                      return «IF causedBy!= null && rootP == causedBy.refType»data«ELSE»meta.agentData«ENDIF».«t.fieldMapping.fullName»;
+                    «quote»mapping«quote»: function (meta, data) { 
+                      return «IF causedBy!= null && rootP == causedBy.refType»data«ELSE»meta.agentData«ENDIF».«t.fieldMapping.fullName»
+                    },
+                  «ELSEIF t?.exCausedBy?.refType != null»
+                    «quote»mapping«quote»: function (meta, data) {
+                      return data._id
                     },
                   «ENDIF»
                   «quote»handler«quote»: null,
@@ -588,11 +592,7 @@ class JsGenerator {
           global['«agent.parent.name»'].agents['«agent.name»'] = {
             path: '«agent.parent.name»/«agent.name»'
           }
-«««          «agent.genValidators»
         «ENDFOR»
-«««        «FOR type : c.definedTypes»
-«««          tv4.addSchema('«type.fullName»',«type.schemafy»);
-«««        «ENDFOR»
       })((typeof module !== 'undefined' && module.exports) ? exports : this)
     '''
   }

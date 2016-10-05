@@ -9,6 +9,7 @@ function Global (m) {
 }
 
 var noop = function () {}
+var renoop = function () { return noop }
 var proxy = {
   'yaktor/services/conversionService': Global({
     to: noop,
@@ -17,11 +18,11 @@ var proxy = {
     fromQuery: noop
   }),
   'yaktor/services/Response': Global({
-    create: noop,
-    read: noop,
-    update: noop,
-    delete: noop,
-    find: noop
+    create: renoop,
+    read: renoop,
+    update: renoop,
+    delete: renoop,
+    find: renoop
   }),
   'mongoose': Global(mongoose)
 }
