@@ -53,7 +53,10 @@ class ConversationValidator extends AbstractConversationValidator {
   
   @Check
   def checkValidEventMapping(Transition t) {
-    if (t.mapping == null && t.exCausedBy?.refType != t?.toState?.parent?.parent?.projection) {
+    if(t.causedBy != null){
+      return
+    }
+    if (t.fieldMapping == null && t.exCausedBy?.refType != t?.toState?.parent?.parent?.projection) {
       warning("Cause implies mapping.", t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
     }
@@ -61,7 +64,10 @@ class ConversationValidator extends AbstractConversationValidator {
   
   @Check
   def checkValidEventType(Transition t) {
-    if (t.mapping == null && t?.exCausedBy?.refType == null && t?.toState?.parent?.parent?.projection != (t?.exCausedBy as PubliclySubscribable)?.parent?.projection) {
+    if(t.causedBy != null){
+      return
+    }
+    if (t.fieldMapping == null && t?.exCausedBy?.refType == null && t?.toState?.parent?.parent?.projection != (t?.exCausedBy as PubliclySubscribable)?.parent?.projection) {
       warning("Agent mapping impossible.", t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
     }

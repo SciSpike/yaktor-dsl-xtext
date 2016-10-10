@@ -6,12 +6,14 @@ package io.yaktor.scoping
 import com.google.inject.Inject
 import io.yaktor.access.RestService
 import io.yaktor.access.Service
+import io.yaktor.access.View
 import io.yaktor.conversation.Agent
+import io.yaktor.conversation.Conversation
+import io.yaktor.conversation.Decision
 import io.yaktor.conversation.Event
 import io.yaktor.conversation.PublishableByMe
 import io.yaktor.conversation.PublishableByOthers
 import io.yaktor.conversation.State
-import io.yaktor.conversation.SubscribableByMe
 import io.yaktor.conversation.SubscribableByOthers
 import io.yaktor.conversation.Transition
 import io.yaktor.conversation.TypeImport
@@ -30,12 +32,7 @@ import org.eclipse.xtext.scoping.impl.SimpleLocalScopeProvider
 
 import static org.eclipse.xtext.scoping.Scopes.*
 
-import static extension io.yaktor.generator.js.JsExtensions.*
 import static extension io.yaktor.generator.js.JsTypesExtensions.*
-import io.yaktor.conversation.Decision
-import io.yaktor.conversation.PrivatePubSub
-import io.yaktor.access.View
-import io.yaktor.conversation.Conversation
 
 /**
  * This class contains custom scoping description.
@@ -106,14 +103,9 @@ class ConversationScopeProvider extends AbstractDeclarativeScopeProvider {
       IScope.NULLSCOPE
     } else {
       var scope = IScope.NULLSCOPE
-      var a = causedBy.eContainer as Agent;
-      var parentProjection = a.projection
       var type = causedBy.refType
       if (type != null) {
         scope = type.fieldScopeForType(scope, QualifiedName.create(type.name))
-      } 
-      if(parentProjection!=null){
-        scope = parentProjection.fieldScopeForType(scope, QualifiedName.create(parentProjection.name))
       }
       scope;
     }

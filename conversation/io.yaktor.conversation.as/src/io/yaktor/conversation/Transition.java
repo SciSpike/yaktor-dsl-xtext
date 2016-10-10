@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link io.yaktor.conversation.Transition#getToState <em>To State</em>}</li>
- *   <li>{@link io.yaktor.conversation.Transition#getMapping <em>Mapping</em>}</li>
  *   <li>{@link io.yaktor.conversation.Transition#isRequiresExecution <em>Requires Execution</em>}</li>
  *   <li>{@link io.yaktor.conversation.Transition#getExCausedBy <em>Ex Caused By</em>}</li>
  *   <li>{@link io.yaktor.conversation.Transition#getCausedBy <em>Caused By</em>}</li>
@@ -54,32 +53,6 @@ public interface Transition extends EObject {
 	 * @generated
 	 */
 	void setToState(State value);
-
-	/**
-	 * Returns the value of the '<em><b>Mapping</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mapping</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mapping</em>' attribute.
-	 * @see #setMapping(String)
-	 * @see io.yaktor.conversation.ConversationPackage#getTransition_Mapping()
-	 * @model
-	 * @generated
-	 */
-	String getMapping();
-
-	/**
-	 * Sets the value of the '{@link io.yaktor.conversation.Transition#getMapping <em>Mapping</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Mapping</em>' attribute.
-	 * @see #getMapping()
-	 * @generated
-	 */
-	void setMapping(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Requires Execution</b></em>' attribute.

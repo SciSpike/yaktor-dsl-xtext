@@ -602,7 +602,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTransition_Mapping() {
+	public EAttribute getTransition_RequiresExecution() {
 		return (EAttribute)transitionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -611,17 +611,8 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTransition_RequiresExecution() {
-		return (EAttribute)transitionEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getTransition_ExCausedBy() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -630,7 +621,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * @generated
 	 */
 	public EReference getTransition_CausedBy() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(4);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -639,7 +630,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * @generated
 	 */
 	public EReference getTransition_ExTriggers() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(5);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -648,7 +639,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * @generated
 	 */
 	public EReference getTransition_Triggers() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(6);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -657,7 +648,7 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 	 * @generated
 	 */
 	public EReference getTransition_FieldMapping() {
-		return (EReference)transitionEClass.getEStructuralFeatures().get(7);
+		return (EReference)transitionEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -955,7 +946,6 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__TO_STATE);
-		createEAttribute(transitionEClass, TRANSITION__MAPPING);
 		createEAttribute(transitionEClass, TRANSITION__REQUIRES_EXECUTION);
 		createEReference(transitionEClass, TRANSITION__EX_CAUSED_BY);
 		createEReference(transitionEClass, TRANSITION__CAUSED_BY);
@@ -1099,7 +1089,6 @@ public class ConversationPackageImpl extends EPackageImpl implements Conversatio
 
 		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransition_ToState(), this.getState(), null, "toState", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTransition_Mapping(), ecorePackage.getEString(), "mapping", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTransition_RequiresExecution(), ecorePackage.getEBoolean(), "requiresExecution", "false", 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_ExCausedBy(), this.getSubscribableByOthers(), null, "exCausedBy", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTransition_CausedBy(), this.getPrivatePubSub(), this.getPrivatePubSub_Transition(), "causedBy", null, 0, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

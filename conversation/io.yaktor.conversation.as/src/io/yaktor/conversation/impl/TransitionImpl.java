@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getToState <em>To State</em>}</li>
- *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getMapping <em>Mapping</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#isRequiresExecution <em>Requires Execution</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getExCausedBy <em>Ex Caused By</em>}</li>
  *   <li>{@link io.yaktor.conversation.impl.TransitionImpl#getCausedBy <em>Caused By</em>}</li>
@@ -47,26 +46,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 	 * @ordered
 	 */
 	protected State toState;
-
-	/**
-	 * The default value of the '{@link #getMapping() <em>Mapping</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMapping()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String MAPPING_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getMapping() <em>Mapping</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMapping()
-	 * @generated
-	 * @ordered
-	 */
-	protected String mapping = MAPPING_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isRequiresExecution() <em>Requires Execution</em>}' attribute.
@@ -193,27 +172,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 		toState = newToState;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__TO_STATE, oldToState, toState));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getMapping() {
-		return mapping;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMapping(String newMapping) {
-		String oldMapping = mapping;
-		mapping = newMapping;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ConversationPackage.TRANSITION__MAPPING, oldMapping, mapping));
 	}
 
 	/**
@@ -473,8 +431,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case ConversationPackage.TRANSITION__TO_STATE:
 				if (resolve) return getToState();
 				return basicGetToState();
-			case ConversationPackage.TRANSITION__MAPPING:
-				return getMapping();
 			case ConversationPackage.TRANSITION__REQUIRES_EXECUTION:
 				return isRequiresExecution();
 			case ConversationPackage.TRANSITION__EX_CAUSED_BY:
@@ -505,9 +461,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 		switch (featureID) {
 			case ConversationPackage.TRANSITION__TO_STATE:
 				setToState((State)newValue);
-				return;
-			case ConversationPackage.TRANSITION__MAPPING:
-				setMapping((String)newValue);
 				return;
 			case ConversationPackage.TRANSITION__REQUIRES_EXECUTION:
 				setRequiresExecution((Boolean)newValue);
@@ -542,9 +495,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 			case ConversationPackage.TRANSITION__TO_STATE:
 				setToState((State)null);
 				return;
-			case ConversationPackage.TRANSITION__MAPPING:
-				setMapping(MAPPING_EDEFAULT);
-				return;
 			case ConversationPackage.TRANSITION__REQUIRES_EXECUTION:
 				setRequiresExecution(REQUIRES_EXECUTION_EDEFAULT);
 				return;
@@ -577,8 +527,6 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 		switch (featureID) {
 			case ConversationPackage.TRANSITION__TO_STATE:
 				return toState != null;
-			case ConversationPackage.TRANSITION__MAPPING:
-				return MAPPING_EDEFAULT == null ? mapping != null : !MAPPING_EDEFAULT.equals(mapping);
 			case ConversationPackage.TRANSITION__REQUIRES_EXECUTION:
 				return requiresExecution != REQUIRES_EXECUTION_EDEFAULT;
 			case ConversationPackage.TRANSITION__EX_CAUSED_BY:
@@ -605,9 +553,7 @@ public class TransitionImpl extends MinimalEObjectImpl.Container implements Tran
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (mapping: ");
-		result.append(mapping);
-		result.append(", requiresExecution: ");
+		result.append(" (requiresExecution: ");
 		result.append(requiresExecution);
 		result.append(')');
 		return result.toString();
