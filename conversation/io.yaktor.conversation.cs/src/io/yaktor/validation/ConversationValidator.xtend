@@ -53,7 +53,7 @@ class ConversationValidator extends AbstractConversationValidator {
   
   @Check
   def checkValidEventMapping(Transition t) {
-    if(t.causedBy != null){
+    if(t.causedBy != null || t.exCausedBy?.refType == null){
       return
     }
     if (t.fieldMapping == null && t.exCausedBy?.refType != t?.toState?.parent?.parent?.projection) {
