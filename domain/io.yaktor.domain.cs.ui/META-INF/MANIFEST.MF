@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.yaktor.domain.cs.ui
 Bundle-Vendor: SciSpike LLC
-Bundle-Version: 0.53.0
+Bundle-Version: 0.54.0.qualifier
 Bundle-SymbolicName: io.yaktor.domain.cs.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: io.yaktor.domain.cs;visibility:=reexport,
