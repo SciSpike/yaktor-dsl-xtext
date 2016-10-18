@@ -250,8 +250,8 @@ class RestRoutingGenerator {
             async.waterfall([
               async.apply(converter.toQuery, '«rs.refType.fullName»', query),
               function (pQ, cb) {
-                var page = parseInt(req.param('page')) || 1
-                var pageSize = parseInt(req.param('pageSize')) || 10
+                var page = parseInt(req.params.page) || 1
+                var pageSize = parseInt(req.param.pageSize) || 10
                 «rs.refType.repositoryServiceName».find(pQ).paginate(page, pageSize, cb)
               },
               function (domains, total, cb) {
@@ -294,9 +294,9 @@ class RestRoutingGenerator {
     ctx.app.«method.method.toLowerCase»('«rs.path(method)»', rs$«rs.refType.name»$«counter».«method.crud»Middleware || [], function (req, res, next) { rs$«rs.
       refType.name»$«counter».«method.crud»''' + switch method {
       case method == RestAccess.POST: '(req.body, req, res, next) })'
-      case method == RestAccess.GET: "(req.params['id'], req, res, next) })"
-      case method == RestAccess.PUT: "(req.params['id'], req.body, req, res, next) })"
-      case method == RestAccess.DELETE: "(req.params['id'], req, res, next) })"
+      case method == RestAccess.GET: "(req.params.id, req, res, next) })"
+      case method == RestAccess.PUT: "(req.params.id, req.body, req, res, next) })"
+      case method == RestAccess.DELETE: "(req.params.id, req, res, next) })"
       case method == RestAccess.FIND: '(req.query, req, res, next) })'
     }
   }

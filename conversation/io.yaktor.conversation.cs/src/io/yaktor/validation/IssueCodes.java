@@ -13,4 +13,5 @@ public interface IssueCodes {
 	String MISSING_END = PREFIX + "MissingEnd";
 	String MISSING_PROJECTION = PREFIX + "MissingProjection";
 	String MISSING_CAUSE = PREFIX + "MissingCausedBy";
+  String TRANSITION_TYPE_IMPEDENCE = PREFIX + "TransitionTypeImpedence";
 }

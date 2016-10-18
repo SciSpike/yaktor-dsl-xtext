@@ -662,22 +662,13 @@ public interface ConversationPackage extends EPackage {
 	int TRANSITION__TO_STATE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Mapping</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRANSITION__MAPPING = 1;
-
-	/**
 	 * The feature id for the '<em><b>Requires Execution</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__REQUIRES_EXECUTION = 2;
+	int TRANSITION__REQUIRES_EXECUTION = 1;
 
 	/**
 	 * The feature id for the '<em><b>Ex Caused By</b></em>' reference.
@@ -686,7 +677,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__EX_CAUSED_BY = 3;
+	int TRANSITION__EX_CAUSED_BY = 2;
 
 	/**
 	 * The feature id for the '<em><b>Caused By</b></em>' containment reference.
@@ -695,7 +686,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__CAUSED_BY = 4;
+	int TRANSITION__CAUSED_BY = 3;
 
 	/**
 	 * The feature id for the '<em><b>Ex Triggers</b></em>' reference.
@@ -704,7 +695,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__EX_TRIGGERS = 5;
+	int TRANSITION__EX_TRIGGERS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Triggers</b></em>' reference.
@@ -713,7 +704,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__TRIGGERS = 6;
+	int TRANSITION__TRIGGERS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Field Mapping</b></em>' reference.
@@ -722,7 +713,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION__FIELD_MAPPING = 7;
+	int TRANSITION__FIELD_MAPPING = 6;
 
 	/**
 	 * The number of structural features of the '<em>Transition</em>' class.
@@ -731,7 +722,7 @@ public interface ConversationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRANSITION_FEATURE_COUNT = 8;
+	int TRANSITION_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Transition</em>' class.
@@ -1720,17 +1711,6 @@ public interface ConversationPackage extends EPackage {
 	EReference getTransition_ToState();
 
 	/**
-	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#getMapping <em>Mapping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Mapping</em>'.
-	 * @see io.yaktor.conversation.Transition#getMapping()
-	 * @see #getTransition()
-	 * @generated
-	 */
-	EAttribute getTransition_Mapping();
-
-	/**
 	 * Returns the meta object for the attribute '{@link io.yaktor.conversation.Transition#isRequiresExecution <em>Requires Execution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2368,14 +2348,6 @@ public interface ConversationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TRANSITION__TO_STATE = eINSTANCE.getTransition_ToState();
-
-		/**
-		 * The meta object literal for the '<em><b>Mapping</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRANSITION__MAPPING = eINSTANCE.getTransition_Mapping();
 
 		/**
 		 * The meta object literal for the '<em><b>Requires Execution</b></em>' attribute feature.
