@@ -27,7 +27,7 @@ class ConversationValidator extends AbstractConversationValidator {
   def checkProjectionOnTypeFields(MappedField field) {
     var uField = field.oldField ?: field.newField
     if (uField != null && uField instanceof TypeField && field.projection == null) {
-      error("Mappings of types must have a projection.", field,
+      error('''Mapping of type «uField.name» must have a projection.''', field,
         TypesPackage.eINSTANCE.mappedField_Projection, IssueCodes.MISSING_PROJECTION)
     }
   }
@@ -35,7 +35,7 @@ class ConversationValidator extends AbstractConversationValidator {
   @Check
   def checkValidEvent(Transition t) {
     if (t.causedBy == null && t.exCausedBy == null) {
-      error("Cause is required.", t,
+      error("Incoming message is required.", t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.MISSING_CAUSE)
     }
     // TODO: disallow t.causedBy.name == t.triggers.name
@@ -44,9 +44,11 @@ class ConversationValidator extends AbstractConversationValidator {
   @Check
   def checkValidEventTypeContinuity(Transition t) {
     var cause = t?.causedBy
-    var trigger =t?.triggers ?: t?.exTriggers
-    if (!t.requiresExecution && cause != null && cause?.refType !=  trigger.refType) {
-      warning("Input doesn't match output.", t,
+    var trigger = t?.triggers ?: t?.exTriggers
+    if (!t.requiresExecution && cause != null && cause?.refType != trigger.refType) {
+      var inTypeName = cause?.refType?.name
+      var outTypeName = trigger?.refType?.name
+      warning('''Incoming message type "«inTypeName»" differs from output message type "«outTypeName»"; "custom" required.''', t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
     }
   }
@@ -57,7 +59,9 @@ class ConversationValidator extends AbstractConversationValidator {
       return
     }
     if (t.fieldMapping == null && t.exCausedBy?.refType != t?.toState?.parent?.parent?.projection) {
-      warning("Cause implies mapping.", t,
+      var inTypeName = t.exCausedBy?.refType?.name
+      var agentTypeName = t?.toState?.parent?.parent?.projection?.name
+      warning('''Incoming message type "«inTypeName»" differs from agent type "«agentTypeName»"; mapping "if «inTypeName».??? matches" or "[ «inTypeName».??? ]" required.''', t,
         ConversationPackage.eINSTANCE.transition_CausedBy, IssueCodes.TRANSITION_TYPE_IMPEDENCE)
     }
   }
