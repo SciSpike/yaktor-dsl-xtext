@@ -97,10 +97,10 @@ class ConversationValidator extends AbstractConversationValidator {
         sm.initialTransition?.toState?.terminalState(null)
       }
     if (agent.stateMachineType == StateMachineType.FINITE && end == null) {
-      error("finite agent, " + agent.name + ", must contain a least one reachable terminal state.", agent,
+      error('''finite agent "«agent.name»" must contain a least one reachable terminal state; none found.''', agent,
         ConversationPackage.eINSTANCE.agent_StateMachine, IssueCodes.EVENT_LOOP)
     } else if (agent.stateMachineType != StateMachineType.FINITE && end != null) {
-      error("infinite agent, " + agent.name + ", must NOT contain ANY reachable terminal state(s).", agent,
+      error('''infinite agent "«agent.name»" must not contain any reachable terminal state(s); found end state "«end.name»".''', agent,
         ConversationPackage.eINSTANCE.agent_StateMachineType, IssueCodes.EVENT_LOOP)
     }
   }
