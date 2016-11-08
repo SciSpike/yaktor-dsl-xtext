@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: io.yaktor.domain.as
 Bundle-SymbolicName: io.yaktor.domain.as;singleton:=true
-Bundle-Version: 0.54.0
+Bundle-Version: 0.54.1.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: SciSpike LLC
 Bundle-Localization: plugin
