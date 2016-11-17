@@ -251,7 +251,7 @@ class RestRoutingGenerator {
               async.apply(converter.toQuery, '«rs.refType.fullName»', query),
               function (pQ, cb) {
                 var page = parseInt(req.params.page) || 1
-                var pageSize = parseInt(req.param.pageSize) || 10
+                var pageSize = parseInt(req.params.pageSize) || 10
                 «rs.refType.repositoryServiceName».find(pQ).paginate(page, pageSize, cb)
               },
               function (domains, total, cb) {
