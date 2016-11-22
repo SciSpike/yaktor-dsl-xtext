@@ -9,6 +9,8 @@ Yaktor DSLs created by SciSpike creating data models and behavior for your Yakto
 [![npm](https://img.shields.io/npm/v/yaktor-lang.svg?maxAge=3600)](https://www.npmjs.com/package/yaktor-lang)
 [![Coveralls status](https://img.shields.io/coveralls/SciSpike/yaktor-dsl-xtext/master.svg?maxAge=2592000)](https://coveralls.io/github/SciSpike/yaktor-dsl-xtext?branch=master)
 
+> NOTE: Please report issues at https://github.com/SciSpike/yaktor-issues/issues.
+
 ## Introduction
 
 This is an Xtext-based project containing the Yaktor DSLs created by SciSpike, which includes
